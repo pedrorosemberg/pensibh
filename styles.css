@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 0 0 0 auto;
+}
+.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+}
+.button-effect {
+    transition: all 0.3s ease;
+}
+.button-effect:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+
+#hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/imagem-quadro.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    position: relative;
+}
+
+#hero .container {
+    position: relative;
+    z-index: 1;
+    padding: 4rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+#hero .content {
+    max-width: 50%;
+    text-align: left;
+}
+
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 240 10% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 240 10% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 240 10% 3.9%;
+        --primary: 240 5.9% 10%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 240 4.8% 95.9%;
+        --secondary-foreground: 240 5.9% 10%;
+        --muted: 240 4.8% 95.9%;
+        --muted-foreground: 240 3.8% 46.1%;
+        --accent: 240 4.8% 95.9%;
+        --accent-foreground: 240 5.9% 10%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 5.9% 90%;
+        --input: 240 5.9% 90%;
+        --ring: 240 5.9% 10%;
+        --radius: 0.5rem;
+        --pensi-red: #C41E3A;
+        --pensi-yellow: #D4D800;
+        --pensi-blue: #31afc3;
+    }
+    .dark {
+        --background: 240 10% 3.9%;
+        --foreground: 0 0% 98%;
+        --card: 240 10% 3.9%;
+        --card-foreground: 0 0% 98%;
+        --popover: 240 10% 3.9%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 0 0% 98%;
+        --primary-foreground: 240 5.9% 10%;
+        --secondary: 240 3.7% 15.9%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 240 3.7% 15.9%;
+        --muted-foreground: 240 5% 64.9%;
+        --accent: 240 3.7% 15.9%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 3.7% 15.9%;
+        --input: 240 3.7% 15.9%;
+        --ring: 240 4.9% 83.9%;
+    }
+}
+.button-effect {
+    transition: all 0.3s ease;
+}
+.button-effect:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+/* Cookie Consent */
+#cookie-consent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--pensi-red);
+    color: #ffffff;
+    padding: 1rem;
+    z-index: 9999;
+    display: none;
+}
+
+.cc-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cc-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.cc-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+#cc-accept, #cc-deny {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#cc-accept {
+    background-color: var(--pensi-yellow);
+    color: var(--pensi-red);
+}
+
+#cc-deny {
+    background-color: #ffffff;
+    color: var(--pensi-red);
+}
+
+#cc-more {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.cc-floating {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #31afc3;
+    color: #ffffff;
+    padding: 10px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 9998;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    .cc-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .cc-buttons {
+        margin-top: 0;
+    }
+}
+
+.button-effect {
+    transition: all 0.3s ease;
+}
+.button-effect:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
