@@ -110,6 +110,7 @@ export const PLANS = [
   {
     id: 'cefet-1',
     name: 'CEFET · 1º semestre',
+    short: 'CEFET 1º sem.',
     period: '15 de fevereiro a 30 de junho de 2027',
     note: 'Três meses e meio de curso',
     prices: {
@@ -121,6 +122,7 @@ export const PLANS = [
   {
     id: 'cefet-2',
     name: 'CEFET · 2º semestre',
+    short: 'CEFET 2º sem.',
     period: '1º de agosto a 15 de novembro de 2027',
     note: 'Três meses e meio de curso',
     prices: {
@@ -132,6 +134,7 @@ export const PLANS = [
   {
     id: 'enem',
     name: 'ENEM · anual',
+    short: 'ENEM anual',
     period: '15 de fevereiro a 15 de novembro de 2027',
     note: 'Férias em julho',
     prices: {

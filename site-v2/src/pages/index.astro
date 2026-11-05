@@ -54,33 +54,33 @@ const year = new Date().getFullYear();
 
   <main id="conteudo">
     {/* HERO */}
-    <section id="topo" class="relative isolate overflow-hidden bg-pensi pb-28 pt-32 text-white sm:pt-36 lg:pb-36">
+    <section id="topo" class="relative isolate overflow-hidden bg-pensi pb-20 pt-24 text-white sm:pb-28 sm:pt-36 lg:pb-36">
       <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
         <div class="absolute -right-24 top-10 h-[130%] w-[60%] -skew-y-6 bg-pensi-700/60"></div>
         <div class="absolute bottom-0 left-0 h-24 w-full bg-papel slant-bottom"></div>
       </div>
 
-      <div class="mx-auto grid max-w-6xl items-center gap-12 px-5 lg:grid-cols-[1.05fr_0.95fr]">
+      <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:gap-12 sm:px-5 lg:grid-cols-[1.05fr_0.95fr]">
         <div class="hero-in">
-          <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium ring-1 ring-white/25">
+          <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-[13px] font-medium ring-1 ring-white/25 sm:px-4 sm:text-sm">
             <span class="size-2 rounded-full bg-oliva" aria-hidden="true"></span>
             Matrículas abertas para 2027 · 8 vagas por turma
           </p>
-          <h1 class="mt-6 text-balance text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 class="mt-5 text-balance text-[2.35rem] font-black leading-[1.04] tracking-tight sm:mt-6 sm:text-5xl lg:text-6xl">
             Estude com o professor Bruno, <span class="text-oliva">um aluno de cada vez.</span>
           </h1>
-          <p class="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-white/85 sm:text-xl">
+          <p class="mt-5 max-w-xl text-pretty text-[17px] leading-relaxed text-white/85 sm:mt-6 sm:text-xl">
             Pré-vestibular CEFET e ENEM, CESEC, ENCCEJA e reforço escolar em turmas de até 8 alunos, com atendimento
             individual. Mais de {BRUNO.years} anos preparando jovens e adultos em Belo Horizonte.
           </p>
-          <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <div class="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap">
             <a
               href={waGeral}
               target="_blank"
               rel="noopener noreferrer"
               class="group inline-flex min-h-14 whitespace-nowrap items-center justify-center gap-2 rounded-full bg-oliva px-6 text-base font-bold text-tinta shadow-lg shadow-pensi-900/30 transition hover:-translate-y-0.5 hover:bg-oliva-200"
             >
-              <WhatsAppIcon class="size-5" />
+              <WhatsAppIcon className="size-5" />
               Falar com o Bruno no WhatsApp
             </a>
             <a
@@ -90,7 +90,7 @@ const year = new Date().getFullYear();
               Horários e valores
             </a>
           </div>
-          <ul class="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-[15px] text-white/90">
+          <ul class="mt-8 grid grid-cols-1 gap-y-3 text-[15px] text-white/90 sm:mt-10 sm:flex sm:flex-wrap sm:gap-x-6">
             <li class="flex items-center gap-2"><Users aria-hidden="true" class="size-5 text-oliva" /> Até 8 alunos por turma</li>
             <li class="flex items-center gap-2"><UserCheck aria-hidden="true" class="size-5 text-oliva" /> Atendimento individual</li>
             <li class="flex items-center gap-2"><MapPin aria-hidden="true" class="size-5 text-oliva" /> Anchieta, BH</li>
@@ -106,14 +106,14 @@ const year = new Date().getFullYear();
               sizes="(min-width: 1024px) 520px, 90vw"
               loading="eager"
               fetchpriority="high"
-              class="aspect-[4/4.4] w-full object-cover object-[70%_center]"
+              class="aspect-[4/3.4] w-full object-cover object-[70%_center] sm:aspect-[4/4.4]"
             />
           </div>
-          <div class="absolute -bottom-6 -left-4 rounded-2xl bg-white px-5 py-4 text-tinta shadow-xl sm:-left-8">
+          <div class="absolute -bottom-6 left-3 rounded-2xl bg-white px-4 py-3 text-tinta shadow-xl sm:-left-8 sm:px-5 sm:py-4">
             <p class="text-3xl font-black text-pensi"><CountUp client:visible value={30} suffix="+" /></p>
             <p class="text-sm font-medium text-tinta-600">anos de aulas particulares</p>
           </div>
-          <div class="absolute -right-2 top-8 rounded-2xl bg-agua px-4 py-3 font-semibold text-tinta shadow-xl sm:-right-6">
+          <div class="absolute right-3 top-5 rounded-2xl bg-agua px-3.5 py-2.5 text-[15px] font-semibold text-tinta shadow-xl sm:-right-6 sm:top-8 sm:px-4 sm:py-3 sm:text-base">
             1 professor · você no centro
           </div>
         </div>
@@ -122,7 +122,7 @@ const year = new Date().getFullYear();
 
     {/* FAIXA DE MATÉRIAS */}
     <div class="overflow-hidden border-y border-tinta/10 bg-white py-4" aria-label="Matérias ofertadas">
-      <ul class="marquee flex w-max gap-10 pr-10 text-lg font-semibold text-tinta-600">
+      <ul class="marquee flex w-max gap-8 pr-8 text-base font-semibold text-tinta-600 sm:gap-10 sm:pr-10 sm:text-lg">
         {[...subjects, ...subjects].map((s, i) => (
           <li class="flex items-center gap-10" aria-hidden={i >= subjects.length ? 'true' : undefined}>
             {s}<span class="text-oliva" aria-hidden="true">+</span>
@@ -132,7 +132,7 @@ const year = new Date().getFullYear();
     </div>
 
     {/* CURSOS */}
-    <section id="cursos" class="mx-auto max-w-6xl px-5 py-24" aria-labelledby="cursos-titulo">
+    <section id="cursos" class="mx-auto max-w-6xl px-4 py-16 sm:px-5 sm:py-24" aria-labelledby="cursos-titulo">
       <div class="max-w-2xl" data-reveal>
         <p class="font-semibold uppercase tracking-wide text-pensi">Cursos</p>
         <h2 id="cursos-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
@@ -151,7 +151,7 @@ const year = new Date().getFullYear();
               <li
                 data-reveal
                 data-reveal-delay={i * 80}
-                class="group relative overflow-hidden rounded-3xl bg-white p-7 ring-1 ring-tinta/10 transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-30px_rgba(190,31,61,0.5)]"
+                class="group relative overflow-hidden rounded-3xl bg-white p-6 ring-1 sm:p-7 ring-tinta/10 transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-30px_rgba(190,31,61,0.5)]"
               >
                 <div class="flex items-start justify-between gap-4">
                   <span class="inline-flex size-14 items-center justify-center rounded-2xl bg-pensi text-white transition group-hover:rotate-[-6deg]">
@@ -182,8 +182,8 @@ const year = new Date().getFullYear();
     </section>
 
     {/* O PROFESSOR */}
-    <section id="bruno" class="bg-tinta py-24 text-white" aria-labelledby="bruno-titulo">
-      <div class="mx-auto grid max-w-6xl items-center gap-14 px-5 lg:grid-cols-2">
+    <section id="bruno" class="bg-tinta py-16 text-white sm:py-24" aria-labelledby="bruno-titulo">
+      <div class="mx-auto grid max-w-6xl items-center gap-14 px-4 sm:px-5 lg:grid-cols-2">
         <div class="relative" data-reveal>
           <div class="slant-soft overflow-hidden rounded-3xl">
             <Image
@@ -232,7 +232,7 @@ const year = new Date().getFullYear();
             rel="noopener noreferrer"
             class="mt-9 inline-flex min-h-12 items-center gap-2 rounded-full bg-oliva px-6 font-bold text-tinta transition hover:bg-oliva-200"
           >
-            <WhatsAppIcon class="size-5" />
+            <WhatsAppIcon className="size-5" />
             Converse com o Bruno
           </a>
         </div>
@@ -240,7 +240,7 @@ const year = new Date().getFullYear();
     </section>
 
     {/* DIFERENCIAIS */}
-    <section id="diferenciais" class="mx-auto max-w-6xl px-5 pb-12 pt-32" aria-labelledby="dif-titulo">
+    <section id="diferenciais" class="mx-auto max-w-6xl px-4 pb-8 pt-24 sm:px-5 sm:pb-12 sm:pt-32" aria-labelledby="dif-titulo">
       <div class="mx-auto max-w-2xl text-center" data-reveal>
         <p class="font-semibold uppercase tracking-wide text-pensi">Nossos diferenciais</p>
         <h2 id="dif-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
@@ -263,7 +263,7 @@ const year = new Date().getFullYear();
       </ul>
 
       {/* COMO FUNCIONA */}
-      <div class="mt-20 rounded-[2rem] bg-pensi-50 p-8 sm:p-12" data-reveal>
+      <div class="mt-14 rounded-[2rem] bg-pensi-50 p-6 sm:mt-20 sm:p-12" data-reveal>
         <h2 class="text-2xl font-black tracking-tight sm:text-3xl">Como começar</h2>
         <ol class="mt-8 grid gap-8 md:grid-cols-3">
           {
@@ -280,7 +280,7 @@ const year = new Date().getFullYear();
     </section>
 
     {/* HORÁRIOS E VALORES */}
-    <section id="agenda" class="mx-auto max-w-6xl px-5 py-20" aria-labelledby="agenda-titulo">
+    <section id="agenda" class="mx-auto max-w-6xl px-4 py-14 sm:px-5 sm:py-20" aria-labelledby="agenda-titulo">
       <div class="mx-auto max-w-2xl text-center" data-reveal>
         <p class="font-semibold uppercase tracking-wide text-pensi">Horários e valores 2027</p>
         <h2 id="agenda-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
@@ -295,7 +295,22 @@ const year = new Date().getFullYear();
         <PlanExplorer client:visible />
       </div>
 
-      <div class="mt-16 overflow-x-auto rounded-3xl bg-white ring-1 ring-tinta/10" data-reveal>
+      <div class="mt-12 sm:hidden" data-reveal>
+        <h3 class="text-lg font-bold">Agenda da semana</h3>
+        <ul class="mt-4 space-y-3">
+          {
+            SLOTS.map((s) => (
+              <li class="rounded-2xl bg-white p-5 ring-1 ring-tinta/10">
+                <p class="text-xl font-bold text-pensi">{s.label}</p>
+                <p class="mt-1 text-tinta-600">{s.duration} · segunda a sexta</p>
+                <p class="mt-1 text-tinta-600">CEFET (1º e 2º semestre) e ENEM anual</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="mt-16 hidden overflow-x-auto rounded-3xl bg-white ring-1 ring-tinta/10 sm:block" data-reveal>
         <table class="w-full min-w-[640px] text-left">
           <caption class="px-6 pt-6 text-left text-lg font-bold">Agenda da semana</caption>
           <thead>
@@ -323,8 +338,8 @@ const year = new Date().getFullYear();
     </section>
 
     {/* DEPOIMENTOS */}
-    <section id="depoimentos" class="bg-white py-24" aria-labelledby="dep-titulo">
-      <div class="mx-auto max-w-6xl px-5">
+    <section id="depoimentos" class="bg-white py-16 sm:py-24" aria-labelledby="dep-titulo">
+      <div class="mx-auto max-w-6xl px-4 sm:px-5">
         <div class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end" data-reveal>
           <div class="max-w-2xl">
             <p class="font-semibold uppercase tracking-wide text-pensi">Depoimentos</p>
@@ -350,10 +365,10 @@ const year = new Date().getFullYear();
           </a>
         </div>
 
-        <ul class="mt-12 gap-5 sm:columns-2 lg:columns-3">
+        <ul class="-mx-4 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:mx-0 sm:mt-12 sm:block sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 sm:columns-2 lg:columns-3" tabindex="0" aria-label="Depoimentos: deslize para ver mais">
           {
             TESTIMONIALS.map((t, i) => (
-              <li data-reveal data-reveal-delay={(i % 3) * 80} class="mb-5 break-inside-avoid rounded-3xl bg-papel p-7 ring-1 ring-tinta/10">
+              <li data-reveal data-reveal-delay={(i % 3) * 80} class="w-[86%] shrink-0 snap-center rounded-3xl bg-papel p-6 ring-1 ring-tinta/10 sm:mb-5 sm:w-auto sm:break-inside-avoid sm:p-7">
                 <figure>
                   <div class="flex items-center justify-between">
                     <Quote aria-hidden="true" class="size-7 text-pensi" />
@@ -377,6 +392,7 @@ const year = new Date().getFullYear();
           }
         </ul>
 
+        <p class="mt-2 text-center text-sm text-tinta-600 sm:hidden" aria-hidden="true">Deslize para ver mais depoimentos →</p>
         <p class="mt-6 text-center" data-reveal>
           <a
             href={MAPS_LINK}
@@ -393,7 +409,7 @@ const year = new Date().getFullYear();
     </section>
 
     {/* PERGUNTAS FREQUENTES */}
-    <section id="perguntas" class="mx-auto max-w-3xl px-5 py-24" aria-labelledby="faq-titulo">
+    <section id="perguntas" class="mx-auto max-w-3xl px-4 py-16 sm:px-5 sm:py-24" aria-labelledby="faq-titulo">
       <h2 id="faq-titulo" class="text-center text-3xl font-black tracking-tight sm:text-4xl" data-reveal>
         Perguntas frequentes
       </h2>
@@ -413,8 +429,8 @@ const year = new Date().getFullYear();
     </section>
 
     {/* CONTATO E ENDEREÇO */}
-    <section id="contato" class="relative bg-pensi py-24 text-white" aria-labelledby="contato-titulo">
-      <div class="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-2">
+    <section id="contato" class="relative bg-pensi py-16 text-white sm:py-24" aria-labelledby="contato-titulo">
+      <div class="mx-auto grid max-w-6xl gap-12 px-4 sm:px-5 lg:grid-cols-2">
         <div data-reveal>
           <p class="font-semibold uppercase tracking-wide text-oliva">Contato e endereço</p>
           <h2 id="contato-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
@@ -434,7 +450,7 @@ const year = new Date().getFullYear();
             </p>
             <p class="flex gap-3">
               <Phone aria-hidden="true" class="mt-0.5 size-6 shrink-0 text-oliva" />
-              <a href={`tel:${SITE.phoneE164}`} class="underline-offset-4 hover:underline">{SITE.phoneDisplay}</a>
+              <a href={`tel:${SITE.phoneE164}`} class="-my-2 inline-flex min-h-11 items-center underline-offset-4 hover:underline">{SITE.phoneDisplay}</a>
             </p>
             <p class="flex gap-3">
               <Clock aria-hidden="true" class="mt-0.5 size-6 shrink-0 text-oliva" />
@@ -448,7 +464,7 @@ const year = new Date().getFullYear();
               rel="noopener noreferrer"
               class="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-oliva px-7 text-lg font-bold text-tinta transition hover:bg-oliva-200"
             >
-              <WhatsAppIcon class="size-5" />
+              <WhatsAppIcon className="size-5" />
               Chamar no WhatsApp
             </a>
             <a
@@ -484,16 +500,7 @@ const year = new Date().getFullYear();
 
   <Footer />
 
-  {/* BOTÃO FLUTUANTE DE WHATSAPP */}
-  <a
-    href={waGeral}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="fixed bottom-5 right-5 z-40 inline-flex size-16 items-center justify-center rounded-full bg-[#1f8a4c] text-white shadow-xl shadow-tinta/30 transition hover:scale-105"
-    aria-label="Falar com o professor Bruno no WhatsApp"
-  >
-    <WhatsAppIcon class="size-8" />
-  </a>
+
 </Base>
 
 <style>

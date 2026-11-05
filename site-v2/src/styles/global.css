@@ -90,7 +90,7 @@
 
 /* Páginas legais: leitura confortável. */
 .legal h1 {
-  @apply mt-2 text-balance text-4xl font-black tracking-tight sm:text-5xl;
+  @apply mt-2 text-balance text-[2.1rem] leading-tight sm:leading-none sm:text-4xl md:text-5xl font-black tracking-tight;
 }
 .legal h2 {
   @apply mt-12 text-2xl font-bold tracking-tight;
@@ -112,7 +112,7 @@
   @apply font-semibold text-pensi underline underline-offset-4;
 }
 .legal table {
-  @apply mt-6 w-full border-collapse text-left text-[15px];
+  @apply mt-6 w-full min-w-[520px] border-collapse text-left text-[15px];
 }
 .legal th,
 .legal td {

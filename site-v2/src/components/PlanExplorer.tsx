@@ -31,7 +31,7 @@ export default function PlanExplorer() {
       <div
         role="tablist"
         aria-label="Escolha o curso"
-        className="mx-auto flex w-full max-w-2xl flex-wrap justify-center gap-1 rounded-2xl bg-white p-1.5 ring-1 ring-tinta/10 sm:flex-nowrap"
+        className="mx-auto grid w-full max-w-2xl grid-cols-3 gap-1 rounded-2xl bg-white p-1.5 ring-1 ring-tinta/10"
       >
         {PLANS.map((p, i) => {
           const selected = i === active;
@@ -50,7 +50,7 @@ export default function PlanExplorer() {
               onClick={() => setActive(i)}
               onKeyDown={(e) => onKeyDown(e, i)}
               className={cn(
-                'relative min-h-11 flex-1 rounded-xl px-4 py-2.5 text-[15px] font-semibold transition-colors',
+                'relative min-h-12 rounded-xl px-2 py-2.5 text-[14px] font-semibold leading-tight transition-colors sm:px-4 sm:text-[15px]',
                 selected ? 'text-white' : 'text-tinta-600 hover:text-pensi',
               )}
             >
@@ -62,14 +62,15 @@ export default function PlanExplorer() {
                   aria-hidden="true"
                 />
               )}
-              <span className="relative">{p.name}</span>
+              <span className="relative sm:hidden">{p.short}</span>
+              <span className="relative hidden sm:inline">{p.name}</span>
             </button>
           );
         })}
       </div>
 
       <div id={`${baseId}-panel`} role="tabpanel" aria-labelledby={`${baseId}-tab-${plan.id}`} className="mt-8">
-        <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-center text-tinta-600">
+        <p className="flex flex-col items-center justify-center gap-x-4 gap-y-1.5 text-center text-[15px] text-tinta-600 sm:flex-row sm:flex-wrap sm:text-base">
           <span className="inline-flex items-center gap-1.5">
             <CalendarDays aria-hidden="true" className="size-4 text-pensi" />
             {plan.period}
@@ -87,7 +88,7 @@ export default function PlanExplorer() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8 grid gap-5 md:grid-cols-3"
+            className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3"
           >
             {SLOTS.map((slot, i) => {
               const price = plan.prices[slot.id];
@@ -97,7 +98,7 @@ export default function PlanExplorer() {
                 <li
                   key={slot.id}
                   className={cn(
-                    'relative flex flex-col rounded-3xl bg-white p-6 ring-1 ring-tinta/10 transition-shadow hover:shadow-[0_20px_50px_-24px_rgba(190,31,61,0.45)]',
+                    'relative flex flex-col rounded-3xl bg-white p-5 ring-1 sm:p-6 ring-tinta/10 transition-shadow hover:shadow-[0_20px_50px_-24px_rgba(190,31,61,0.45)]',
                     featured && 'ring-2 ring-pensi',
                   )}
                 >

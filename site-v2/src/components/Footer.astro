@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import ConsentButton from './ConsentButton.tsx';
+import WhatsAppIcon from './WhatsAppIcon.tsx';
 import { NAV, SITE, whatsapp } from '../data/site';
 import logo from '../assets/logo-pensi.png';
 
@@ -9,8 +10,8 @@ const waGeral = whatsapp('Olá, Bruno! Vim pelo site e quero saber mais sobre as
 const year = new Date().getFullYear();
 ---
 
-<footer class="bg-tinta py-14 text-white/80">
-  <div class="mx-auto grid max-w-6xl gap-10 px-5 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
+<footer class="bg-tinta pb-32 pt-14 text-white/80 md:pb-14">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:grid-cols-2 sm:px-5 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
     <div>
       <Image src={logo} alt="PENSI+" width={140} height={79} class="h-14 w-auto" />
       <p class="mt-4 max-w-sm">
@@ -20,30 +21,30 @@ const year = new Date().getFullYear();
     </div>
     <nav aria-label="Rodapé">
       <p class="font-bold text-white">Navegação</p>
-      <ul class="mt-4 space-y-2">
-        {NAV.map((n) => <li><a href={`${base}${n.href}`} class="hover:text-oliva">{n.label}</a></li>)}
-        <li><a href={`${base}#perguntas`} class="hover:text-oliva">Perguntas frequentes</a></li>
+      <ul class="mt-3 space-y-0.5">
+        {NAV.map((n) => <li><a href={`${base}${n.href}`} class="inline-flex min-h-11 items-center hover:text-oliva">{n.label}</a></li>)}
+        <li><a href={`${base}#perguntas`} class="inline-flex min-h-11 items-center hover:text-oliva">Perguntas frequentes</a></li>
       </ul>
     </nav>
     <div>
       <p class="font-bold text-white">Redes e contato</p>
-      <ul class="mt-4 space-y-2">
-        <li><a href={SITE.instagram} target="_blank" rel="noopener noreferrer" class="hover:text-oliva">Instagram @pensibh</a></li>
-        <li><a href={SITE.facebook} target="_blank" rel="noopener noreferrer" class="hover:text-oliva">Facebook</a></li>
-        <li><a href={waGeral} target="_blank" rel="noopener noreferrer" class="hover:text-oliva">WhatsApp {SITE.phoneDisplay}</a></li>
-        <li><a href="/" class="hover:text-oliva">Site da PENSI+</a></li>
+      <ul class="mt-3 space-y-0.5">
+        <li><a href={SITE.instagram} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-oliva">Instagram @pensibh</a></li>
+        <li><a href={SITE.facebook} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-oliva">Facebook</a></li>
+        <li><a href={waGeral} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-oliva">WhatsApp {SITE.phoneDisplay}</a></li>
+        <li><a href="/" class="inline-flex min-h-11 items-center hover:text-oliva">Site da PENSI+</a></li>
       </ul>
     </div>
     <div>
       <p class="font-bold text-white">Transparência</p>
-      <ul class="mt-4 space-y-2">
-        <li><a href={`${base}privacidade/`} class="hover:text-oliva">Política de privacidade</a></li>
-        <li><a href={`${base}termos/`} class="hover:text-oliva">Termos de uso e contratação</a></li>
-        <li><ConsentButton client:idle className="text-left hover:text-oliva" /></li>
+      <ul class="mt-3 space-y-0.5">
+        <li><a href={`${base}privacidade/`} class="inline-flex min-h-11 items-center hover:text-oliva">Política de privacidade</a></li>
+        <li><a href={`${base}termos/`} class="inline-flex min-h-11 items-center hover:text-oliva">Termos de uso e contratação</a></li>
+        <li><ConsentButton client:idle className="inline-flex min-h-11 items-center text-left hover:text-oliva" /></li>
       </ul>
     </div>
   </div>
-  <div class="mx-auto mt-12 flex max-w-6xl flex-col gap-2 border-t border-white/10 px-5 pt-6 text-sm text-white/60 sm:flex-row sm:justify-between">
+  <div class="mx-auto mt-10 flex max-w-6xl flex-col gap-2 border-t border-white/10 px-4 pt-6 sm:px-5 text-sm text-white/60 sm:flex-row sm:justify-between">
     <p>© {year} PENSI+ Educação. Todos os direitos reservados.</p>
     <p>
       Site desenvolvido e mantido por
@@ -51,3 +52,25 @@ const year = new Date().getFullYear();
     </p>
   </div>
 </footer>
+
+{/* Celular e tablet pequeno: barra fixa de WhatsApp. Telas maiores: botão flutuante. */}
+<div class="fixed inset-x-0 bottom-0 z-40 border-t border-tinta/10 bg-white/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur md:hidden">
+  <a
+    href={waGeral}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="flex min-h-13 w-full items-center justify-center gap-2 rounded-full bg-[#1f8a4c] px-5 py-3.5 text-[17px] font-bold text-white shadow-lg shadow-[#1f8a4c]/30 active:scale-[0.99]"
+  >
+    <WhatsAppIcon className="size-6" />
+    Falar com o Bruno no WhatsApp
+  </a>
+</div>
+<a
+  href={waGeral}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="fixed bottom-6 right-6 z-40 hidden size-16 items-center justify-center rounded-full bg-[#1f8a4c] text-white shadow-xl shadow-tinta/30 transition hover:scale-105 md:inline-flex"
+  aria-label="Falar com o professor Bruno no WhatsApp"
+>
+  <WhatsAppIcon className="size-8" />
+</a>

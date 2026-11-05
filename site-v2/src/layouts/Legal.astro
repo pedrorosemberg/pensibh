@@ -19,8 +19,8 @@ const wa = whatsapp('Olá! Tenho uma dúvida sobre os documentos do site da PENS
 
 <Base title={`${title} | PENSI+`} description={description} path={path}>
   <Header client:load logoSrc={logoSmall.src} whatsappHref={wa} hrefPrefix="/v2/" />
-  <main id="conteudo" class="bg-papel pb-24 pt-32">
-    <article class="legal mx-auto max-w-3xl px-5">
+  <main id="conteudo" class="bg-papel pb-16 pt-28 sm:pb-24 sm:pt-32">
+    <article class="legal mx-auto max-w-3xl px-4 sm:px-5">
       <p class="font-semibold uppercase tracking-wide text-pensi">PENSI+</p>
       <h1>{title}</h1>
       <p class="text-tinta-600">Última atualização: {updated}</p>

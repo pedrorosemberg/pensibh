@@ -24,8 +24,8 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
-    min-height: 100vh;
+    background-attachment: scroll;
+    min-height: 82svh;
     display: flex;
     align-items: center;
     padding: 0;
@@ -45,8 +45,14 @@ body {
 }
 
 #hero .content {
-    max-width: 50%;
+    max-width: 100%;
     text-align: left;
+}
+@media (min-width: 768px) {
+    #hero .content { max-width: 60%; }
+}
+@media (min-width: 1024px) {
+    #hero .content { max-width: 50%; }
 }
 
 
@@ -166,16 +172,10 @@ body {
 }
 
 .cc-floating {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #31afc3;
+    background: none;
     color: #ffffff;
-    padding: 10px 30px;
-    border-radius: 50px;
+    padding: 0;
     cursor: pointer;
-    z-index: 9998;
-    margin-bottom: 20px;
 }
 
 @media (min-width: 768px) {
@@ -220,3 +220,33 @@ body {
     font-display: swap;
     src: url('assets/roboto-latin-wght-normal.woff2') format('woff2');
 }
+
+/* Celular primeiro: fundo fixo só em telas grandes (no iOS ele quebra o layout). */
+@media (min-width: 1024px) {
+    #hero { background-attachment: fixed; min-height: 100vh; }
+}
+
+/* Barra fixa de WhatsApp no celular. */
+.wa-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9000;
+    padding: 12px 16px max(12px, env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+.wa-bar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 52px;
+    border-radius: 9999px;
+    background: #1f8a4c;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 17px;
+}
+#cookie-consent { z-index: 9999; }
