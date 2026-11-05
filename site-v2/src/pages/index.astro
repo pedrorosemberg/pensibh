@@ -1,0 +1,535 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.tsx';
+import PlanExplorer from '../components/PlanExplorer.tsx';
+import CountUp from '../components/CountUp.tsx';
+import {
+  Award,
+  BookOpen,
+  Clock,
+  ExternalLink,
+  GraduationCap,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Quote,
+  Star,
+  UserCheck,
+  Users,
+  Target,
+  Sparkles,
+} from 'lucide-react';
+import {
+  SITE,
+  NAV,
+  BRUNO,
+  COURSES,
+  DIFERENCIAIS,
+  STEPS,
+  SLOTS,
+  TESTIMONIALS,
+  FAQ,
+  MAPS_LINK,
+  MAPS_EMBED,
+  whatsapp,
+} from '../data/site';
+import logo from '../assets/logo-pensi.png';
+import heroImg from '../assets/bruno-quadro.jpeg';
+import salaImg from '../assets/sala.jpeg';
+import brunoImg from '../assets/bruno.jpeg';
+
+const logoSmall = await getImage({ src: logo, width: 172, format: 'webp' });
+const waGeral = whatsapp('Olá, Bruno! Vim pelo site e quero saber mais sobre as aulas da PENSI+.');
+const icons = { users: Users, 'user-check': UserCheck, 'book-open': BookOpen, clock: Clock, award: Award, 'map-pin': MapPin };
+const courseIcons = { cefet: Target, enem: GraduationCap, cesec: BookOpen, reforco: Sparkles } as const;
+const subjects = ['Matemática', 'Física', 'Química', 'Biologia', 'Português', 'Redação', 'História', 'Geografia', 'Inglês', 'Filosofia', 'Sociologia', 'Literatura'];
+const year = new Date().getFullYear();
+---
+
+<Base>
+  <Header client:load logoSrc={logoSmall.src} whatsappHref={waGeral} />
+
+  <main id="conteudo">
+    {/* HERO */}
+    <section id="topo" class="relative isolate overflow-hidden bg-pensi pb-28 pt-32 text-white sm:pt-36 lg:pb-36">
+      <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+        <div class="absolute -right-24 top-10 h-[130%] w-[60%] -skew-y-6 bg-pensi-700/60"></div>
+        <div class="absolute bottom-0 left-0 h-24 w-full bg-papel slant-bottom"></div>
+      </div>
+
+      <div class="mx-auto grid max-w-6xl items-center gap-12 px-5 lg:grid-cols-[1.05fr_0.95fr]">
+        <div class="hero-in">
+          <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium ring-1 ring-white/25">
+            <span class="size-2 rounded-full bg-oliva" aria-hidden="true"></span>
+            Matrículas abertas para 2027 · 8 vagas por turma
+          </p>
+          <h1 class="mt-6 text-balance text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+            Estude com o professor Bruno, <span class="text-oliva">um aluno de cada vez.</span>
+          </h1>
+          <p class="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-white/85 sm:text-xl">
+            Pré-vestibular CEFET e ENEM, CESEC, ENCCEJA e reforço escolar em turmas de até 8 alunos, com atendimento
+            individual. Mais de {BRUNO.years} anos preparando jovens e adultos em Belo Horizonte.
+          </p>
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a
+              href={waGeral}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group inline-flex min-h-14 whitespace-nowrap items-center justify-center gap-2 rounded-full bg-oliva px-6 text-base font-bold text-tinta shadow-lg shadow-pensi-900/30 transition hover:-translate-y-0.5 hover:bg-oliva-200"
+            >
+              <MessageCircle aria-hidden="true" class="size-5" />
+              Falar com o Bruno no WhatsApp
+            </a>
+            <a
+              href="#agenda"
+              class="inline-flex min-h-14 items-center justify-center whitespace-nowrap rounded-full px-6 text-base font-semibold text-white ring-1 ring-white/40 transition hover:bg-white/10"
+            >
+              Horários e valores
+            </a>
+          </div>
+          <ul class="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-[15px] text-white/90">
+            <li class="flex items-center gap-2"><Users aria-hidden="true" class="size-5 text-oliva" /> Até 8 alunos por turma</li>
+            <li class="flex items-center gap-2"><UserCheck aria-hidden="true" class="size-5 text-oliva" /> Atendimento individual</li>
+            <li class="flex items-center gap-2"><MapPin aria-hidden="true" class="size-5 text-oliva" /> Anchieta, BH</li>
+          </ul>
+        </div>
+
+        <div class="hero-in-late relative mx-auto w-full max-w-md lg:max-w-none">
+          <div class="slant overflow-hidden rounded-3xl bg-pensi-900 shadow-2xl shadow-pensi-900/40">
+            <Image
+              src={heroImg}
+              alt="Professor Bruno explicando um exercício de geometria no quadro para uma aluna"
+              widths={[480, 720, 960]}
+              sizes="(min-width: 1024px) 520px, 90vw"
+              loading="eager"
+              fetchpriority="high"
+              class="aspect-[4/4.4] w-full object-cover object-[70%_center]"
+            />
+          </div>
+          <div class="absolute -bottom-6 -left-4 rounded-2xl bg-white px-5 py-4 text-tinta shadow-xl sm:-left-8">
+            <p class="text-3xl font-black text-pensi"><CountUp client:visible value={30} suffix="+" /></p>
+            <p class="text-sm font-medium text-tinta-600">anos de aulas particulares</p>
+          </div>
+          <div class="absolute -right-2 top-8 rounded-2xl bg-agua px-4 py-3 font-semibold text-tinta shadow-xl sm:-right-6">
+            1 professor · você no centro
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* FAIXA DE MATÉRIAS */}
+    <div class="overflow-hidden border-y border-tinta/10 bg-white py-4" aria-label="Matérias ofertadas">
+      <ul class="marquee flex w-max gap-10 pr-10 text-lg font-semibold text-tinta-600">
+        {[...subjects, ...subjects].map((s, i) => (
+          <li class="flex items-center gap-10" aria-hidden={i >= subjects.length ? 'true' : undefined}>
+            {s}<span class="text-oliva" aria-hidden="true">+</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    {/* CURSOS */}
+    <section id="cursos" class="mx-auto max-w-6xl px-5 py-24" aria-labelledby="cursos-titulo">
+      <div class="max-w-2xl" data-reveal>
+        <p class="font-semibold uppercase tracking-wide text-pensi">Cursos</p>
+        <h2 id="cursos-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
+          Uma preparação para cada objetivo, do 9º ano à volta aos estudos
+        </h2>
+        <p class="mt-4 text-lg text-tinta-600">
+          Jovens que miram o CEFET ou o ENEM e adultos que querem concluir os estudos estudam lado a lado, cada um com o
+          seu plano.
+        </p>
+      </div>
+      <ul class="mt-12 grid gap-5 sm:grid-cols-2">
+        {
+          COURSES.map((c, i) => {
+            const Icon = courseIcons[c.id];
+            return (
+              <li
+                data-reveal
+                data-reveal-delay={i * 80}
+                class="group relative overflow-hidden rounded-3xl bg-white p-7 ring-1 ring-tinta/10 transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-30px_rgba(190,31,61,0.5)]"
+              >
+                <div class="flex items-start justify-between gap-4">
+                  <span class="inline-flex size-14 items-center justify-center rounded-2xl bg-pensi text-white transition group-hover:rotate-[-6deg]">
+                    <Icon aria-hidden="true" class="size-7" />
+                  </span>
+                  <span class="rounded-full bg-agua-50 px-3 py-1 text-sm font-semibold text-agua-700">{c.audience}</span>
+                </div>
+                <h3 class="mt-6 text-2xl font-bold tracking-tight">{c.title}</h3>
+                <p class="mt-2 text-tinta-600">{c.summary}</p>
+                <ul class="mt-5 flex flex-wrap gap-2">
+                  {c.tags.map((t) => (
+                    <li class="rounded-full bg-papel px-3 py-1 text-sm text-tinta-600 ring-1 ring-tinta/10">{t}</li>
+                  ))}
+                </ul>
+                <a
+                  href={whatsapp(`Olá, Bruno! Quero saber mais sobre o curso ${c.title}.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mt-6 inline-flex min-h-11 items-center gap-2 font-semibold text-pensi hover:underline"
+                >
+                  Tirar dúvidas sobre este curso <span aria-hidden="true">→</span>
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </section>
+
+    {/* O PROFESSOR */}
+    <section id="bruno" class="bg-tinta py-24 text-white" aria-labelledby="bruno-titulo">
+      <div class="mx-auto grid max-w-6xl items-center gap-14 px-5 lg:grid-cols-2">
+        <div class="relative" data-reveal>
+          <div class="slant-soft overflow-hidden rounded-3xl">
+            <Image
+              src={salaImg}
+              alt="Professor Bruno acompanhando uma aluna enquanto a turma resolve exercícios na sala da PENSI+"
+              widths={[480, 720, 960]}
+              sizes="(min-width: 1024px) 560px, 92vw"
+              class="aspect-[4/3] w-full object-cover"
+            />
+          </div>
+          <div class="absolute -bottom-8 right-4 flex items-center gap-3 rounded-2xl bg-white p-3 pr-5 text-tinta shadow-2xl sm:right-8">
+            <Image src={brunoImg} alt="" width={64} height={64} class="size-14 rounded-xl object-cover object-[85%_30%]" />
+            <div>
+              <p class="font-bold">Professor Bruno</p>
+              <p class="text-sm text-tinta-600">Fundador da PENSI+</p>
+            </div>
+          </div>
+        </div>
+        <div data-reveal>
+          <p class="font-semibold uppercase tracking-wide text-oliva">O professor</p>
+          <h2 id="bruno-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
+            Três décadas ensinando um aluno de cada vez
+          </h2>
+          <p class="mt-5 text-lg leading-relaxed text-white/80">
+            O professor Bruno começou a dar aulas ainda na graduação em Engenharia Civil na UFMG. Desde então, são mais de
+            30 anos de aulas particulares e uma metodologia própria: entender onde cada aluno está e montar o caminho até
+            onde ele quer chegar.
+          </p>
+          <p class="mt-4 text-lg leading-relaxed text-white/80">
+            Na PENSI+ ele já ajudou alunos a serem aprovados no CESEC, no ENCCEJA e no ENEM, e a entrar em cursos como
+            Engenharia, Arquitetura e Medicina.
+          </p>
+          <ul class="mt-8 space-y-3">
+            {
+              BRUNO.facts.map((f) => (
+                <li class="flex gap-3">
+                  <span class="mt-1 inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-oliva text-sm font-black text-tinta" aria-hidden="true">+</span>
+                  <span class="text-white/90">{f}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <a
+            href={whatsapp('Olá, Bruno! Gostaria de conversar sobre as aulas.')}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-9 inline-flex min-h-12 items-center gap-2 rounded-full bg-oliva px-6 font-bold text-tinta transition hover:bg-oliva-200"
+          >
+            <MessageCircle aria-hidden="true" class="size-5" />
+            Converse com o Bruno
+          </a>
+        </div>
+      </div>
+    </section>
+
+    {/* DIFERENCIAIS */}
+    <section id="diferenciais" class="mx-auto max-w-6xl px-5 pb-12 pt-32" aria-labelledby="dif-titulo">
+      <div class="mx-auto max-w-2xl text-center" data-reveal>
+        <p class="font-semibold uppercase tracking-wide text-pensi">Nossos diferenciais</p>
+        <h2 id="dif-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
+          A atenção de uma aula particular, no ritmo de um curso completo
+        </h2>
+      </div>
+      <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          DIFERENCIAIS.map((d, i) => {
+            const Icon = icons[d.icon];
+            return (
+              <li data-reveal data-reveal-delay={i * 60} class="rounded-3xl bg-white p-7 ring-1 ring-tinta/10">
+                <Icon aria-hidden="true" class="size-8 text-pensi" />
+                <h3 class="mt-5 text-xl font-bold">{d.title}</h3>
+                <p class="mt-2 text-tinta-600">{d.text}</p>
+              </li>
+            );
+          })
+        }
+      </ul>
+
+      {/* COMO FUNCIONA */}
+      <div class="mt-20 rounded-[2rem] bg-pensi-50 p-8 sm:p-12" data-reveal>
+        <h2 class="text-2xl font-black tracking-tight sm:text-3xl">Como começar</h2>
+        <ol class="mt-8 grid gap-8 md:grid-cols-3">
+          {
+            STEPS.map((s, i) => (
+              <li class="relative">
+                <span class="text-5xl font-black text-pensi/25" aria-hidden="true">0{i + 1}</span>
+                <h3 class="mt-2 text-xl font-bold">{s.title}</h3>
+                <p class="mt-2 text-tinta-600">{s.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    {/* HORÁRIOS E VALORES */}
+    <section id="agenda" class="mx-auto max-w-6xl px-5 py-20" aria-labelledby="agenda-titulo">
+      <div class="mx-auto max-w-2xl text-center" data-reveal>
+        <p class="font-semibold uppercase tracking-wide text-pensi">Horários e valores 2027</p>
+        <h2 id="agenda-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
+          Escolha o curso e o horário da sua turma
+        </h2>
+        <p class="mt-4 text-lg text-tinta-600">
+          Cinco aulas por semana, de segunda a sexta, na unidade do Anchieta. Todas as disciplinas são ofertadas, e você
+          escolhe quais quer estudar.
+        </p>
+      </div>
+      <div class="mt-10" data-reveal>
+        <PlanExplorer client:visible />
+      </div>
+
+      <div class="mt-16 overflow-x-auto rounded-3xl bg-white ring-1 ring-tinta/10" data-reveal>
+        <table class="w-full min-w-[640px] text-left">
+          <caption class="px-6 pt-6 text-left text-lg font-bold">Agenda da semana</caption>
+          <thead>
+            <tr class="text-sm uppercase tracking-wide text-tinta-600">
+              <th scope="col" class="px-6 py-4 font-semibold">Horário</th>
+              <th scope="col" class="px-6 py-4 font-semibold">Duração</th>
+              <th scope="col" class="px-6 py-4 font-semibold">Dias</th>
+              <th scope="col" class="px-6 py-4 font-semibold">Cursos</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              SLOTS.map((s) => (
+                <tr class="border-t border-tinta/10">
+                  <th scope="row" class="px-6 py-4 font-bold text-pensi">{s.label}</th>
+                  <td class="px-6 py-4">{s.duration}</td>
+                  <td class="px-6 py-4">Segunda a sexta</td>
+                  <td class="px-6 py-4">CEFET (1º e 2º semestre) e ENEM anual</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {/* DEPOIMENTOS */}
+    <section id="depoimentos" class="bg-white py-24" aria-labelledby="dep-titulo">
+      <div class="mx-auto max-w-6xl px-5">
+        <div class="mx-auto max-w-2xl text-center" data-reveal>
+          <p class="font-semibold uppercase tracking-wide text-pensi">Depoimentos</p>
+          <h2 id="dep-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
+            Quem estudou com o Bruno conta como foi
+          </h2>
+        </div>
+        {
+          TESTIMONIALS.length > 0 ? (
+            <ul class="mt-12 grid gap-5 md:grid-cols-3">
+              {TESTIMONIALS.map((t) => (
+                <li data-reveal class="flex flex-col rounded-3xl bg-papel p-7 ring-1 ring-tinta/10">
+                  <Quote aria-hidden="true" class="size-8 text-pensi" />
+                  <blockquote class="mt-4 flex-1 text-lg leading-relaxed">“{t.text}”</blockquote>
+                  <p class="mt-6 font-bold">{t.name}</p>
+                  {t.context && <p class="text-sm text-tinta-600">{t.context}</p>}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div data-reveal class="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-5 rounded-3xl bg-papel p-8 text-center ring-1 ring-tinta/10">
+              <div class="flex gap-1 text-oliva" aria-hidden="true">
+                {[1, 2, 3, 4, 5].map(() => <Star class="size-7" fill="currentColor" />)}
+              </div>
+              <p class="text-lg text-tinta-600">
+                As avaliações de alunos e famílias estão no perfil do professor Bruno no Google.
+              </p>
+              <a
+                href={MAPS_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex min-h-12 items-center gap-2 rounded-full bg-pensi px-6 font-semibold text-white transition hover:bg-pensi-700"
+              >
+                Ler as avaliações no Google
+                <ExternalLink aria-hidden="true" class="size-4" />
+              </a>
+            </div>
+          )
+        }
+      </div>
+    </section>
+
+    {/* PERGUNTAS FREQUENTES */}
+    <section id="perguntas" class="mx-auto max-w-3xl px-5 py-24" aria-labelledby="faq-titulo">
+      <h2 id="faq-titulo" class="text-center text-3xl font-black tracking-tight sm:text-4xl" data-reveal>
+        Perguntas frequentes
+      </h2>
+      <div class="mt-10 space-y-3">
+        {
+          FAQ.map((f) => (
+            <details data-reveal class="group rounded-2xl bg-white ring-1 ring-tinta/10 open:ring-pensi/40">
+              <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-lg font-semibold [&::-webkit-details-marker]:hidden">
+                {f.q}
+                <span class="text-2xl text-pensi transition group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <p class="px-6 pb-6 text-tinta-600">{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    {/* CONTATO E ENDEREÇO */}
+    <section id="contato" class="relative bg-pensi py-24 text-white" aria-labelledby="contato-titulo">
+      <div class="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-2">
+        <div data-reveal>
+          <p class="font-semibold uppercase tracking-wide text-oliva">Contato e endereço</p>
+          <h2 id="contato-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
+            Vamos montar o seu plano de estudos?
+          </h2>
+          <p class="mt-4 text-lg text-white/85">
+            Alunos e pais podem falar direto com o professor Bruno para tirar dúvidas, conhecer as turmas e reservar uma
+            vaga.
+          </p>
+          <address class="mt-8 space-y-4 not-italic">
+            <p class="flex gap-3">
+              <MapPin aria-hidden="true" class="mt-0.5 size-6 shrink-0 text-oliva" />
+              <span>
+                {SITE.address.street}<br />
+                {SITE.address.neighborhood}, {SITE.address.city} – {SITE.address.region}, {SITE.address.postalCode}
+              </span>
+            </p>
+            <p class="flex gap-3">
+              <Phone aria-hidden="true" class="mt-0.5 size-6 shrink-0 text-oliva" />
+              <a href={`tel:${SITE.phoneE164}`} class="underline-offset-4 hover:underline">{SITE.phoneDisplay}</a>
+            </p>
+            <p class="flex gap-3">
+              <Clock aria-hidden="true" class="mt-0.5 size-6 shrink-0 text-oliva" />
+              <span>Aulas de segunda a sexta, das 8:10 às 12:20 e das 14:30 às 16:20</span>
+            </p>
+          </address>
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={waGeral}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-oliva px-7 text-lg font-bold text-tinta transition hover:bg-oliva-200"
+            >
+              <MessageCircle aria-hidden="true" class="size-5" />
+              Chamar no WhatsApp
+            </a>
+            <a
+              href={MAPS_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex min-h-14 items-center justify-center gap-2 rounded-full px-7 text-lg font-semibold ring-1 ring-white/40 transition hover:bg-white/10"
+            >
+              Como chegar
+              <ExternalLink aria-hidden="true" class="size-4" />
+            </a>
+          </div>
+        </div>
+
+        <div data-reveal class="overflow-hidden rounded-3xl bg-pensi-900 ring-1 ring-white/15">
+          <div id="mapa" data-src={MAPS_EMBED} class="relative flex aspect-[4/3] w-full items-center justify-center">
+            <button
+              type="button"
+              id="mapa-carregar"
+              class="m-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-white px-6 font-semibold text-tinta transition hover:bg-oliva"
+            >
+              <MapPin aria-hidden="true" class="size-5 text-pensi" />
+              Mostrar mapa do Google
+            </button>
+            <p class="absolute bottom-4 px-6 text-center text-sm text-white/70">
+              O mapa só carrega se você pedir, para proteger sua privacidade.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-tinta py-14 text-white/80">
+    <div class="mx-auto grid max-w-6xl gap-10 px-5 md:grid-cols-[1.3fr_1fr_1fr]">
+      <div>
+        <Image src={logo} alt="PENSI+" width={140} height={79} class="h-14 w-auto" />
+        <p class="mt-4 max-w-sm">
+          Centro de ensino individual em Belo Horizonte. Preparação para CEFET, ENEM, CESEC, ENCCEJA e reforço escolar.
+        </p>
+      </div>
+      <nav aria-label="Rodapé">
+        <p class="font-bold text-white">Navegação</p>
+        <ul class="mt-4 space-y-2">
+          {NAV.map((n) => <li><a href={n.href} class="hover:text-oliva">{n.label}</a></li>)}
+          <li><a href="#perguntas" class="hover:text-oliva">Perguntas frequentes</a></li>
+        </ul>
+      </nav>
+      <div>
+        <p class="font-bold text-white">Redes e contato</p>
+        <ul class="mt-4 space-y-2">
+          <li><a href={SITE.instagram} target="_blank" rel="noopener noreferrer" class="hover:text-oliva">Instagram @pensibh</a></li>
+          <li><a href={SITE.facebook} target="_blank" rel="noopener noreferrer" class="hover:text-oliva">Facebook</a></li>
+          <li><a href={waGeral} target="_blank" rel="noopener noreferrer" class="hover:text-oliva">WhatsApp {SITE.phoneDisplay}</a></li>
+          <li><a href="/" class="hover:text-oliva">Site da PENSI+</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mx-auto mt-12 flex max-w-6xl flex-col gap-2 border-t border-white/10 px-5 pt-6 text-sm text-white/60 sm:flex-row sm:justify-between">
+      <p>© {year} PENSI+ Educação. Todos os direitos reservados.</p>
+      <p>Esta página não usa cookies nem rastreadores. Desenvolvido por <a href="https://www.metadax.co/" target="_blank" rel="noopener noreferrer" class="underline-offset-4 hover:underline">METADAX</a>.</p>
+    </div>
+  </footer>
+
+  {/* BOTÃO FLUTUANTE DE WHATSAPP */}
+  <a
+    href={waGeral}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="fixed bottom-5 right-5 z-40 inline-flex size-16 items-center justify-center rounded-full bg-[#1f8a4c] text-white shadow-xl shadow-tinta/30 transition hover:scale-105"
+    aria-label="Falar com o professor Bruno no WhatsApp"
+  >
+    <MessageCircle aria-hidden="true" class="size-8" />
+  </a>
+</Base>
+
+<style>
+  .slant-bottom {
+    clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  }
+  .hero-in {
+    animation: rise 900ms var(--ease-out-soft) both;
+  }
+  .hero-in-late {
+    animation: rise 900ms 180ms var(--ease-out-soft) both;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+  }
+</style>
+
+<script>
+  // Mapa sob demanda: nenhum recurso do Google é carregado antes do clique.
+  const box = document.getElementById('mapa');
+  const btn = document.getElementById('mapa-carregar');
+  btn?.addEventListener('click', () => {
+    const src = box?.dataset.src;
+    if (!box || !src || !src.startsWith('https://www.google.com/maps')) return;
+    const frame = document.createElement('iframe');
+    frame.src = src;
+    frame.title = 'Mapa da PENSI+ no Anchieta, Belo Horizonte';
+    frame.loading = 'lazy';
+    frame.referrerPolicy = 'strict-origin-when-cross-origin';
+    frame.className = 'absolute inset-0 h-full w-full border-0';
+    frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox');
+    box.replaceChildren(frame);
+    frame.focus();
+  });
+</script>

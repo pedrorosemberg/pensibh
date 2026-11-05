@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/roboto';
+
+/* Identidade PENSI+: cores tiradas da logo oficial e tipografia Roboto do site. */
+@theme {
+  --font-sans: 'Roboto Variable', 'Roboto', system-ui, sans-serif;
+
+  --color-pensi: #be1f3d;
+  --color-pensi-700: #9b1832;
+  --color-pensi-900: #5e0f1f;
+  --color-pensi-50: #fbecef;
+  --color-oliva: #c9c12d;
+  --color-oliva-200: #ece7a1;
+  --color-oliva-900: #4a4610;
+  --color-agua: #2eb0c5;
+  --color-agua-700: #1b7483;
+  --color-agua-50: #e6f6f9;
+  --color-tinta: #1d1416;
+  --color-tinta-600: #5a4f52;
+  --color-papel: #fbf8f3;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-papel text-tinta antialiased;
+    font-feature-settings: 'tnum' 0;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-agua);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: var(--color-oliva);
+    color: var(--color-tinta);
+  }
+}
+
+/* Paralelogramo inclinado da logo, reutilizado como assinatura visual. */
+.slant {
+  clip-path: polygon(0 9%, 100% 0, 100% 91%, 0 100%);
+}
+.slant-soft {
+  clip-path: polygon(0 4%, 100% 0, 100% 96%, 0 100%);
+}
+
+/* Revelação ao rolar: o conteúdo é visível sem JS; o script só esconde o que está abaixo da dobra. */
+[data-reveal].reveal-wait {
+  opacity: 0;
+  transform: translateY(24px);
+}
+[data-reveal] {
+  transition:
+    opacity 700ms var(--ease-out-soft),
+    transform 700ms var(--ease-out-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal].reveal-wait {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.marquee {
+  animation: marquee 38s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
