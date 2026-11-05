@@ -145,11 +145,60 @@ export const PLANS = [
 export const brl = (v: number) =>
   v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
 
+/** Resumo do perfil "Bruno Professor BH" no Google (consultado em 05/11/2026). */
+export const GOOGLE_REVIEWS = { rating: 5.0, count: 41 } as const;
+
 /**
- * Depoimentos reais do Google, publicados com permissão.
- * Enquanto a lista estiver vazia, a seção mostra o convite para ler as avaliações no Google.
+ * Avaliações reais publicadas no perfil do Google, com o nome abreviado.
+ * Fonte: perfil "Bruno Professor BH" no Google, consultado em 05/11/2026.
  */
-export const TESTIMONIALS: { name: string; text: string; context?: string }[] = [];
+export const TESTIMONIALS: { name: string; text: string; context?: string }[] = [
+  {
+    name: 'Rodrigo M.',
+    context: 'Pai de aluno · preparação para o CEFET',
+    text: 'Professor experiente e atencioso. Soube canalizar no meu filho de 15 anos assuntos e matérias específicas para prepará-lo para o Técnico do CEFET. Sem contar a atenção comigo, pai. Sempre me retornando com um follow-up do dia e da semana. Recomendo.',
+  },
+  {
+    name: 'Marina S.',
+    context: 'Mãe de aluno',
+    text: 'Procurei o professor Bruno em um momento de muita urgência. Ele prontamente me respondeu, foi extremamente solícito e conseguiu encaixar meu filho em todos os dias que precisávamos, a poucos dias da prova. O resultado não poderia ter sido melhor: aprovação e excelentes notas!',
+  },
+  {
+    name: 'Ana Paula C.',
+    context: 'Mãe de aluna',
+    text: 'Sua disponibilidade, paciência e atenção fizeram toda a diferença no aprendizado dela. Além de dominar o conteúdo com excelência, ele tem uma forma única de explicar, sempre preocupado em garantir que o aluno realmente compreenda. Um profissional maravilhoso, dedicado e inspirador, que transformou a relação da minha filha com a matemática.',
+  },
+  {
+    name: 'Arthur C.',
+    context: 'Aluno · CESEC',
+    text: 'Ótimo professor, me ajudou muito a passar no CESEC.',
+  },
+  {
+    name: 'Marina P.',
+    context: 'Mãe de aluno',
+    text: 'Excelente didática e atendimento de forma personalizada para as necessidades acadêmicas de cada aluno. Meu filho precisava de um ambiente adequado para desenvolver uma rotina de estudos. As aulas com Bruno foram fundamentais para isso.',
+  },
+  {
+    name: 'Max F.',
+    context: 'Aluno',
+    text: 'Bruno foi o melhor professor que eu já tive. Ele ensina a matéria de forma tão detalhada que o que você aprenderia em um ano ele te ensina em cinco meses.',
+  },
+  {
+    name: 'Alexsandra R.',
+    context: 'Mãe de aluno',
+    text: 'Muito profissionalismo, preocupado com o aprendizado do aluno. Conseguiu reverter uma dificuldade grande do meu filho em matemática e ele recuperou o ano que estava quase perdido.',
+  },
+  {
+    name: 'Juliana L.',
+    context: 'Família de aluno',
+    text: 'Bruno tem uma metodologia e um empenho no preparo das aulas que faz toda a diferença no resultado! Sempre prepara apostilas com exercícios sobre o tema da aula, testando o aprendizado do aluno na prática.',
+  },
+  {
+    name: 'Carlos L.',
+    context: 'Pai de aluna · ensino médio e vestibular',
+    text: 'Ajudou muito minha filha nas provas finais do ensino médio e a ingressar na faculdade. Tem um atendimento personalizado para a necessidade de cada aluno! Recomendo, é um excelente professor!',
+  },
+];
 
 export const FAQ = [
   {

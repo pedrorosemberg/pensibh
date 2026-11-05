@@ -1,0 +1,103 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { SITE } from '../data/site';
+const a = SITE.address;
+---
+
+<Legal
+  title="Termos de uso e contratação"
+  description="Regras de uso do site da PENSI+ e condições para contratar as aulas e cursos presenciais."
+  path="termos/"
+  updated="5 de novembro de 2026"
+>
+  <p>
+    Estes termos explicam as regras para usar o site da PENSI+ e as condições para contratar as aulas e os cursos. Ao usar
+    o site ou contratar um curso, você declara que leu e concorda com eles. Se o aluno for menor de idade, a contratação é
+    feita pelo pai, mãe ou responsável legal.
+  </p>
+
+  <h2>1. Quem somos</h2>
+  <p>
+    PENSI+ Educação (Bruno Professor BH), CNPJ <span class="pendente">a informar</span>, {a.street}, {a.neighborhood}, {a.city} – {a.region}, CEP {a.postalCode}. Contato: WhatsApp {SITE.phoneDisplay}. O site é desenvolvido e mantido pela
+    METADAX CONSULTORIA LTDA.
+  </p>
+
+  <h2>2. Uso do site</h2>
+  <ul>
+    <li>O site é informativo. Preços, horários, datas e vagas podem mudar e só valem depois de confirmados no atendimento.</li>
+    <li>Cada turma tem até 8 vagas. A vaga só fica garantida após a contratação e a confirmação do pagamento.</li>
+    <li>
+      Textos, imagens, marcas e materiais do site e das aulas pertencem à PENSI+ ou aos seus autores e não podem ser
+      copiados ou distribuídos sem autorização.
+    </li>
+    <li>Links para sites de terceiros (WhatsApp, Google, redes sociais) seguem as regras desses serviços.</li>
+  </ul>
+
+  <h2>3. Como funciona a contratação</h2>
+  <ol>
+    <li>Você fala com o professor Bruno pelo WhatsApp e escolhe o curso, o horário e as disciplinas.</li>
+    <li>Informa os dados do aluno e do responsável financeiro necessários para a matrícula.</li>
+    <li>Recebe as condições do curso e o link ou os dados para pagamento.</li>
+    <li>Com o pagamento confirmado, a vaga é reservada e a matrícula é concluída.</li>
+  </ol>
+
+  <h2>4. O que está incluído</h2>
+  <ul>
+    <li>Aulas presenciais na unidade do Anchieta, de segunda a sexta, no horário da turma escolhida.</li>
+    <li>Turmas de até 8 alunos, com atendimento individual: não há aula coletiva no quadro.</li>
+    <li>Todas as disciplinas são ofertadas, e o aluno escolhe quais quer estudar.</li>
+    <li>Não há aula em feriados nacionais. No curso anual para o ENEM, julho é período de férias.</li>
+    <li>Materiais de apoio: <span class="pendente">a definir</span>.</li>
+  </ul>
+
+  <h2>5. Pagamento</h2>
+  <p>
+    Os pagamentos são feitos por intermediadoras de pagamento, como Mercado Pago, InfinitePay e PagBank, entre outras. A
+    PENSI+ não recebe nem armazena os dados do seu cartão: eles ficam sob a responsabilidade da intermediadora escolhida.
+  </p>
+  <p>Formas de pagamento, parcelamento e vencimentos: <span class="pendente">a definir</span>.</p>
+
+  <h2>6. Direito de arrependimento</h2>
+  <p>
+    Quando a contratação é feita a distância, como pelo WhatsApp ou por link de pagamento, você pode desistir em até 7 dias
+    corridos a contar da contratação, sem precisar justificar, conforme o artigo 49 do Código de Defesa do Consumidor.
+    Nesse caso, os valores pagos são devolvidos integralmente, pelo mesmo meio de pagamento.
+  </p>
+
+  <h2>7. Cancelamento e reembolso</h2>
+  <p>Regras de cancelamento após o prazo de arrependimento e de reembolso proporcional: <span class="pendente">a definir</span>.</p>
+
+  <h2>8. Faltas, reposições e feriados</h2>
+  <p>Regras para faltas do aluno, reposição de aulas e aulas que caem em feriados: <span class="pendente">a definir</span>.</p>
+
+  <h2>9. Compromissos de cada parte</h2>
+  <ul>
+    <li>A PENSI+ se compromete a oferecer as aulas no horário contratado, com acompanhamento individual e respeito ao aluno.</li>
+    <li>
+      O aluno e o responsável se comprometem a manter os dados atualizados, respeitar os horários e as regras de convivência
+      da sala.
+    </li>
+    <li>
+      O desempenho em provas e processos seletivos depende também da dedicação do aluno; por isso, a PENSI+ não garante
+      aprovação.
+    </li>
+  </ul>
+
+  <h2>10. Privacidade</h2>
+  <p>
+    O tratamento de dados pessoais segue a nossa <a href="/v2/privacidade/">política de privacidade</a>. Dúvidas sobre
+    privacidade: <a href="mailto:dpo@metadax.com.br">dpo@metadax.com.br</a>.
+  </p>
+
+  <h2>11. Mudanças nestes termos</h2>
+  <p>
+    Estes termos podem ser atualizados. As mudanças não afetam contratos já firmados, que seguem as condições vigentes na
+    data da contratação.
+  </p>
+
+  <h2>12. Legislação e foro</h2>
+  <p>
+    Estes termos seguem a legislação brasileira, incluindo o Código de Defesa do Consumidor. Fica eleito o foro da comarca
+    de Belo Horizonte (MG), sem prejuízo do direito do consumidor de propor ação no foro do seu domicílio.
+  </p>
+</Legal>

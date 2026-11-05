@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { Menu, MessageCircle, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { NAV } from '../data/site';
 import { cn } from '../lib/utils';
+import WhatsAppIcon from './WhatsAppIcon';
 
 interface Props {
   logoSrc: string;
   whatsappHref: string;
+  /** Prefixo dos links de âncora; use '/v2/' em páginas internas. */
+  hrefPrefix?: string;
 }
 
 /** Cabeçalho fixo no padrão "floating navbar" do 21st.dev, com menu móvel acessível. */
-export default function Header({ logoSrc, whatsappHref }: Props) {
+export default function Header({ logoSrc, whatsappHref, hrefPrefix = '' }: Props) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const reduce = useReducedMotion();
@@ -52,7 +55,7 @@ export default function Header({ logoSrc, whatsappHref }: Props) {
             : 'bg-white/70 ring-1 ring-white/40 backdrop-blur-sm',
         )}
       >
-        <a href="#topo" className="flex shrink-0 items-center gap-2" aria-label="PENSI+, voltar ao início">
+        <a href={`${hrefPrefix}#topo`} className="flex shrink-0 items-center gap-2" aria-label="PENSI+, voltar ao início">
           <img src={logoSrc} alt="" width={86} height={48} className="h-10 w-auto" />
         </a>
 
@@ -61,7 +64,7 @@ export default function Header({ logoSrc, whatsappHref }: Props) {
             {NAV.map((item) => (
               <li key={item.href}>
                 <a
-                  href={item.href}
+                  href={`${hrefPrefix}${item.href}`}
                   className="rounded-full px-3.5 py-2 text-[15px] font-medium text-tinta-600 transition-colors hover:bg-pensi-50 hover:text-pensi"
                 >
                   {item.label}
@@ -78,7 +81,7 @@ export default function Header({ logoSrc, whatsappHref }: Props) {
             rel="noopener noreferrer"
             className="hidden items-center gap-2 rounded-full bg-pensi px-5 py-2.5 text-[15px] font-semibold text-white shadow-sm transition hover:bg-pensi-700 sm:inline-flex"
           >
-            <MessageCircle aria-hidden="true" className="size-4" />
+            <WhatsAppIcon className="size-4" />
             Agende uma aula
           </a>
           <button
@@ -113,7 +116,7 @@ export default function Header({ logoSrc, whatsappHref }: Props) {
               {NAV.map((item) => (
                 <li key={item.href}>
                   <a
-                    href={item.href}
+                    href={`${hrefPrefix}${item.href}`}
                     onClick={() => setOpen(false)}
                     className="block rounded-xl px-4 py-3.5 text-lg font-medium text-tinta hover:bg-pensi-50 hover:text-pensi"
                   >
@@ -128,7 +131,7 @@ export default function Header({ logoSrc, whatsappHref }: Props) {
               rel="noopener noreferrer"
               className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-pensi px-5 py-3.5 text-lg font-semibold text-white"
             >
-              <MessageCircle aria-hidden="true" className="size-5" />
+              <WhatsAppIcon className="size-5" />
               Agende uma aula no WhatsApp
             </a>
           </motion.div>

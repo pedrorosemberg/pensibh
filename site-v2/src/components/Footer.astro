@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import ConsentButton from './ConsentButton.tsx';
+import { NAV, SITE, whatsapp } from '../data/site';
+import logo from '../assets/logo-pensi.png';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const waGeral = whatsapp('Olá, Bruno! Vim pelo site e quero saber mais sobre as aulas da PENSI+.');
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-tinta py-14 text-white/80">
+  <div class="mx-auto grid max-w-6xl gap-10 px-5 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
+    <div>
+      <Image src={logo} alt="PENSI+" width={140} height={79} class="h-14 w-auto" />
+      <p class="mt-4 max-w-sm">
+        Centro de ensino individual em Belo Horizonte. Preparação para CEFET, ENEM, CESEC, ENCCEJA e reforço escolar.
+      </p>
+      <p class="mt-4 text-sm">{SITE.address.street}, {SITE.address.neighborhood}, {SITE.address.city} – {SITE.address.region}</p>
+    </div>
+    <nav aria-label="Rodapé">
+      <p class="font-bold text-white">Navegação</p>
+      <ul class="mt-4 space-y-2">
+        {NAV.map((n) => <li><a href={`${base}${n.href}`} class="hover:text-oliva">{n.label}</a></li>)}
+        <li><a href={`${base}#perguntas`} class="hover:text-oliva">Perguntas frequentes</a></li>
+      </ul>
+    </nav>
+    <div>
+      <p class="font-bold text-white">Redes e contato</p>
+      <ul class="mt-4 space-y-2">
+        <li><a href={SITE.instagram} target="_blank" rel="noopener noreferrer" class="hover:text-oliva">Instagram @pensibh</a></li>
+        <li><a href={SITE.facebook} target="_blank" rel="noopener noreferrer" class="hover:text-oliva">Facebook</a></li>
+        <li><a href={waGeral} target="_blank" rel="noopener noreferrer" class="hover:text-oliva">WhatsApp {SITE.phoneDisplay}</a></li>
+        <li><a href="/" class="hover:text-oliva">Site da PENSI+</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-white">Transparência</p>
+      <ul class="mt-4 space-y-2">
+        <li><a href={`${base}privacidade/`} class="hover:text-oliva">Política de privacidade</a></li>
+        <li><a href={`${base}termos/`} class="hover:text-oliva">Termos de uso e contratação</a></li>
+        <li><ConsentButton client:idle className="text-left hover:text-oliva" /></li>
+      </ul>
+    </div>
+  </div>
+  <div class="mx-auto mt-12 flex max-w-6xl flex-col gap-2 border-t border-white/10 px-5 pt-6 text-sm text-white/60 sm:flex-row sm:justify-between">
+    <p>© {year} PENSI+ Educação. Todos os direitos reservados.</p>
+    <p>
+      Site desenvolvido e mantido por
+      <a href="https://www.metadax.co/" target="_blank" rel="noopener noreferrer" class="underline underline-offset-4 hover:text-oliva">METADAX</a>.
+    </p>
+  </div>
+</footer>

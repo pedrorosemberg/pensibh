@@ -2,13 +2,18 @@
 import '../styles/global.css';
 import { SITE, FAQ, PLANS, COURSES, BRUNO } from '../data/site';
 import ogImage from '../assets/og-v2.png';
+import ConsentBanner from '../components/ConsentBanner.tsx';
 
 interface Props {
   title?: string;
   description?: string;
+  /** Caminho dentro da v2, ex.: 'privacidade/'. Vazio = página inicial. */
+  path?: string;
 }
-const { title = SITE.title, description = SITE.description } = Astro.props;
+const { title = SITE.title, description = SITE.description, path = '' } = Astro.props;
+const isHome = path === '';
 const canonical = SITE.url;
+const pageUrl = SITE.url + path;
 const og = new URL(ogImage.src, Astro.site).toString();
 
 const org = {
@@ -106,10 +111,10 @@ const page = {
   },
 };
 
-const jsonLd = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@graph': [org, person, page, faq, ...courses, ...otherCourses],
-}).replace(/</g, '\\u003c');
+const graph = isHome
+  ? [org, person, page, faq, ...courses, ...otherCourses]
+  : [{ '@type': 'WebPage', '@id': pageUrl, url: pageUrl, name: title, inLanguage: 'pt-BR', publisher: { '@id': `${canonical}#pensi` } }];
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
 ---
 
 <!doctype html>
@@ -119,7 +124,7 @@ const jsonLd = JSON.stringify({
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    <link rel="canonical" href={pageUrl} />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#be1f3d" />
     <meta name="format-detection" content="telephone=no" />
@@ -132,7 +137,7 @@ const jsonLd = JSON.stringify({
     <meta property="og:site_name" content="PENSI+" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={pageUrl} />
     <meta property="og:image" content={og} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -154,6 +159,7 @@ const jsonLd = JSON.stringify({
       >Pular para o conteúdo</a
     >
     <slot />
+    <ConsentBanner client:idle privacyHref={`${SITE.url}privacidade/`} />
     <script>
       // Esconde só o que está abaixo da dobra e revela ao entrar na tela.
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

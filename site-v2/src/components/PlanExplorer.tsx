@@ -1,8 +1,9 @@
 import { useId, useRef, useState, type KeyboardEvent } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { CalendarDays, Clock, MessageCircle } from 'lucide-react';
+import { CalendarDays, Clock } from 'lucide-react';
 import { PLANS, SLOTS, brl, whatsapp } from '../data/site';
 import { cn } from '../lib/utils';
+import WhatsAppIcon from './WhatsAppIcon';
 
 /** Seletor de turma em abas (padrão "pricing tabs" do 21st.dev), com navegação por teclado. */
 export default function PlanExplorer() {
@@ -136,7 +137,7 @@ export default function PlanExplorer() {
                       featured ? 'bg-pensi text-white hover:bg-pensi-700' : 'bg-pensi-50 text-pensi hover:bg-pensi hover:text-white',
                     )}
                   >
-                    <MessageCircle aria-hidden="true" className="size-4" />
+                    <WhatsAppIcon className="size-4" />
                     Reservar vaga
                     <span className="sr-only">
                       {' '}

@@ -1,0 +1,146 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { SITE } from '../data/site';
+const a = SITE.address;
+---
+
+<Legal
+  title="Política de privacidade"
+  description="Como a PENSI+ trata os dados pessoais de alunos, responsáveis e visitantes do site, de acordo com a LGPD."
+  path="privacidade/"
+  updated="5 de novembro de 2026"
+>
+  <p>
+    Esta política explica quais dados pessoais a PENSI+ trata, por que trata, com quem compartilha e quais são os seus
+    direitos, de acordo com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018, a LGPD).
+  </p>
+
+  <h2>1. Quem é responsável pelos seus dados</h2>
+  <ul>
+    <li>
+      <strong>Controladora:</strong> PENSI+ Educação (Bruno Professor BH), CNPJ <span class="pendente">a informar</span>, {a.street}, {a.neighborhood}, {a.city} – {a.region}, CEP {a.postalCode}.
+    </li>
+    <li>
+      <strong>Responsável pelo site:</strong> METADAX CONSULTORIA LTDA, que desenvolve, hospeda e mantém este site em nome
+      da PENSI+.
+    </li>
+    <li>
+      <strong>Contato de privacidade (encarregado):</strong> <a href="mailto:dpo@metadax.com.br">dpo@metadax.com.br</a>.
+    </li>
+  </ul>
+
+  <h2>2. Quais dados tratamos</h2>
+  <h3>Quando você entra em contato</h3>
+  <p>
+    Pelo WhatsApp ou telefone, você pode nos informar nome, número de telefone, nome e série do aluno, objetivo de estudo
+    (CEFET, ENEM, CESEC, ENCCEJA ou reforço) e horários de interesse. Usamos essas informações para responder, explicar as
+    turmas e reservar vagas.
+  </p>
+  <h3>Quando você contrata um curso</h3>
+  <p>
+    Pedimos os dados de identificação e contato do responsável financeiro e do aluno necessários para formalizar a
+    matrícula, organizar as aulas e emitir recibos ou documentos fiscais.
+  </p>
+  <h3>Quando você navega no site</h3>
+  <p>
+    Com a sua autorização no banner de cookies, ferramentas de medição registram dados de navegação, como páginas visitadas,
+    cliques, tipo de dispositivo e localização aproximada. Sem autorização, essas ferramentas não são carregadas.
+  </p>
+  <h3>Dados de crianças e adolescentes</h3>
+  <p>
+    Muitos alunos são menores de idade. Os dados deles são fornecidos e autorizados pelos pais ou responsáveis legais e
+    tratados sempre no melhor interesse do aluno, como determina o artigo 14 da LGPD.
+  </p>
+
+  <h2>3. Pagamentos</h2>
+  <p>
+    Os pagamentos são processados por intermediadoras de pagamento, como Mercado Pago, InfinitePay e PagBank, entre outras.
+    <strong>A PENSI+ não recebe nem armazena os dados do seu cartão.</strong> Essas informações ficam sob a
+    responsabilidade da intermediadora escolhida, de acordo com a política de privacidade dela. Recebemos apenas a
+    confirmação do pagamento e os dados necessários para identificá-lo, como nome do pagador, valor e data.
+  </p>
+
+  <h2>4. Para que usamos os dados e com qual base legal</h2>
+  <table>
+    <thead>
+      <tr><th scope="col">Finalidade</th><th scope="col">Base legal (LGPD)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Responder contatos e pedidos de informação</td><td>Procedimentos preliminares ao contrato e legítimo interesse (art. 7º, V e IX)</td></tr>
+      <tr><td>Matrícula, aulas e atendimento ao aluno</td><td>Execução de contrato (art. 7º, V)</td></tr>
+      <tr><td>Emissão de documentos fiscais e registros contábeis</td><td>Cumprimento de obrigação legal (art. 7º, II)</td></tr>
+      <tr><td>Medição de audiência e melhoria do site</td><td>Consentimento (art. 7º, I)</td></tr>
+      <tr><td>Anúncios e medição de campanhas</td><td>Consentimento (art. 7º, I)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. Cookies e ferramentas de medição</h2>
+  <p>
+    Você escolhe no banner quais categorias autoriza e pode mudar a escolha a qualquer momento pelo link “Preferências de
+    cookies”, no rodapé.
+  </p>
+  <table>
+    <thead>
+      <tr><th scope="col">Categoria</th><th scope="col">Ferramentas</th><th scope="col">Para quê</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Essenciais</td><td>Armazenamento local do navegador</td><td>Guardar a sua escolha de cookies. Não exige consentimento.</td></tr>
+      <tr><td>Análise</td><td>Google Analytics, Microsoft Clarity e Hotjar</td><td>Entender como o site é usado, incluindo mapas de calor e gravações anônimas de navegação.</td></tr>
+      <tr><td>Marketing</td><td>Google Ads e Meta Pixel (Facebook e Instagram)</td><td>Medir os contatos gerados pelos anúncios e exibir anúncios a quem já visitou o site.</td></tr>
+    </tbody>
+  </table>
+  <p>
+    O mapa do Google na seção de contato só é carregado se você clicar em “Mostrar mapa do Google”. O clique nos botões de
+    WhatsApp é registrado como contato nas ferramentas que você autorizou.
+  </p>
+
+  <h2>6. Com quem compartilhamos</h2>
+  <p>Compartilhamos dados apenas com quem nos ajuda a prestar o serviço, na medida do necessário:</p>
+  <ul>
+    <li>METADAX, responsável pelo site, e a Vercel, que o hospeda;</li>
+    <li>WhatsApp (Meta), usado para o atendimento;</li>
+    <li>intermediadoras de pagamento, para processar as cobranças;</li>
+    <li>Google, Microsoft, Hotjar e Meta, apenas quando você autoriza as ferramentas de medição e marketing;</li>
+    <li>contabilidade e autoridades, quando exigido por lei.</li>
+  </ul>
+  <p>
+    Alguns desses fornecedores armazenam dados fora do Brasil. Nesses casos, a transferência segue as regras da LGPD
+    (artigo 33), com cláusulas contratuais e garantias de proteção adotadas por esses fornecedores.
+  </p>
+
+  <h2>7. Por quanto tempo guardamos</h2>
+  <p>
+    Guardamos os dados pelo tempo necessário para cada finalidade: conversas de atendimento enquanto houver relação com
+    você, dados de contratação durante o curso e pelo prazo exigido pela legislação fiscal e civil, e dados de navegação
+    conforme o prazo de cada ferramenta. Depois disso, os dados são excluídos ou anonimizados.
+  </p>
+
+  <h2>8. Seus direitos</h2>
+  <p>Você pode, a qualquer momento e sem custo:</p>
+  <ul>
+    <li>confirmar se tratamos seus dados e acessá-los;</li>
+    <li>corrigir dados incompletos, inexatos ou desatualizados;</li>
+    <li>pedir anonimização, bloqueio ou exclusão de dados desnecessários;</li>
+    <li>pedir a portabilidade dos dados;</li>
+    <li>saber com quem compartilhamos seus dados;</li>
+    <li>revogar o consentimento e pedir a exclusão dos dados tratados com base nele;</li>
+    <li>apresentar reclamação à Autoridade Nacional de Proteção de Dados (ANPD).</li>
+  </ul>
+  <p>
+    Para exercer esses direitos, escreva para <a href="mailto:dpo@metadax.com.br">dpo@metadax.com.br</a>. Podemos pedir
+    informações para confirmar a sua identidade antes de atender ao pedido.
+  </p>
+
+  <h2>9. Segurança</h2>
+  <p>
+    O site usa conexão criptografada (HTTPS), cabeçalhos de segurança e política de segurança de conteúdo, não possui
+    formulários que armazenem dados e não guarda informações de pagamento. Mesmo assim, nenhum sistema é totalmente imune a
+    falhas; se ocorrer um incidente relevante, comunicaremos os afetados e a ANPD conforme a lei.
+  </p>
+
+  <h2>10. Mudanças nesta política</h2>
+  <p>
+    Podemos atualizar esta política para refletir mudanças no serviço ou na legislação. A data da última atualização fica
+    sempre no topo desta página.
+  </p>
+</Legal>

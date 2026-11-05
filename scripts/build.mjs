@@ -1,5 +1,5 @@
 // Build de produção para a Vercel: monta dist/ com a v1 (raiz) e a v2 (/v2).
-import { cpSync, existsSync, mkdirSync, rmSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -23,6 +23,17 @@ cpSync(
   join(dist, 'assets/roboto-latin-wght-normal.woff2'),
 );
 run(bin('tailwindcss'), ['-i', 'site-v2/v1-tailwind.css', '-o', 'dist/assets/tailwind.css', '--minify']);
+
+// IDs de medição da v1: vêm das mesmas variáveis PUBLIC_* da v2 (painel da Vercel).
+// Só letras, números e hífens passam; qualquer outra coisa vira vazio (ferramenta desligada).
+const SAFE_ID = /^[A-Za-z0-9-]+$/;
+const DEFAULTS = { PUBLIC_HOTJAR_ID: '5093971' };
+const scriptPath = join(dist, 'script.js');
+const script = readFileSync(scriptPath, 'utf8').replace(/__(PUBLIC_[A-Z0-9_]+)__/g, (_, name) => {
+  const value = (process.env[name] ?? DEFAULTS[name] ?? '').trim();
+  return SAFE_ID.test(value) ? value : '';
+});
+writeFileSync(scriptPath, script);
 
 // v2: Astro gera dist/v2.
 run(bin('astro'), ['build'], v2);
