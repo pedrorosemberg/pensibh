@@ -94,7 +94,7 @@ const year = new Date().getFullYear();
           <ul class="mt-8 grid grid-cols-1 gap-y-3 text-[15px] text-white/90 sm:mt-10 sm:flex sm:flex-wrap sm:gap-x-6">
             <li class="flex items-center gap-2"><Users aria-hidden="true" class="size-5 text-oliva" /> Até 8 alunos por turma</li>
             <li class="flex items-center gap-2"><UserCheck aria-hidden="true" class="size-5 text-oliva" /> Atendimento individual</li>
-            <li class="flex items-center gap-2"><MapPin aria-hidden="true" class="size-5 text-oliva" /> Anchieta, BH</li>
+            <li class="flex items-center gap-2"><MapPin aria-hidden="true" class="size-5 text-oliva" /> Sion, BH</li>
           </ul>
         </div>
 
@@ -378,13 +378,13 @@ const year = new Date().getFullYear();
                   poster={v.poster}
                   width={v.width}
                   height={v.height}
-                  aria-label={`${v.title}: ${v.caption}`}
+                  aria-label={`Depoimento em vídeo: ${v.caption}`}
                 >
                   <source src={v.src} type="video/mp4" />
                 </video>
-                <figcaption class="mt-3">
-                  <span class="block font-bold">{v.title}</span>
-                  <span class="block text-sm text-tinta-600">{v.caption}</span>
+                <figcaption class="mt-3 text-tinta-600">
+                  <strong class="text-tinta">Depoimento</strong>
+                  <span class="block text-sm">{v.caption}</span>
                 </figcaption>
                 </figure>
               </li>
@@ -508,18 +508,15 @@ const year = new Date().getFullYear();
         </div>
 
         <div data-reveal class="overflow-hidden rounded-3xl bg-pensi-900 ring-1 ring-white/15">
-          <div id="mapa" data-src={MAPS_EMBED} class="relative flex aspect-[4/3] w-full items-center justify-center">
-            <button
-              type="button"
-              id="mapa-carregar"
-              class="m-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-white px-6 font-semibold text-tinta transition hover:bg-oliva"
-            >
-              <MapPin aria-hidden="true" class="size-5 text-pensi" />
-              Mostrar mapa do Google
-            </button>
-            <p class="absolute bottom-4 px-6 text-center text-sm text-white/70">
-              O mapa só carrega se você pedir, para proteger sua privacidade.
-            </p>
+          <div class="relative aspect-[4/3] w-full">
+            <iframe
+              src={MAPS_EMBED}
+              title="Mapa da PENSI+ na Rua Francisco Deslandes, 971, Sion, Belo Horizonte"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+              class="absolute inset-0 h-full w-full border-0"
+            ></iframe>
           </div>
         </div>
       </div>
@@ -549,21 +546,3 @@ const year = new Date().getFullYear();
   }
 </style>
 
-<script>
-  // Mapa sob demanda: nenhum recurso do Google é carregado antes do clique.
-  const box = document.getElementById('mapa');
-  const btn = document.getElementById('mapa-carregar');
-  btn?.addEventListener('click', () => {
-    const src = box?.dataset.src;
-    if (!box || !src || !src.startsWith('https://www.google.com/maps')) return;
-    const frame = document.createElement('iframe');
-    frame.src = src;
-    frame.title = 'Mapa da PENSI+ na Rua Francisco Deslandes, 971, Belo Horizonte';
-    frame.loading = 'lazy';
-    frame.referrerPolicy = 'strict-origin-when-cross-origin';
-    frame.className = 'absolute inset-0 h-full w-full border-0';
-    frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox');
-    box.replaceChildren(frame);
-    frame.focus();
-  });
-</script>

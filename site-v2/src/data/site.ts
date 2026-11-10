@@ -201,9 +201,9 @@ export const TESTIMONIALS: { name: string; text: string; context?: string }[] = 
 
 /** Depoimentos em vídeo, servidos em /videos (mesma origem). Formato vertical 9:16. */
 export const VIDEO_TESTIMONIALS = [
-  { src: '/videos/depoimento-3.mp4', poster: '/videos/depoimento-3.jpg', width: 448, height: 800, title: 'Depoimento em vídeo 1', caption: 'Aluno particular, do Colégio Santo Antônio' },
-  { src: '/videos/depoimento-2.mp4', poster: '/videos/depoimento-2.jpg', width: 480, height: 848, title: 'Depoimento em vídeo 2', caption: 'Aluno aprovado em Medicina na Ciências Médicas' },
-  { src: '/videos/depoimento-1.mp4', poster: '/videos/depoimento-1.jpg', width: 480, height: 848, title: 'Depoimento em vídeo 3', caption: 'Aluno aprovado no CESEC' },
+  { src: '/videos/depoimento-3.mp4', poster: '/videos/depoimento-3.jpg', width: 448, height: 800, caption: 'Aluno particular, do Colégio Santo Antônio' },
+  { src: '/videos/depoimento-2.mp4', poster: '/videos/depoimento-2.jpg', width: 480, height: 848, caption: 'Aluno aprovado em Medicina na Ciências Médicas' },
+  { src: '/videos/depoimento-1.mp4', poster: '/videos/depoimento-1.jpg', width: 480, height: 848, caption: 'Aluno aprovado no CESEC' },
 ] as const;
 
 export const FAQ = [
