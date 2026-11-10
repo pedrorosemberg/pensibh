@@ -507,17 +507,15 @@ const year = new Date().getFullYear();
           </div>
         </div>
 
-        <div data-reveal class="overflow-hidden rounded-3xl bg-pensi-900 ring-1 ring-white/15">
-          <div class="relative aspect-[4/3] w-full">
-            <iframe
-              src={MAPS_EMBED}
-              title="Mapa da PENSI+ na Rua Francisco Deslandes, 971, Sion, Belo Horizonte"
-              loading="lazy"
-              referrerpolicy="strict-origin-when-cross-origin"
-              sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-              class="absolute inset-0 h-full w-full border-0"
-            ></iframe>
-          </div>
+        <div data-reveal class="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-pensi-900 ring-1 ring-white/15 lg:aspect-auto lg:min-h-[420px]">
+          <iframe
+            src={MAPS_EMBED}
+            title="Mapa da PENSI+ na Rua Francisco Deslandes, 971, Sion, Belo Horizonte"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+            class="absolute inset-0 h-full w-full border-0"
+          ></iframe>
         </div>
       </div>
     </section>
