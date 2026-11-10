@@ -1,6 +1,7 @@
 # PENSI+ — www.pensibh.com.br
 # Buscadores e assistentes de IA podem ler todo o site público.
 User-agent: *
+Disallow: /u/
 Allow: /
 
 User-agent: GPTBot

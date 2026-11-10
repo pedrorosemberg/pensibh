@@ -55,3 +55,13 @@ Documentos: `/v2/privacidade/` e `/v2/termos/`. Os trechos destacados como “a 
 - **A08 – Integridade:** scripts de terceiros só das ferramentas de medição, de domínios listados na CSP e após o aceite; IDs validados (letras, números e hífens); fontes servidas pelo próprio domínio
 - **Privacidade (LGPD):** nenhuma ferramenta de medição carrega antes do aceite; recusar é tão fácil quanto aceitar; o mapa do Google na v2 só carrega após clique
 - A02, A04, A07 e A10 não se aplicam: o site não tem login, banco de dados, servidor próprio nem requisições do servidor para outras URLs
+
+
+## Área restrita `/u/planejamento`
+
+Planejamento de campanhas (Google Ads) acessível só com login, servido por `middleware.js` (Vercel Routing Middleware).
+
+- Variáveis secretas no projeto da Vercel (Production e Preview): `USERS` (e-mails autorizados, separados por vírgula), `PASSWORD` (senha, mínimo 8 caracteres) e `PLANO_KEY` (chave AES-256 em base64).
+- O conteúdo fica **criptografado** em `u/planejamento.enc.json`; o repositório é público, então os arquivos em texto puro nunca são enviados.
+- Para atualizar o planejamento: `PLANO_KEY=... node scripts/encrypt-plano.mjs <pasta com index.html, planejamento.css e planejamento.js>` e fazer commit do JSON gerado.
+- Sessão de 8 horas em cookie HttpOnly/Secure/SameSite=Strict. Trocar `PASSWORD` ou remover um e-mail de `USERS` encerra as sessões.
