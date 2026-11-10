@@ -6,21 +6,21 @@ export const SITE = {
   url: 'https://www.pensibh.com.br/v2/',
   title: 'Professor Bruno | Pré-vestibular CEFET, ENEM e CESEC em BH — PENSI+',
   description:
-    'Aulas presenciais com o professor Bruno no Anchieta, em Belo Horizonte: CEFET, ENEM, CESEC, ENCCEJA e reforço escolar em turmas de até 8 alunos, com atendimento individual. Mais de 30 anos de experiência.',
+    'Pré-vestibular com o professor Bruno no Sion-Anchieta, em Belo Horizonte: ENEM e vestibulares, CESEC e ENCCEJA, CEFET e provas de admissão em turmas reduzidas de até 8 alunos, com aula individual. Mais de 30 anos de experiência.',
   phoneDisplay: '(31) 98800-8430',
   phoneE164: '+5531988008430',
   whatsappNumber: '5531988008430',
   instagram: 'https://www.instagram.com/pensibh',
   facebook: 'https://www.facebook.com/pensibh',
   address: {
-    street: 'R. Luiz Signorelli, 106 – 2º andar',
-    neighborhood: 'Anchieta',
+    street: 'Rua Francisco Deslandes, 971',
+    neighborhood: 'Sion-Anchieta',
     city: 'Belo Horizonte',
     region: 'MG',
-    postalCode: '30310-210',
+    postalCode: '30310-530',
     country: 'BR',
   },
-  mapsQuery: 'Bruno Professor BH, R. Luiz Signorelli, 106, Anchieta, Belo Horizonte - MG',
+  mapsQuery: 'Rua Francisco Deslandes, 971, Anchieta, Belo Horizonte - MG',
 } as const;
 
 /** Monta um link wa.me com mensagem pronta. O texto é sempre codificado. */
@@ -29,6 +29,9 @@ export function whatsapp(message: string): string {
 }
 
 export const MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE.mapsQuery)}`;
+/** Perfil do Google com as avaliações (o perfil manteve o nome "Bruno Professor BH"). */
+export const REVIEWS_LINK =
+  'https://www.google.com/maps/place/Bruno+Professor+BH/@-19.94524,-43.9296612,17z/data=!4m8!3m7!1s0xa699ec4be52c4b:0x6aeac09e08a2bdfe!8m2!3d-19.94524!4d-43.9270809!9m1!1b1';
 export const MAPS_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(SITE.mapsQuery)}&output=embed`;
 
 export const NAV = [
@@ -53,13 +56,6 @@ export const BRUNO = {
 
 export const COURSES = [
   {
-    id: 'cefet',
-    title: 'CEFET e provas de admissão',
-    audience: 'Jovens do 9º ano',
-    summary: 'Preparação para o processo seletivo do CEFET-MG e outras provas de admissão do ensino técnico.',
-    tags: ['Matemática', 'Português', 'Ciências'],
-  },
-  {
     id: 'enem',
     title: 'ENEM e vestibulares',
     audience: 'Ensino médio e pré-vestibular',
@@ -74,11 +70,11 @@ export const COURSES = [
     tags: ['Educação de jovens e adultos', 'Certificação'],
   },
   {
-    id: 'reforco',
-    title: 'Reforço escolar',
-    audience: 'Fundamental e médio',
-    summary: 'Aulas focadas nas dificuldades de cada aluno, para recuperar conteúdo e ganhar confiança.',
-    tags: ['Recuperação', 'Provas da escola'],
+    id: 'cefet',
+    title: 'CEFET e provas de admissão',
+    audience: 'Jovens do 9º ano',
+    summary: 'Preparação para o processo seletivo do CEFET-MG e outras provas de admissão do ensino técnico.',
+    tags: ['Matemática', 'Português', 'Ciências'],
   },
 ] as const;
 
@@ -88,11 +84,11 @@ export const DIFERENCIAIS = [
   { icon: 'book-open', title: 'Você escolhe as matérias', text: 'Todas as disciplinas são ofertadas; você estuda o que precisa.' },
   { icon: 'clock', title: 'Horários flexíveis', text: 'Turmas de manhã e à tarde, de segunda a sexta.' },
   { icon: 'award', title: 'Mais de 30 anos de experiência', text: 'Metodologia própria construída em décadas de aulas particulares.' },
-  { icon: 'map-pin', title: 'Presencial no Anchieta', text: 'Sala própria em Belo Horizonte, ao lado do Sion.' },
+  { icon: 'map-pin', title: 'Presencial no Sion-Anchieta', text: 'Sala própria na Rua Francisco Deslandes, em Belo Horizonte.' },
 ] as const;
 
 export const STEPS = [
-  { title: 'Fale com o Bruno', text: 'Chame no WhatsApp e conte seu objetivo: CEFET, ENEM, CESEC ou reforço.' },
+  { title: 'Fale com o Bruno', text: 'Chame no WhatsApp e conte seu objetivo: ENEM, CESEC ou CEFET.' },
   { title: 'Monte seu plano', text: 'Escolha as matérias e o horário da turma que cabem na sua rotina.' },
   { title: 'Comece as aulas', text: 'Garanta uma das 8 vagas da turma e estude com acompanhamento individual.' },
 ] as const;
@@ -149,64 +145,71 @@ export const brl = (v: number) =>
   v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
 
 /** Resumo do perfil "Bruno Professor BH" no Google (consultado em 05/11/2026). */
-export const GOOGLE_REVIEWS = { rating: 5.0, count: 41 } as const;
+export const GOOGLE_REVIEWS = { rating: 5.0, count: 40 } as const;
 
 /**
- * Avaliações reais publicadas no perfil do Google, com o nome abreviado.
- * Fonte: perfil "Bruno Professor BH" no Google, consultado em 05/11/2026.
+ * Avaliações reais do perfil "Bruno Professor BH" no Google Maps, com o nome como
+ * aparece no Google. Fonte consultada em 10/11/2026 (40 avaliações, todas 5 estrelas).
  */
 export const TESTIMONIALS: { name: string; text: string; context?: string }[] = [
   {
-    name: 'Rodrigo M.',
-    context: 'Pai de aluno · preparação para o CEFET',
+    name: 'Marco Antônio Souza de Faria',
+    context: 'Aluno',
+    text: 'Excelente professor! Eu precisava de ajuda com certa urgência e ele foi extremamente solícito, conseguiu me encaixar rapidamente e foi muito eficiente desde a primeira aula. As explicações são claras, objetivas e ele realmente entende as dificuldades do aluno. A preparação fez toda a diferença para o meu resultado: consegui as notas que precisava na escola e a aprovação que eu buscava, com nota máxima!',
+  },
+  {
+    name: 'Rodrigo Melo',
+    context: 'Pai de aluno · CEFET',
     text: 'Professor experiente e atencioso. Soube canalizar no meu filho de 15 anos assuntos e matérias específicas para prepará-lo para o Técnico do CEFET. Sem contar a atenção comigo, pai. Sempre me retornando com um follow-up do dia e da semana. Recomendo.',
   },
   {
-    name: 'Marina S.',
+    name: 'Marina Souza',
     context: 'Mãe de aluno',
-    text: 'Procurei o professor Bruno em um momento de muita urgência. Ele prontamente me respondeu, foi extremamente solícito e conseguiu encaixar meu filho em todos os dias que precisávamos, a poucos dias da prova. O resultado não poderia ter sido melhor: aprovação e excelentes notas!',
+    text: 'Procurei o professor Bruno em um momento de muita urgência e, confesso, até de desespero de mãe. Ele prontamente me respondeu, foi extremamente solícito e conseguiu encaixar meu filho em todos os dias que precisávamos, a poucos dias da prova. O resultado não poderia ter sido melhor: aprovação e excelentes notas!',
   },
   {
-    name: 'Ana Paula C.',
+    name: 'Ana Paula Vitarelli',
+    context: 'Mãe de aluno',
+    text: 'Resgatou a segurança e a confiança do meu filho em Matemática. Com linguagem direta e própria para adolescente, levantando a autoestima e recuperando as notas de forma brilhante. O meu muito obrigada.',
+  },
+  {
+    name: 'Ana Paula Carvalho',
     context: 'Mãe de aluna',
-    text: 'Sua disponibilidade, paciência e atenção fizeram toda a diferença no aprendizado dela. Além de dominar o conteúdo com excelência, ele tem uma forma única de explicar, sempre preocupado em garantir que o aluno realmente compreenda. Um profissional maravilhoso, dedicado e inspirador, que transformou a relação da minha filha com a matemática.',
+    text: 'Sua disponibilidade, paciência e atenção fizeram toda a diferença no aprendizado da minha filha. Além de dominar o conteúdo com excelência, ele tem uma forma única de explicar, sempre preocupado em garantir que o aluno realmente compreenda. Um profissional maravilhoso, dedicado e inspirador, que transformou a relação da minha filha com a matemática.',
   },
   {
-    name: 'Arthur C.',
-    context: 'Aluno · CESEC',
-    text: 'Ótimo professor, me ajudou muito a passar no CESEC.',
-  },
-  {
-    name: 'Marina P.',
-    context: 'Mãe de aluno',
-    text: 'Excelente didática e atendimento de forma personalizada para as necessidades acadêmicas de cada aluno. Meu filho precisava de um ambiente adequado para desenvolver uma rotina de estudos. As aulas com Bruno foram fundamentais para isso.',
-  },
-  {
-    name: 'Max F.',
+    name: 'Max Fahy',
     context: 'Aluno',
-    text: 'Bruno foi o melhor professor que eu já tive. Ele ensina a matéria de forma tão detalhada que o que você aprenderia em um ano ele te ensina em cinco meses.',
+    text: 'Bruno foi o melhor professor que eu já tive. Ele ensina a matéria de forma tão detalhada que o que você aprenderia em um ano ele te ensina em cinco meses. Sem dúvidas, nunca terei um professor igual a ele.',
   },
   {
-    name: 'Alexsandra R.',
+    name: 'Alexsandra Rosa',
     context: 'Mãe de aluno',
     text: 'Muito profissionalismo, preocupado com o aprendizado do aluno. Conseguiu reverter uma dificuldade grande do meu filho em matemática e ele recuperou o ano que estava quase perdido.',
   },
   {
-    name: 'Juliana L.',
-    context: 'Família de aluno',
-    text: 'Bruno tem uma metodologia e um empenho no preparo das aulas que faz toda a diferença no resultado! Sempre prepara apostilas com exercícios sobre o tema da aula, testando o aprendizado do aluno na prática.',
+    name: 'Carlos Lage',
+    context: 'Pai de aluna · vestibular',
+    text: 'O Bruno é um ótimo professor, ajudou muito minha filha nas provas finais do ensino médio e a ingressar na faculdade. Tem um atendimento personalizado para a necessidade de cada aluno! Recomendo, é um excelente professor!',
   },
   {
-    name: 'Carlos L.',
-    context: 'Pai de aluna · ensino médio e vestibular',
-    text: 'Ajudou muito minha filha nas provas finais do ensino médio e a ingressar na faculdade. Tem um atendimento personalizado para a necessidade de cada aluno! Recomendo, é um excelente professor!',
+    name: 'Tiago Nocce',
+    context: 'Aluno',
+    text: 'O Bruno é um professor incrível! Uma ótima metodologia de ensino, me ajudou em tão pouco tempo de uma forma que consegui entender uma grande quantidade de matérias, com ótimas atividades de fixação! Me salvou.',
   },
 ];
+
+/** Depoimentos em vídeo, servidos em /videos (mesma origem). Formato vertical 9:16. */
+export const VIDEO_TESTIMONIALS = [
+  { src: '/videos/depoimento-1.mp4', poster: '/videos/depoimento-1.jpg', width: 480, height: 848, label: 'Depoimento em vídeo 1' },
+  { src: '/videos/depoimento-2.mp4', poster: '/videos/depoimento-2.jpg', width: 480, height: 848, label: 'Depoimento em vídeo 2' },
+  { src: '/videos/depoimento-3.mp4', poster: '/videos/depoimento-3.jpg', width: 448, height: 800, label: 'Depoimento em vídeo 3' },
+] as const;
 
 export const FAQ = [
   {
     q: 'Onde ficam as aulas do professor Bruno?',
-    a: 'As aulas são presenciais na PENSI+, na R. Luiz Signorelli, 106, 2º andar, no bairro Anchieta, em Belo Horizonte (MG).',
+    a: 'As aulas são presenciais na PENSI+, na Rua Francisco Deslandes, 971, no bairro Sion-Anchieta, em Belo Horizonte (MG).',
   },
   {
     q: 'Quantos alunos tem cada turma?',
@@ -214,7 +217,7 @@ export const FAQ = [
   },
   {
     q: 'Quais cursos a PENSI+ oferece?',
-    a: 'Preparação para o CEFET e provas de admissão, ENEM e vestibulares, CESEC e ENCCEJA (educação de jovens e adultos) e reforço escolar.',
+    a: 'Pré-vestibular para o ENEM e vestibulares, CESEC e ENCCEJA (educação de jovens e adultos) e preparação para o CEFET e provas de admissão.',
   },
   {
     q: 'Posso escolher as matérias que vou estudar?',

@@ -19,7 +19,6 @@ import {
   UserCheck,
   Users,
   Target,
-  Sparkles,
 } from 'lucide-react';
 import {
   SITE,
@@ -31,6 +30,8 @@ import {
   SLOTS,
   TESTIMONIALS,
   GOOGLE_REVIEWS,
+  VIDEO_TESTIMONIALS,
+  REVIEWS_LINK,
   FAQ,
   MAPS_LINK,
   MAPS_EMBED,
@@ -44,7 +45,7 @@ import brunoImg from '../assets/bruno.jpeg';
 const logoSmall = await getImage({ src: logo, width: 172, format: 'webp' });
 const waGeral = whatsapp('Olá, Bruno! Vim pelo site e quero saber mais sobre as aulas da PENSI+.');
 const icons = { users: Users, 'user-check': UserCheck, 'book-open': BookOpen, clock: Clock, award: Award, 'map-pin': MapPin };
-const courseIcons = { cefet: Target, enem: GraduationCap, cesec: BookOpen, reforco: Sparkles } as const;
+const courseIcons = { cefet: Target, enem: GraduationCap, cesec: BookOpen } as const;
 const subjects = ['Matemática', 'Física', 'Química', 'Biologia', 'Português', 'Redação', 'História', 'Geografia', 'Inglês', 'Filosofia', 'Sociologia', 'Literatura'];
 const year = new Date().getFullYear();
 ---
@@ -70,8 +71,8 @@ const year = new Date().getFullYear();
             Estude com o professor Bruno, <span class="text-oliva">um aluno de cada vez.</span>
           </h1>
           <p class="mt-5 max-w-xl text-pretty text-[17px] leading-relaxed text-white/85 sm:mt-6 sm:text-xl">
-            Pré-vestibular CEFET e ENEM, CESEC, ENCCEJA e reforço escolar em turmas de até 8 alunos, com atendimento
-            individual. Mais de {BRUNO.years} anos preparando jovens e adultos em Belo Horizonte.
+            Pré-vestibular para ENEM, CESEC, ENCCEJA e CEFET em turmas reduzidas de até 8 alunos: cada aluno é uma aula
+            particular. Mais de {BRUNO.years} anos preparando jovens e adultos em Belo Horizonte.
           </p>
           <div class="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap">
             <a
@@ -143,7 +144,7 @@ const year = new Date().getFullYear();
           seu plano.
         </p>
       </div>
-      <ul class="mt-12 grid gap-5 sm:grid-cols-2">
+      <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {
           COURSES.map((c, i) => {
             const Icon = courseIcons[c.id];
@@ -208,13 +209,11 @@ const year = new Date().getFullYear();
             Três décadas ensinando um aluno de cada vez
           </h2>
           <p class="mt-5 text-lg leading-relaxed text-white/80">
-            O professor Bruno começou a dar aulas ainda na graduação em Engenharia Civil na UFMG. Desde então, são mais de
-            30 anos de aulas particulares e uma metodologia própria: entender onde cada aluno está e montar o caminho até
-            onde ele quer chegar.
+            O professor Bruno ainda cursava Engenharia Civil na UFMG quando começou a dar aulas. Ele desenvolveu um método
+            próprio que os alunos abraçaram.
           </p>
           <p class="mt-4 text-lg leading-relaxed text-white/80">
-            Na PENSI+ ele já ajudou alunos a serem aprovados no CESEC, no ENCCEJA e no ENEM, e a entrar em cursos como
-            Engenharia, Arquitetura e Medicina.
+            Já são mais de 30 anos de experiência e, nesse tempo, ajudou centenas de alunos a conquistarem seus objetivos.
           </p>
           <ul class="mt-8 space-y-3">
             {
@@ -348,7 +347,7 @@ const year = new Date().getFullYear();
             </h2>
           </div>
           <a
-            href={MAPS_LINK}
+            href={REVIEWS_LINK}
             target="_blank"
             rel="noopener noreferrer"
             class="flex items-center gap-4 rounded-2xl bg-papel px-5 py-4 ring-1 ring-tinta/10 transition hover:ring-pensi/40"
@@ -365,7 +364,30 @@ const year = new Date().getFullYear();
           </a>
         </div>
 
-        <ul class="-mx-4 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:mx-0 sm:mt-12 sm:block sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 sm:columns-2 lg:columns-3" tabindex="0" aria-label="Depoimentos: deslize para ver mais">
+        <h3 class="mt-10 text-xl font-bold sm:mt-12">Depoimentos em vídeo</h3>
+        <ul class="-mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-visible sm:px-0 lg:mx-auto lg:max-w-4xl" tabindex="0" aria-label="Depoimentos em vídeo: deslize para ver mais">
+          {
+            VIDEO_TESTIMONIALS.map((v) => (
+              <li class="w-[72%] max-w-[320px] shrink-0 snap-center sm:w-auto sm:max-w-none">
+                <video
+                  class="aspect-[9/16] w-full rounded-3xl bg-tinta object-cover shadow-lg ring-1 ring-tinta/10"
+                  controls
+                  playsinline
+                  preload="none"
+                  poster={v.poster}
+                  width={v.width}
+                  height={v.height}
+                  aria-label={v.label}
+                >
+                  <source src={v.src} type="video/mp4" />
+                </video>
+              </li>
+            ))
+          }
+        </ul>
+
+        <h3 class="mt-10 text-xl font-bold sm:mt-14">O que dizem no Google</h3>
+        <ul class="-mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:mx-0 sm:block sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 sm:columns-2 lg:columns-3" tabindex="0" aria-label="Depoimentos: deslize para ver mais">
           {
             TESTIMONIALS.map((t, i) => (
               <li data-reveal data-reveal-delay={(i % 3) * 80} class="w-[86%] shrink-0 snap-center rounded-3xl bg-papel p-6 ring-1 ring-tinta/10 sm:mb-5 sm:w-auto sm:break-inside-avoid sm:p-7">
@@ -376,7 +398,7 @@ const year = new Date().getFullYear();
                       {[1, 2, 3, 4, 5].map(() => <Star aria-hidden="true" class="size-4" fill="currentColor" />)}
                     </span>
                   </div>
-                  <blockquote class="mt-4 text-[17px] leading-relaxed">“{t.text}”</blockquote>
+                  <blockquote class="mt-4 text-[17px] leading-relaxed"><strong class="text-pensi">{t.name}:</strong> {t.text}</blockquote>
                   <figcaption class="mt-5 flex items-center gap-3">
                     <span class="inline-flex size-10 items-center justify-center rounded-full bg-pensi text-sm font-bold text-white" aria-hidden="true">
                       {t.name.charAt(0)}
@@ -395,7 +417,7 @@ const year = new Date().getFullYear();
         <p class="mt-2 text-center text-sm text-tinta-600 sm:hidden" aria-hidden="true">Deslize para ver mais depoimentos →</p>
         <p class="mt-6 text-center" data-reveal>
           <a
-            href={MAPS_LINK}
+            href={REVIEWS_LINK}
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex min-h-12 items-center gap-2 rounded-full bg-pensi px-6 font-semibold text-white transition hover:bg-pensi-700"
@@ -404,7 +426,7 @@ const year = new Date().getFullYear();
             <ExternalLink aria-hidden="true" class="size-4" />
           </a>
         </p>
-        <p class="mt-3 text-center text-sm text-tinta-600">Avaliações publicadas no perfil “Bruno Professor BH” no Google, com nomes abreviados.</p>
+        <p class="mt-3 text-center text-sm text-tinta-600">Avaliações publicadas no perfil “Bruno Professor BH” no Google Maps, com o nome como aparece no Google.</p>
       </div>
     </section>
 

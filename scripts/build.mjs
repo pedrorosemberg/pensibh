@@ -18,6 +18,8 @@ for (const file of ['index.html', 'styles.css', 'script.js', 'robots.txt', 'site
   if (existsSync(join(root, file))) cpSync(join(root, file), join(dist, file));
 }
 cpSync(join(root, 'images'), join(dist, 'images'), { recursive: true });
+// Depoimentos em vídeo: servidos tanto pela v1 (/videos) quanto pela v2.
+cpSync(join(root, 'videos'), join(dist, 'videos'), { recursive: true });
 cpSync(
   join(v2, 'node_modules/@fontsource-variable/roboto/files/roboto-latin-wght-normal.woff2'),
   join(dist, 'assets/roboto-latin-wght-normal.woff2'),
