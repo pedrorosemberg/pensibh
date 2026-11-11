@@ -1,0 +1,72 @@
+---
+// Página 404 da aplicação. Sem scripts: é servida também na raiz do domínio
+// (copiada para dist/404.html), onde a CSP do site não permite scripts embutidos.
+import '../styles/global.css';
+import { Image } from 'astro:assets';
+import { SITE, whatsapp } from '../data/site';
+import WhatsAppIcon from '../components/WhatsAppIcon.tsx';
+import logo from '../assets/logo-pensi.png';
+
+const wa = whatsapp('Olá, Bruno! Tentei acessar uma página do site e não encontrei. Pode me ajudar?');
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#be1f3d" />
+    <title>Página não encontrada | PENSI+</title>
+    <link rel="icon" type="image/png" href="/images/pensi-flaticon.png" />
+  </head>
+  <body class="min-h-svh bg-pensi font-sans text-white antialiased">
+    <main class="relative isolate flex min-h-svh items-center justify-center overflow-hidden px-4 py-12">
+      <div aria-hidden="true" class="pointer-events-none absolute -right-24 -top-24 -z-10 size-80 rotate-12 rounded-[3rem] bg-white/5"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute -bottom-28 -left-20 -z-10 size-96 -rotate-6 rounded-[3rem] bg-oliva/10"></div>
+
+      <div class="w-full max-w-xl text-center">
+        <a href="/" class="inline-block" aria-label="PENSI+, página inicial">
+          <Image src={logo} alt="PENSI+" width={180} height={101} class="mx-auto h-20 w-auto drop-shadow-lg sm:h-24" />
+        </a>
+
+        <p class="mt-10 text-[5.5rem] font-black leading-none tracking-tight text-oliva sm:text-[7rem]" aria-hidden="true">404</p>
+        <h1 class="mt-3 text-balance text-3xl font-black tracking-tight sm:text-4xl">Esta página não existe.</h1>
+        <p class="mx-auto mt-4 max-w-md text-pretty text-lg leading-relaxed text-white/85">
+          O endereço pode ter mudado ou ter sido digitado com algum erro. Mas a sua vaga para 2027 continua esperando por você.
+        </p>
+
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <a
+            href="/"
+            class="inline-flex min-h-13 items-center justify-center rounded-full bg-oliva px-7 text-lg font-bold text-tinta shadow-lg shadow-black/15 transition hover:bg-oliva-200 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Voltar para o início
+          </a>
+          <a
+            href={wa}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex min-h-13 items-center justify-center gap-2 rounded-full bg-white px-7 text-lg font-bold text-tinta transition hover:bg-white/90 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-oliva"
+          >
+            <WhatsAppIcon className="size-6 text-[#1f8a4c]" />
+            Falar com o Bruno
+          </a>
+        </div>
+
+        <nav aria-label="Páginas do site" class="mt-10">
+          <ul class="flex flex-wrap justify-center gap-x-2 gap-y-1 text-white/85">
+            <li><a href="/#nossos-cursos" class="inline-flex min-h-11 items-center px-2 underline-offset-4 hover:text-oliva hover:underline">Cursos</a></li>
+            <li><a href="/v2/#agenda" class="inline-flex min-h-11 items-center px-2 underline-offset-4 hover:text-oliva hover:underline">Horários e valores</a></li>
+            <li><a href="/v2/#depoimentos" class="inline-flex min-h-11 items-center px-2 underline-offset-4 hover:text-oliva hover:underline">Depoimentos</a></li>
+            <li><a href="/v2/#contato" class="inline-flex min-h-11 items-center px-2 underline-offset-4 hover:text-oliva hover:underline">Endereço</a></li>
+          </ul>
+        </nav>
+
+        <p class="mt-8 text-sm text-white/60">
+          {SITE.address.street}, {SITE.address.neighborhood}, {SITE.address.city} – {SITE.address.region} · WhatsApp {SITE.phoneDisplay}
+        </p>
+      </div>
+    </main>
+  </body>
+</html>
