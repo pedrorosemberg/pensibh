@@ -40,4 +40,7 @@ writeFileSync(scriptPath, script);
 // v2: Astro gera dist/v2.
 run(bin('astro'), ['build'], v2);
 
+// Página 404 da aplicação na raiz: a Vercel serve dist/404.html para qualquer endereço inexistente.
+cpSync(join(dist, 'v2', '404.html'), join(dist, '404.html'));
+
 console.log('Build concluído em dist/');

@@ -37,6 +37,15 @@ const HEADERS_BASE = {
     "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'",
 };
 
+async function naoEncontrado(req) {
+  // Mesma página 404 do site (dist/404.html), para nunca cair na página padrão da Vercel.
+  try {
+    const r = await fetch(new URL('/404.html', req.url), { headers: { accept: 'text/html' } });
+    if (r.ok) return resposta(await r.text(), 404, { 'Content-Type': 'text/html; charset=utf-8' });
+  } catch { /* usa o texto simples abaixo */ }
+  return resposta('Página não encontrada', 404, { 'Content-Type': 'text/plain; charset=utf-8' });
+}
+
 function resposta(corpo, status = 200, extra = {}) {
   return new Response(corpo, { status, headers: { ...HEADERS_BASE, ...extra } });
 }
@@ -153,7 +162,7 @@ export default async function middleware(req) {
   const url = new URL(req.url);
   let caminho = url.pathname;
   if (caminho === '/u' || caminho === '/u/' || caminho === BASE) return redirecionar(`${BASE}/`);
-  if (!caminho.startsWith(BASE + '/')) return resposta('Não encontrado', 404, { 'Content-Type': 'text/plain; charset=utf-8' });
+  if (!caminho.startsWith(BASE + '/')) return naoEncontrado(req);
   let sub = caminho.slice(BASE.length) || '/';
   if (sub.length > 1 && sub.endsWith('/')) sub = sub.slice(0, -1);
 
@@ -189,7 +198,7 @@ export default async function middleware(req) {
   }
 
   const alvo = ARQUIVOS[sub];
-  if (!alvo) return resposta('Não encontrado', 404, { 'Content-Type': 'text/plain; charset=utf-8' });
+  if (!alvo) return naoEncontrado(req);
   const usuario = await sessaoValida(req, env);
   if (!usuario) {
     if (sub === '/' || sub === '/index.html') return resposta(paginaLogin(), 200, { 'Content-Type': 'text/html; charset=utf-8' });
