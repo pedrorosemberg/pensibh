@@ -14,6 +14,7 @@ import plano from './u/planejamento.enc.json';
 
 export const config = { matcher: ['/u', '/u/:path*'] };
 
+const PLANNING_HOST = 'pensi.metadax.dev';
 const BASE = '/u/planejamento';
 const COOKIE = 'pensi_plano';
 const TTL = 8 * 60 * 60; // segundos
@@ -132,7 +133,7 @@ function paginaLogin({ erro = false, mensagem = '' } = {}) {
     ? '<p class="erro" role="alert">E-mail ou senha incorretos.</p>'
     : mensagem ? `<p class="erro" role="alert">${mensagem}</p>` : '';
   return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><title>Entrar — Planejamento PENSI+</title>
+<meta name="robots" content="noindex,nofollow"><meta name="description" content="Acesso ao planejamento de campanhas da PENSI+ para usuários autorizados."><title>Entrar — Planejamento PENSI+</title>
 <link rel="icon" href="https://www.unfancyworks.com/favicon.svg" type="image/svg+xml">
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#c41e3a;font:16px/1.5 "Segoe UI",Roboto,system-ui,sans-serif;color:#1d1416;padding:16px}
@@ -161,7 +162,11 @@ const espera = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export default async function middleware(req) {
   const url = new URL(req.url);
-  let caminho = url.pathname;
+  // A rota (incluindo login, logout e arquivos) só existe no domínio interno.
+  if (url.hostname !== PLANNING_HOST) {
+    return resposta('Página não encontrada', 404, { 'Content-Type': 'text/plain; charset=utf-8' });
+  }
+  const caminho = url.pathname;
   if (caminho === '/u' || caminho === '/u/' || caminho === BASE) return redirecionar(`${BASE}/`);
   if (!caminho.startsWith(BASE + '/')) return naoEncontrado(req);
   let sub = caminho.slice(BASE.length) || '/';
