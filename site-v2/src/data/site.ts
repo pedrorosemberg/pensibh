@@ -167,7 +167,7 @@ export const GOOGLE_REVIEWS = { rating: 5.0, count: 40 } as const;
  */
 export const TESTIMONIALS: { name: string; text: string; context?: string }[] = [
     {
-    name: 'Max Fahy',
+    name: 'Max Fahey',
     context: 'Aluno',
     text: 'Bruno foi o melhor professor que eu já tive. Ele ensina a matéria de forma tão detalhada que o que você aprenderia em um ano ele te ensina em cinco meses. Sem dúvidas, nunca terei um professor igual a ele.',
   },
