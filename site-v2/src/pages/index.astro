@@ -41,6 +41,7 @@ import logo from '../assets/logo-pensi.png';
 import heroImg from '../assets/bruno-quadro.jpeg';
 import salaImg from '../assets/sala.jpeg';
 import brunoImg from '../assets/bruno.jpeg';
+import joaoMedicina from '../assets/joao-medicina.jpeg'
 
 const logoSmall = await getImage({ src: logo, width: 172, format: 'webp' });
 const waGeral = whatsapp('Olá, Bruno! Vim pelo site e quero saber mais sobre as aulas da PENSI+.');
@@ -392,33 +393,102 @@ const year = new Date().getFullYear();
           </a>
         </div>
 
-        <h3 class="mt-10 text-xl font-bold sm:mt-12">Depoimentos em vídeo</h3>
+<h3 class="mt-10 text-xl font-bold sm:mt-12">Depoimentos em vídeo</h3>
         <ul class="-mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-visible sm:px-0 lg:mx-auto lg:max-w-4xl" tabindex="0" aria-label="Depoimentos em vídeo: deslize para ver mais">
           {
-            VIDEO_TESTIMONIALS.map((v) => (
-              <li class="w-[72%] max-w-[320px] shrink-0 snap-center sm:w-auto sm:max-w-none">
-                <figure>
-                <video
-                  class="aspect-[9/16] w-full rounded-3xl bg-tinta object-cover shadow-lg ring-1 ring-tinta/10"
-                  controls
-                  playsinline
-                  preload="none"
-                  poster={v.poster}
-                  width={v.width}
-                  height={v.height}
-                  aria-label={`Depoimento em vídeo: ${v.caption}`}
-                >
-                  <source src={v.src} type="video/mp4" />
-                </video>
-                <figcaption class="mt-3 text-tinta-600">
-                  <strong class="text-tinta">Depoimento</strong>
-                  <span class="block text-sm">{v.caption}</span>
-                </figcaption>
-                </figure>
-              </li>
-            ))
+            VIDEO_TESTIMONIALS.map((v) => {
+              const hasImage = v.image && v.image !== 'none';
+              return (
+                <li class="w-[72%] max-w-[320px] shrink-0 snap-center sm:w-auto sm:max-w-none">
+                  <figure>
+                    <video
+                      class="aspect-[9/16] w-full rounded-3xl bg-tinta object-cover shadow-lg ring-1 ring-tinta/10"
+                      controls
+                      playsinline
+                      preload="none"
+                      poster={v.poster}
+                      width={v.width}
+                      height={v.height}
+                      aria-label={`Depoimento em vídeo: ${v.caption}`}
+                    >
+                      <source src={v.src} type="video/mp4" />
+                    </video>
+                    <figcaption class="mt-3 text-tinta-600">
+                      <strong class="text-tinta">Depoimento</strong>
+                      <span class="block text-sm">{v.caption}</span>
+                    </figcaption>
+                  </figure>
+
+                  {hasImage && (
+                    <button
+                      type="button"
+                      data-lightbox-src={joaoMedicina.src}
+                      data-lightbox-alt={`Comprovante ou foto: ${v.caption}`}
+                      class="group mt-3 flex w-full items-center gap-3 rounded-2xl bg-papel p-2 text-left ring-1 ring-tinta/10 transition hover:ring-pensi/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-pensi"
+                      aria-label={`Ampliar imagem referente a: ${v.caption}`}
+                    >
+                      <Image
+                        src={joaoMedicina}
+                        alt={`Miniatura: ${v.caption}`}
+                        widths={[96, 160]}
+                        sizes="48px"
+                        loading="lazy"
+                        class="size-12 shrink-0 rounded-xl object-cover ring-1 ring-tinta/10 transition group-hover:scale-105"
+                      />
+                      <span class="text-xs leading-tight text-tinta-600">
+                        <strong class="block font-semibold text-tinta group-hover:text-pensi">Ver comprovante / foto</strong>
+                        Toque para ampliar
+                      </span>
+                    </button>
+                  )}
+                </li>
+              );
+            })
           }
         </ul>
+
+        <dialog
+          id="depoimento-lightbox"
+          class="m-auto max-h-[92dvh] max-w-[94vw] rounded-3xl bg-transparent p-0 backdrop:bg-black/85 backdrop:backdrop-blur-sm focus:outline-none"
+          aria-label="Visualização ampliada da imagem"
+        >
+          <div class="relative flex flex-col items-center justify-center">
+            <button
+              type="button"
+              id="depoimento-lightbox-close"
+              class="mb-3 self-end rounded-full bg-white px-4 py-2 text-sm font-bold text-tinta shadow-lg transition hover:bg-papel focus:outline-none focus-visible:ring-2 focus-visible:ring-pensi"
+            >
+              Fechar ✕
+            </button>
+            <img
+              id="depoimento-lightbox-img"
+              src=""
+              alt=""
+              class="max-h-[82dvh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
+            />
+          </div>
+        </dialog>
+
+        <script>
+          const dialog = document.getElementById('depoimento-lightbox') as HTMLDialogElement | null;
+          const dialogImg = document.getElementById('depoimento-lightbox-img') as HTMLImageElement | null;
+          const closeBtn = document.getElementById('depoimento-lightbox-close');
+
+          document.querySelectorAll<HTMLButtonElement>('[data-lightbox-src]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              if (!dialog || !dialogImg) return;
+              dialogImg.src = btn.dataset.lightboxSrc || '';
+              dialogImg.alt = btn.dataset.lightboxAlt || 'Imagem ampliada';
+              dialog.showModal();
+            });
+          });
+
+          closeBtn?.addEventListener('click', () => dialog?.close());
+
+          dialog?.addEventListener('click', (e) => {
+            if (e.target === dialog) dialog.close();
+          });
+        </script>
 
         <h3 class="mt-10 text-xl font-bold sm:mt-14">O que dizem no Google</h3>
         <ul class="-mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:mx-0 sm:block sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 sm:columns-2 lg:columns-3" tabindex="0" aria-label="Depoimentos: deslize para ver mais">
