@@ -125,15 +125,7 @@ export default function Header({ logoSrc, whatsappHref, hrefPrefix = '' }: Props
                 </li>
               ))}
             </ul>
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-pensi px-5 py-3.5 text-lg font-semibold text-white"
-            >
-              <WhatsAppIcon className="size-5" />
-              Agende uma aula no WhatsApp
-            </a>
+
           </motion.div>
         )}
       </AnimatePresence>

@@ -46,7 +46,7 @@ const logoSmall = await getImage({ src: logo, width: 172, format: 'webp' });
 const waGeral = whatsapp('Olá, Bruno! Vim pelo site e quero saber mais sobre as aulas da PENSI+.');
 const icons = { users: Users, 'user-check': UserCheck, 'book-open': BookOpen, clock: Clock, award: Award, 'map-pin': MapPin };
 const courseIcons = { cefet: Target, enem: GraduationCap, cesec: BookOpen } as const;
-const subjects = ['Matemática', 'Física', 'Química', 'Biologia', 'Português', 'Redação', 'História', 'Geografia', 'Inglês', 'Filosofia', 'Sociologia', 'Literatura'];
+const subjects = ['Matemática', 'Física', 'Química', 'Biologia', 'Português', 'Redação', 'História', 'Geografia', 'Inglês'];
 const year = new Date().getFullYear();
 ---
 
@@ -67,32 +67,36 @@ const year = new Date().getFullYear();
             <span class="size-2 rounded-full bg-oliva" aria-hidden="true"></span>
             Matrículas abertas para 2027 · 8 vagas por turma
           </p>
+
           <h1 class="mt-5 text-balance text-[2.35rem] font-black leading-[1.04] tracking-tight sm:mt-6 sm:text-5xl lg:text-6xl">
-            Estude com o professor Bruno, <span class="text-oliva">um aluno de cada vez.</span>
+            Chegou sua vez de passar! <span class="text-oliva"> Comece uma nova fase na sua vida!</span>
           </h1>
-          <p class="mt-5 max-w-xl text-pretty text-[17px] leading-relaxed text-white/85 sm:mt-6 sm:text-xl">
-            Pré-vestibular para ENEM, CESEC, ENCCEJA e CEFET em turmas reduzidas de até 8 alunos: cada aluno é uma aula
-            particular. Mais de {BRUNO.years} anos preparando jovens e adultos em Belo Horizonte.
+          <p class="inline-flex items-center gap-2 rounded-full text-[13px] font-medium sm:px-4 sm:text-sm"> 
+          Pré-vestibular PENSI+
           </p>
+          <p class="inline-flex items-center gap-2 rounded-full text-[13px] font-medium sm:px-4 sm:text-sm">
+          Turmas reduzidas com Acompanhamento Individual
+          </p>
+          
           <div class="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap">
-            <a
-              href={waGeral}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="group inline-flex min-h-14 whitespace-nowrap items-center justify-center gap-2 rounded-full bg-oliva px-6 text-base font-bold text-tinta shadow-lg shadow-pensi-900/30 transition hover:-translate-y-0.5 hover:bg-oliva-200"
-            >
-              <WhatsAppIcon className="size-5" />
-              Falar com o Bruno no WhatsApp
-            </a>
-            <a
-              href="#agenda"
-              class="inline-flex min-h-14 items-center justify-center whitespace-nowrap rounded-full px-6 text-base font-semibold text-white ring-1 ring-white/40 transition hover:bg-white/10"
-            >
-              Horários e valores
-            </a>
+            <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-[13px] font-medium ring-1 ring-white/25 sm:px-4 sm:text-sm">
+            <span class="size-2 rounded-full bg-oliva" aria-hidden="true"></span>
+            Curso Presencial Pré-ENEM
+            </p>
+            <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-[13px] font-medium ring-1 ring-white/25 sm:px-4 sm:text-sm">
+            <span class="size-2 rounded-full bg-oliva" aria-hidden="true"></span>
+            Curso Presencial Pré-CESEC
+            </p>
+            <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-[13px] font-medium ring-1 ring-white/25 sm:px-4 sm:text-sm">
+            <span class="size-2 rounded-full bg-oliva" aria-hidden="true"></span>
+            Curso Presencial Pré-CEFET
+            </p>
           </div>
+
+          <p class="mt-5 max-w-xl text-pretty text-[17px] leading-relaxed text-white/85 sm:mt-6 sm:text-xl">
+            Somente 8 alunos por turma.<br>Cada aluno é uma aula particular.<br>O aluno pode escolher quais disciplinas quer estudar e focar.
+          </p>
           <ul class="mt-8 grid grid-cols-1 gap-y-3 text-[15px] text-white/90 sm:mt-10 sm:flex sm:flex-wrap sm:gap-x-6">
-            <li class="flex items-center gap-2"><Users aria-hidden="true" class="size-5 text-oliva" /> Até 8 alunos por turma</li>
             <li class="flex items-center gap-2"><UserCheck aria-hidden="true" class="size-5 text-oliva" /> Atendimento individual</li>
             <li class="flex items-center gap-2"><MapPin aria-hidden="true" class="size-5 text-oliva" /> Sion, BH</li>
           </ul>
@@ -111,11 +115,12 @@ const year = new Date().getFullYear();
             />
           </div>
           <div class="absolute -bottom-6 left-3 rounded-2xl bg-white px-4 py-3 text-tinta shadow-xl sm:-left-8 sm:px-5 sm:py-4">
-            <p class="text-3xl font-black text-pensi"><CountUp client:visible value={30} suffix="+" /></p>
-            <p class="text-sm font-medium text-tinta-600">anos de aulas particulares</p>
+            <p class="text-3xl font-black text-pensi">Paciência e respeito</p>
+            <p class="text-sm font-medium text-tinta-600">com o aluno</p>
           </div>
           <div class="absolute right-3 top-5 rounded-2xl bg-agua px-3.5 py-2.5 text-[15px] font-semibold text-tinta shadow-xl sm:-right-6 sm:top-8 sm:px-4 sm:py-3 sm:text-base">
-            1 professor · você no centro
+            O tempo que você precisar. <br>
+            Explicações sem pressa.
           </div>
         </div>
       </div>
@@ -131,6 +136,47 @@ const year = new Date().getFullYear();
         ))}
       </ul>
     </div>
+    
+    <section id="agendaf" class="mx-auto max-w-6xl px-4 py-14 sm:px-5 sm:py-20" aria-labelledby="agenda-titulo">
+    <div class="mx-auto max-w-2xl text-center" data-reveal>
+      <div class="mt-12 sm:hidden" data-reveal>
+        <h3 class="text-lg font-bold">Funcionamento - 15 de fev a 15 de nov (com férias em julho)</h3>
+        <ul class="mt-4 space-y-3">
+          {
+            SLOTS.map((s) => (
+              <li class="rounded-2xl bg-white p-5 ring-1 ring-tinta/10">
+                <p class="text-xl font-bold text-pensi">{s.label}</p>
+                <p class="mt-1 text-tinta-600">{s.duration} · segunda a sexta</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+          <div class="mt-16 hidden overflow-x-auto rounded-3xl bg-white ring-1 ring-tinta/10 sm:block" data-reveal>
+        <table class="w-full min-w-[640px] text-left">
+          <caption class="px-6 pt-6 text-left text-lg font-bold">Funcionamento - 15 de fev a 15 de nov (com férias em julho)</caption>
+          <thead>
+            <tr class="text-sm uppercase tracking-wide text-tinta-600">
+              <th scope="col" class="px-6 py-4 font-semibold">Horário</th>
+              <th scope="col" class="px-6 py-4 font-semibold">Duração</th>
+              <th scope="col" class="px-6 py-4 font-semibold">Dias</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              SLOTS.map((s) => (
+                <tr class="border-t border-tinta/10">
+                  <th scope="row" class="px-6 py-4 font-bold text-pensi">{s.label}</th>
+                  <td class="px-6 py-4">{s.duration}</td>
+                  <td class="px-6 py-4">Segunda a sexta</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      </div>
+      </section>
 
     {/* CURSOS */}
     <section id="cursos" class="mx-auto max-w-6xl px-4 py-16 sm:px-5 sm:py-24" aria-labelledby="cursos-titulo">
@@ -199,14 +245,14 @@ const year = new Date().getFullYear();
             <Image src={brunoImg} alt="" width={64} height={64} class="size-14 rounded-xl object-cover object-[85%_30%]" />
             <div>
               <p class="font-bold">Professor Bruno</p>
-              <p class="text-sm text-tinta-600">Fundador da PENSI+</p>
+              <p class="text-sm text-tinta-600">Fundador do PENSI+</p>
             </div>
           </div>
         </div>
         <div data-reveal>
-          <p class="font-semibold uppercase tracking-wide text-oliva">O professor</p>
+          <p class="font-semibold uppercase tracking-wide text-oliva">O fundador</p>
           <h2 id="bruno-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
-            Três décadas ensinando um aluno de cada vez
+            Três décadas ajudando os alunos a conquistarem seus objetivos
           </h2>
           <p class="mt-5 text-lg leading-relaxed text-white/80">
             O professor Bruno ainda cursava Engenharia Civil na UFMG quando começou a dar aulas. Ele desenvolveu um método
@@ -225,15 +271,9 @@ const year = new Date().getFullYear();
               ))
             }
           </ul>
-          <a
-            href={whatsapp('Olá, Bruno! Gostaria de conversar sobre as aulas.')}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="mt-9 inline-flex min-h-12 items-center gap-2 rounded-full bg-oliva px-6 font-bold text-tinta transition hover:bg-oliva-200"
-          >
-            <WhatsAppIcon className="size-5" />
-            Converse com o Bruno
-          </a>
+          <p class="mt-5 text-lg leading-relaxed text-white/80">
+            "O professor Bruno faz o difícil parecer fácil!"
+          </p>
         </div>
       </div>
     </section>
@@ -243,7 +283,7 @@ const year = new Date().getFullYear();
       <div class="mx-auto max-w-2xl text-center" data-reveal>
         <p class="font-semibold uppercase tracking-wide text-pensi">Nossos diferenciais</p>
         <h2 id="dif-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
-          A atenção de uma aula particular, no ritmo de um curso completo
+          Descubra por que os alunos amam o curso e se sentem em casa no Pensi+
         </h2>
       </div>
       <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -260,6 +300,35 @@ const year = new Date().getFullYear();
           })
         }
       </ul>
+      
+      <section id="nossa-marca" class="mx-auto max-w-6xl px-4 pb-8 pt-24 sm:px-5 sm:pb-12 sm:pt-32" aria-labelledby="dif-titulo">
+      <div class="mx-auto max-w-2xl text-center" data-reveal>
+        <p class="font-semibold uppercase tracking-wide text-pensi">Nossa Marca</p>
+        <h2 id="dif-titulo" class="mt-2 text-balance text-2xl font-black tracking-tight sm:text-2xl">
+          A delicada reconstrução da auto-estima do estudante e a retomada do gosto pelos estudos são a marca do PENSI+.
+        </h2>
+      </div>
+      </section>
+      
+      <section id="nosso-objetivo" class="mx-auto max-w-6xl px-4 pb-8 pt-24 sm:px-5 sm:pb-12 sm:pt-32" aria-labelledby="dif-titulo">
+      <div class="mx-auto max-w-2xl text-center" data-reveal>
+        <p class="font-semibold uppercase tracking-wide text-pensi">Nosso Objetivo</p>
+        <h2 id="dif-titulo" class="mt-2 text-balance text-2xl font-black tracking-tight sm:text-2xl">
+          Transformar o aluno em um candidato bem preparado, calmo e confiante é o que buscamos aqui no PENSI+.
+        </h2>
+      </div>
+      </section>
+
+      <section id="perfil-aluno" class="mx-auto max-w-6xl px-4 pb-8 pt-24 sm:px-5 sm:pb-12 sm:pt-32" aria-labelledby="dif-titulo">
+      <div class="mx-auto max-w-2xl text-center" data-reveal>
+        <p class="font-semibold uppercase tracking-wide text-pensi">Para qual perfil de aluno o PENSI+ é indicado?</p>
+        <h2 id="dif-titulo" class="mt-2 text-balance text-2xl font-black tracking-tight sm:text-2xl">
+          O PENSI+ é indicado para o aluno que apresenta lacunas no conhecimento ou dificuldade em algumas disciplinas específicas e precisa do apoio do professor. 
+          É indicado para o aluno que precisa aprender rápido, mas sem pressa, sem ter que correr para "acompanhar a turma".
+          Às vezes é necessário parar tudo para rever conceitos básicos, a famosa "base", algo que é impossível de se fazer em uma sala cheia de um cursinho tradicional.
+        </h2>
+      </div>
+      </section>
 
       {/* COMO FUNCIONA */}
       <div class="mt-14 rounded-[2rem] bg-pensi-50 p-6 sm:mt-20 sm:p-12" data-reveal>
@@ -281,9 +350,9 @@ const year = new Date().getFullYear();
     {/* HORÁRIOS E VALORES */}
     <section id="agenda" class="mx-auto max-w-6xl px-4 py-14 sm:px-5 sm:py-20" aria-labelledby="agenda-titulo">
       <div class="mx-auto max-w-2xl text-center" data-reveal>
-        <p class="font-semibold uppercase tracking-wide text-pensi">Horários e valores 2027</p>
+        <p class="font-semibold uppercase tracking-wide text-pensi">Escolha o curso e o horário da sua turma</p>
         <h2 id="agenda-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
-          Escolha o curso e o horário da sua turma
+          Veja nossas ofertas para o BLACK FRIDAY
         </h2>
         <p class="mt-4 text-lg text-tinta-600">
           Cinco aulas por semana, de segunda a sexta, na Rua Francisco Deslandes, no Sion. Todas as disciplinas são ofertadas, e você
@@ -292,47 +361,6 @@ const year = new Date().getFullYear();
       </div>
       <div class="mt-10" data-reveal>
         <PlanExplorer client:visible />
-      </div>
-
-      <div class="mt-12 sm:hidden" data-reveal>
-        <h3 class="text-lg font-bold">Agenda da semana</h3>
-        <ul class="mt-4 space-y-3">
-          {
-            SLOTS.map((s) => (
-              <li class="rounded-2xl bg-white p-5 ring-1 ring-tinta/10">
-                <p class="text-xl font-bold text-pensi">{s.label}</p>
-                <p class="mt-1 text-tinta-600">{s.duration} · segunda a sexta</p>
-                <p class="mt-1 text-tinta-600">CEFET (1º e 2º semestre) e ENEM anual</p>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-
-      <div class="mt-16 hidden overflow-x-auto rounded-3xl bg-white ring-1 ring-tinta/10 sm:block" data-reveal>
-        <table class="w-full min-w-[640px] text-left">
-          <caption class="px-6 pt-6 text-left text-lg font-bold">Agenda da semana</caption>
-          <thead>
-            <tr class="text-sm uppercase tracking-wide text-tinta-600">
-              <th scope="col" class="px-6 py-4 font-semibold">Horário</th>
-              <th scope="col" class="px-6 py-4 font-semibold">Duração</th>
-              <th scope="col" class="px-6 py-4 font-semibold">Dias</th>
-              <th scope="col" class="px-6 py-4 font-semibold">Cursos</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              SLOTS.map((s) => (
-                <tr class="border-t border-tinta/10">
-                  <th scope="row" class="px-6 py-4 font-bold text-pensi">{s.label}</th>
-                  <td class="px-6 py-4">{s.duration}</td>
-                  <td class="px-6 py-4">Segunda a sexta</td>
-                  <td class="px-6 py-4">CEFET (1º e 2º semestre) e ENEM anual</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
       </div>
     </section>
 
@@ -486,15 +514,6 @@ const year = new Date().getFullYear();
             </p>
           </address>
           <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={waGeral}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-oliva px-7 text-lg font-bold text-tinta transition hover:bg-oliva-200"
-            >
-              <WhatsAppIcon className="size-5" />
-              Chamar no WhatsApp
-            </a>
             <a
               href={MAPS_LINK}
               target="_blank"
