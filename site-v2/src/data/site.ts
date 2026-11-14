@@ -112,9 +112,9 @@ export const PLANS = [
     period: '15 de fevereiro a 15 de novembro de 2027',
     note: 'Férias em julho',
     prices: {
-      'manha-1': { from: 18510, to: 14990 },
-      'manha-2': { from: 22740, to: 17990 },
-      tarde: { from: 22740, to: 17990 },
+      'manha-1': { from: 21090, to: 13690 },
+      'manha-2': { from: 25920, to: 19440 },
+      tarde: { from: 25920, to: 19440 },
     },
   },
   {
@@ -124,9 +124,9 @@ export const PLANS = [
     period: '15 de fevereiro a 30 de junho de 2027',
     note: '4 meses e meio de aula com férias em julho',
     prices: {
-      'manha-1': { from: 21090, to: 13690 },
-      'manha-2': { from: 25920, to: 19440},
-      tarde: { from: 25920, to: 19440},
+      'manha-1': { from: 12060, to: 7990 },
+      'manha-2': { from: 14790, to: 11090},
+      tarde: { from: 14790, to: 11090},
     },
   },
     {
@@ -148,9 +148,9 @@ export const PLANS = [
     period: '15 de fevereiro a 15 de novembro de 2027',
     note: 'Férias em julho',
     prices: {
-      'manha-1': { from: 18510, to: 14990 },
-      'manha-2': { from: 22740, to: 17990 },
-      tarde: { from: 22740, to: 17990 },
+      'manha-1': { from: 21090, to: 13690 },
+      'manha-2': { from: 25920, to: 19440 },
+      tarde: { from: 25920, to: 19440 },
     },
   },
 ] as const;
