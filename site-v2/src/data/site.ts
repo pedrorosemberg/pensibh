@@ -108,7 +108,7 @@ export const PLANS = [
   {
     id: 'cefet',
     name: 'PRÉ-CEFET',
-    short: 'PRE-CEFET',
+    short: 'PRÉ-CEFET',
     period: '15 de fevereiro a 15 de novembro de 2027',
     note: 'Férias em julho',
     prices: {
@@ -120,7 +120,7 @@ export const PLANS = [
   {
     id: 'cesec-1',
     name: 'PRÉ-CESEC - 1º semestre',
-    short: 'PRE-CESEC',
+    short: 'PRÉ-CESEC (1º semestre)',
     period: '15 de fevereiro a 30 de junho de 2027',
     note: '4 meses e meio de aula com férias em julho',
     prices: {
@@ -132,7 +132,7 @@ export const PLANS = [
     {
     id: 'cesec-2',
     name: 'PRÉ-CESEC - 2º semestre',
-    short: 'PRE-CESEC',
+    short: 'PRÉ-CESEC (2º semestre)',
     period: '1º de agosto a 15 de novembro de 2027',
     note: '3 meses e meio de aula',
     prices: {
