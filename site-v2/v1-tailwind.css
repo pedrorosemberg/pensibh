@@ -1,0 +1,4 @@
+/* CSS do Tailwind da v1 (raiz do site), compilado no build no lugar do script cdn.tailwindcss.com. */
+@import 'tailwindcss' source(none);
+@source '../index.html';
+@source '../script.js';
