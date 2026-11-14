@@ -133,6 +133,7 @@ function paginaLogin({ erro = false, mensagem = '' } = {}) {
     : mensagem ? `<p class="erro" role="alert">${mensagem}</p>` : '';
   return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>Entrar — Planejamento PENSI+</title>
+<link rel="icon" href="https://www.unfancyworks.com/favicon.svg" type="image/svg+xml">
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#c41e3a;font:16px/1.5 "Segoe UI",Roboto,system-ui,sans-serif;color:#1d1416;padding:16px}
 main{width:100%;max-width:400px;background:#fff;border-radius:18px;padding:28px 24px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
