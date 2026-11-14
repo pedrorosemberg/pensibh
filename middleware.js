@@ -153,7 +153,7 @@ ${aviso}
 <label for="email">E-mail</label><input id="email" name="email" type="email" required autocomplete="username" inputmode="email" autofocus>
 <label for="senha">Senha</label><input id="senha" name="senha" type="password" required autocomplete="current-password">
 <button type="submit">Entrar</button>
-</form><small>Área mantida pela METADAX</small></main></body></html>`;
+</form><small>© 2026 Unfancy Works Inc. All rights reserved.</small></main></body></html>`;
 }
 
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
