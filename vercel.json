@@ -85,12 +85,27 @@
       "permanent": true
     },
     {
+      "source": "/v2/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/v2/privacidade",
       "destination": "/privacidade/",
       "permanent": true
     },
     {
+      "source": "/v2/privacidade/",
+      "destination": "/privacidade/",
+      "permanent": true
+    },
+    {
       "source": "/v2/termos",
+      "destination": "/termos/",
+      "permanent": true
+    },
+    {
+      "source": "/v2/termos/",
       "destination": "/termos/",
       "permanent": true
     }
