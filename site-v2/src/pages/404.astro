@@ -1,6 +1,5 @@
 ---
-// Página 404 da aplicação. Sem scripts: é servida também na raiz do domínio
-// (copiada para dist/404.html), onde a CSP do site não permite scripts embutidos.
+// Página 404 estática servida pela Vercel.
 import '../styles/global.css';
 import { Image } from 'astro:assets';
 import { SITE, whatsapp } from '../data/site';
@@ -15,6 +14,7 @@ const wa = whatsapp('Olá, Bruno! Tentei acessar uma página do site e não enco
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Encontre os cursos, horários e contatos da PENSI+ em Belo Horizonte a partir da página inicial." />
     <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#be1f3d" />
     <title>Página não encontrada | PENSI+</title>
@@ -57,9 +57,9 @@ const wa = whatsapp('Olá, Bruno! Tentei acessar uma página do site e não enco
         <nav aria-label="Páginas do site" class="mt-10">
           <ul class="flex flex-wrap justify-center gap-x-2 gap-y-1 text-white/85">
             <li><a href="/#nossos-cursos" class="inline-flex min-h-11 items-center px-2 underline-offset-4 hover:text-oliva hover:underline">Cursos</a></li>
-            <li><a href="/v2/#agenda" class="inline-flex min-h-11 items-center px-2 underline-offset-4 hover:text-oliva hover:underline">Horários e valores</a></li>
-            <li><a href="/v2/#depoimentos" class="inline-flex min-h-11 items-center px-2 underline-offset-4 hover:text-oliva hover:underline">Depoimentos</a></li>
-            <li><a href="/v2/#contato" class="inline-flex min-h-11 items-center px-2 underline-offset-4 hover:text-oliva hover:underline">Endereço</a></li>
+            <li><a href="/#agenda" class="inline-flex min-h-11 items-center px-2 underline-offset-4 hover:text-oliva hover:underline">Horários e valores</a></li>
+            <li><a href="/#depoimentos" class="inline-flex min-h-11 items-center px-2 underline-offset-4 hover:text-oliva hover:underline">Depoimentos</a></li>
+            <li><a href="/#contato" class="inline-flex min-h-11 items-center px-2 underline-offset-4 hover:text-oliva hover:underline">Endereço</a></li>
           </ul>
         </nav>
 

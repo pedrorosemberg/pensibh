@@ -42,13 +42,11 @@ const TRACKING = {
   frame: ['https://td.doubleclick.net', 'https://www.googletagmanager.com', 'https://vars.hotjar.com'],
 };
 
-// Site v2 da PENSI+, publicado em https://www.pensibh.com.br/v2
-// O build sai em ../dist/v2, ao lado da v1 copiada por scripts/build.mjs.
+// Site da PENSI+, publicado na raiz do domínio principal.
 export default defineConfig({
   site: 'https://www.pensibh.com.br',
-  base: '/v2',
-  outDir: '../dist/v2',
-  trailingSlash: 'ignore',
+  outDir: '../dist',
+  trailingSlash: 'always',
   build: { format: 'directory' },
   integrations: [react()],
   vite: { plugins: [tailwindcss()] },

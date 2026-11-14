@@ -7,25 +7,33 @@ import ConsentBanner from '../components/ConsentBanner.tsx';
 interface Props {
   title?: string;
   description?: string;
-  /** Caminho dentro da v2, ex.: 'privacidade/'. Vazio = página inicial. */
+  /** Caminho no site, ex.: 'privacidade/'. Vazio = página inicial. */
   path?: string;
 }
 const { title = SITE.title, description = SITE.description, path = '' } = Astro.props;
 const isHome = path === '';
 const canonical = SITE.url;
-const pageUrl = SITE.url + path;
+const pageUrl = new URL(path, canonical).href;
 const og = new URL(ogImage.src, Astro.site).toString();
+
+const website = {
+  '@type': 'WebSite',
+  '@id': `${canonical}#website`,
+  url: canonical,
+  name: SITE.name,
+  inLanguage: 'pt-BR',
+  publisher: { '@id': `${canonical}#pensi` },
+};
 
 const org = {
   '@type': ['EducationalOrganization', 'LocalBusiness'],
   '@id': `${canonical}#pensi`,
   name: SITE.name,
-  alternateName: ['PENSI', 'PENSI+ Educação', 'Bruno Professor BH'],
+  alternateName: ['PENSI', 'PENSI+ Educação'],
   url: canonical,
   logo: new URL('/images/logo-pensi.png', Astro.site).toString(),
   image: og,
   telephone: SITE.phoneE164,
-  priceRange: 'R$ 7.990 – R$ 17.990',
   address: {
     '@type': 'PostalAddress',
     streetAddress: SITE.address.street,
@@ -35,7 +43,7 @@ const org = {
     addressCountry: SITE.address.country,
   },
   areaServed: { '@type': 'City', name: 'Belo Horizonte' },
-  sameAs: [SITE.instagram, SITE.facebook, 'https://www.pensibh.com.br/'],
+  sameAs: [SITE.instagram, SITE.facebook],
   founder: { '@id': `${canonical}#bruno` },
   contactPoint: {
     '@type': 'ContactPoint',
@@ -48,7 +56,8 @@ const org = {
 const person = {
   '@type': 'Person',
   '@id': `${canonical}#bruno`,
-  name: 'Professor Bruno',
+  name: 'Bruno Kleist Visacro Montoni',
+  alternateName: ['Professor Bruno', 'Bruno Professor BH'],
   jobTitle: BRUNO.role,
   description: BRUNO.facts.join('. ') + '.',
   alumniOf: { '@type': 'CollegeOrUniversity', name: 'Universidade Federal de Minas Gerais (UFMG)' },
@@ -66,7 +75,7 @@ const courses = PLANS.map((p) => ({
     priceCurrency: 'BRL',
     lowPrice: Math.min(...Object.values(p.prices).map((x) => x.to)),
     highPrice: Math.max(...Object.values(p.prices).map((x) => x.to)),
-    offerCount: 3,
+    offerCount: Object.keys(p.prices).length,
     availability: 'https://schema.org/LimitedAvailability',
   },
   hasCourseInstance: {
@@ -76,7 +85,7 @@ const courses = PLANS.map((p) => ({
   },
 }));
 
-const otherCourses = COURSES.filter((c) => c.id === 'cesec' || c.id === 'reforco').map((c) => ({
+const otherCourses = COURSES.filter((c) => c.id === 'cesec').map((c) => ({
   '@type': 'Course',
   name: c.title,
   description: c.summary,
@@ -86,6 +95,8 @@ const otherCourses = COURSES.filter((c) => c.id === 'cesec' || c.id === 'reforco
 
 const faq = {
   '@type': 'FAQPage',
+  '@id': `${canonical}#perguntas`,
+  isPartOf: { '@id': canonical },
   mainEntity: FAQ.map((f) => ({
     '@type': 'Question',
     name: f.q,
@@ -95,25 +106,25 @@ const faq = {
 
 const page = {
   '@type': 'WebPage',
-  '@id': canonical,
-  url: canonical,
+  '@id': pageUrl,
+  url: pageUrl,
   name: title,
   description,
   inLanguage: 'pt-BR',
-  about: { '@id': `${canonical}#bruno` },
-  isPartOf: { '@type': 'WebSite', name: SITE.name, url: 'https://www.pensibh.com.br/' },
-  breadcrumb: {
+  isPartOf: { '@id': website['@id'] },
+  publisher: { '@id': org['@id'] },
+  ...(isHome ? { about: { '@id': person['@id'] }, hasPart: { '@id': faq['@id'] } } : { breadcrumb: {
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'PENSI+', item: 'https://www.pensibh.com.br/' },
-      { '@type': 'ListItem', position: 2, name: 'Professor Bruno', item: canonical },
+      { '@type': 'ListItem', position: 1, name: SITE.name, item: canonical },
+      { '@type': 'ListItem', position: 2, name: title, item: pageUrl },
     ],
-  },
+  } }),
 };
 
 const graph = isHome
-  ? [org, person, page, faq, ...courses, ...otherCourses]
-  : [{ '@type': 'WebPage', '@id': pageUrl, url: pageUrl, name: title, inLanguage: 'pt-BR', publisher: { '@id': `${canonical}#pensi` } }];
+  ? [website, org, person, page, faq, ...courses, ...otherCourses]
+  : [page];
 const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
 ---
 

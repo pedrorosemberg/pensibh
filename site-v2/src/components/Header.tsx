@@ -8,7 +8,7 @@ import WhatsAppIcon from './WhatsAppIcon';
 interface Props {
   logoSrc: string;
   whatsappHref: string;
-  /** Prefixo dos links de âncora; use '/v2/' em páginas internas. */
+  /** Prefixo dos links de âncora; use '/' em páginas internas. */
   hrefPrefix?: string;
 }
 

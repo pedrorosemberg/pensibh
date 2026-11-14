@@ -3,10 +3,10 @@
 export const SITE = {
   name: 'PENSI+',
   legalName: 'PENSI+ Educação',
-  url: 'https://www.pensibh.com.br/v2/',
+  url: 'https://www.pensibh.com.br/',
   title: 'Professor Bruno | Pré-vestibular CEFET, ENEM e CESEC em BH — PENSI+',
   description:
-    'Pré-vestibular com o professor Bruno no Sion-Anchieta, em Belo Horizonte: ENEM e vestibulares, CESEC e ENCCEJA, CEFET e provas de admissão em turmas reduzidas de até 8 alunos, com aula individual. Mais de 30 anos de experiência.',
+    'Prepare-se para ENEM, CEFET ou CESEC em Belo Horizonte com o professor Bruno. Conheça as turmas presenciais de até 8 alunos e os horários de 2027.',
   phoneDisplay: '(31) 98800-8430',
   phoneE164: '+5531988008430',
   whatsappNumber: '5531988008430',
