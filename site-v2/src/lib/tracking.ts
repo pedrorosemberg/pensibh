@@ -59,7 +59,7 @@ export function saveConsent(c: Consent) {
     /* navegação privada: vale só para esta visita */
   }
   if (!c.analytics && !c.marketing) clearJourney();
-  else captureTouch();
+  else captureTouch(c.marketing);
   apply(c);
 }
 
@@ -177,7 +177,7 @@ export function initTracking() {
   );
   const c = readConsent();
   if (c) {
-    if (c.analytics || c.marketing) captureTouch();
+    if (c.analytics || c.marketing) captureTouch(c.marketing);
     apply(c);
   }
   document.addEventListener('click', (e) => {
