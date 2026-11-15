@@ -1,3 +1,4 @@
+import { attachAttendanceCode, captureTouch, clearJourney, recordJourneyEvent } from './attribution';
 // Rastreamento com consentimento (LGPD) e Google Consent Mode v2 no modo avançado.
 // - O GTM (scripts/gtm.mjs) carrega sempre. Sem autorização, o Google recebe sinais sem cookies com o
 //   estado "denied", e o clique no WhatsApp entra no dataLayer (evento whatsapp_contact) com a recusa.
@@ -60,6 +61,8 @@ export function saveConsent(c: Consent) {
   } catch {
     /* navegação privada: vale só para esta visita */
   }
+  if (!c.analytics && !c.marketing) clearJourney();
+  else captureTouch(c.marketing);
   apply(c, true);
 }
 
@@ -157,8 +160,9 @@ function apply(c: Consent, decided: boolean) {
  * entrada do GTM, com ou sem autorização. Aqui vão só as ferramentas de análise, que exigem aceite.
  */
 function trackContact(link: HTMLAnchorElement) {
-  if (!applied.analytics) return;
   const section = link.closest('section')?.id || link.closest('header,footer')?.tagName.toLowerCase() || 'pagina';
+  if (applied.analytics || applied.marketing) recordJourneyEvent('click_whatsapp', section);
+  if (!applied.analytics) return;
   if (w.fbq) w.fbq('trackCustom', 'ClickWhatsApp', { content_name: section });
   if (w.clarity) w.clarity('event', 'whatsapp_contato');
   if (w.hj) w.hj('event', 'whatsapp_contato');
@@ -169,10 +173,23 @@ export function initTracking() {
     'click',
     (e) => {
       const a = (e.target as Element | null)?.closest?.('a[href^="https://wa.me/"]') as HTMLAnchorElement | null;
-      if (a) trackContact(a);
+      if (!a) return;
+      if (applied.analytics || applied.marketing) a.href = attachAttendanceCode(a.href);
+      trackContact(a);
+    },
+    { capture: true },
+  );
+  document.addEventListener(
+    'click',
+    (e) => {
+      if (!(applied.analytics || applied.marketing)) return;
+      const el = (e.target as Element | null)?.closest?.('a[href],button') as HTMLElement | null;
+      if (!el || el.closest('a[href^="https://wa.me/"]')) return;
+      recordJourneyEvent('navigation_click', el.closest('section')?.id || 'pagina');
     },
     { capture: true },
   );
   const c = readConsent();
+  if (c && (c.analytics || c.marketing)) captureTouch(c.marketing);
   apply(c ?? { analytics: false, marketing: false }, false);
 }
