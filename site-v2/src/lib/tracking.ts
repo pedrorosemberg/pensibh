@@ -1,3 +1,4 @@
+import { captureTouch, clearJourney, recordJourneyEvent, attachAttendanceCode } from './attribution';
 // Rastreamento com consentimento (LGPD) e Google Consent Mode v2.
 // O contêiner GTM começa com consentimento negado. As integrações diretas
 // usam os IDs PUBLIC_* da Vercel e continuam condicionadas à escolha do visitante.
@@ -57,6 +58,8 @@ export function saveConsent(c: Consent) {
   } catch {
     /* navegação privada: vale só para esta visita */
   }
+  if (!c.analytics && !c.marketing) clearJourney();
+  else captureTouch();
   apply(c);
 }
 
@@ -152,12 +155,10 @@ function trackContact(link: HTMLAnchorElement) {
   const label = (link.textContent || link.getAttribute('aria-label') || 'whatsapp').trim().slice(0, 80);
   const section = link.closest('section')?.id || link.closest('header,footer')?.tagName.toLowerCase() || 'pagina';
   if (w.gtag && applied.analytics && ok(IDS.ga4)) {
-    w.gtag('event', 'generate_lead', { method: 'whatsapp', link_text: label, section });
+    w.gtag('event', 'click_whatsapp', { method: 'whatsapp', link_text: label, section });
   }
-  if (w.gtag && applied.marketing && ok(IDS.ads) && ok(IDS.adsContactLabel)) {
-    w.gtag('event', 'conversion', { send_to: `${IDS.ads}/${IDS.adsContactLabel}` });
-  }
-  if (w.fbq && applied.marketing) w.fbq('track', 'Contact', { content_name: section });
+  if (w.fbq && applied.marketing) w.fbq('trackCustom', 'ClickWhatsApp', { content_name: section });
+  if (applied.analytics || applied.marketing) recordJourneyEvent('click_whatsapp', section);
   if (w.clarity && applied.analytics) w.clarity('event', 'whatsapp_contato');
   if (w.hj && applied.analytics) w.hj('event', 'whatsapp_contato');
 }
@@ -167,10 +168,23 @@ export function initTracking() {
     'click',
     (e) => {
       const a = (e.target as Element | null)?.closest?.('a[href^="https://wa.me/"]') as HTMLAnchorElement | null;
-      if (a) trackContact(a);
+      if (a) {
+        if (applied.analytics || applied.marketing) a.href = attachAttendanceCode(a.href);
+        trackContact(a);
+      }
     },
     { capture: true },
   );
   const c = readConsent();
-  if (c) apply(c);
+  if (c) {
+    if (c.analytics || c.marketing) captureTouch();
+    apply(c);
+  }
+  document.addEventListener('click', (e) => {
+    if (!(applied.analytics || applied.marketing)) return;
+    const el = (e.target as Element | null)?.closest?.('a[href],button') as HTMLElement | null;
+    if (!el || el.closest('a[href^="https://wa.me/"]')) return;
+    const section = el.closest('section')?.id || 'pagina';
+    recordJourneyEvent('navigation_click', section);
+  }, { capture: true });
 }
