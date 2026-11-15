@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import GoogleTagManager from '../components/GoogleTagManager.astro';
 import { SITE, FAQ, PLANS, COURSES, BRUNO } from '../data/site';
 import ogImage from '../assets/og-v2.png';
 import ConsentBanner from '../components/ConsentBanner.tsx';
@@ -131,6 +132,7 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    <GoogleTagManager />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>

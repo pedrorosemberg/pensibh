@@ -10,6 +10,7 @@
  *   válido por 8 horas. Trocar PASSWORD ou PLANO_KEY invalida todas as sessões.
  * - Falha fechada: sem as variáveis configuradas, ninguém entra.
  */
+import { addGtmToHead, GTM_HASH } from './scripts/gtm.mjs';
 import plano from './u/planejamento.enc.json';
 
 export const config = { matcher: ['/u', '/u/:path*'] };
@@ -35,7 +36,7 @@ const HEADERS_BASE = {
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',
   'Content-Security-Policy':
-    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'",
+    `default-src 'self'; script-src 'self' '${GTM_HASH}' https://www.googletagmanager.com/gtm.js; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'`,
 };
 
 async function naoEncontrado(req) {
@@ -132,7 +133,7 @@ function paginaLogin({ erro = false, mensagem = '' } = {}) {
   const aviso = erro
     ? '<p class="erro" role="alert">E-mail ou senha incorretos.</p>'
     : mensagem ? `<p class="erro" role="alert">${mensagem}</p>` : '';
-  return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  return addGtmToHead(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><meta name="description" content="Acesso ao planejamento de campanhas da PENSI+ para usuários autorizados."><title>Entrar — Planejamento PENSI+</title>
 <link rel="icon" href="https://www.unfancyworks.com/favicon.svg" type="image/svg+xml">
 <style>
@@ -155,7 +156,7 @@ ${aviso}
 <label for="email">E-mail</label><input id="email" name="email" type="email" required autocomplete="username" inputmode="email" autofocus>
 <label for="senha">Senha</label><input id="senha" name="senha" type="password" required autocomplete="current-password">
 <button type="submit">Entrar</button>
-</form><small>© 2026 Unfancy Works Inc. All rights reserved.</small></main></body></html>`;
+</form><small>© 2026 Unfancy Works Inc. All rights reserved.</small></main></body></html>`);
 }
 
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -213,5 +214,6 @@ export default async function middleware(req) {
   let corpo;
   try { corpo = await decifrar(alvo[0], env); } catch { corpo = null; }
   if (!corpo) return resposta('Não foi possível abrir o planejamento. Confira a PLANO_KEY.', 500, { 'Content-Type': 'text/plain; charset=utf-8' });
+  if (alvo[0] === 'index.html') corpo = addGtmToHead(dec.decode(corpo));
   return resposta(corpo, 200, { 'Content-Type': alvo[1] });
 }

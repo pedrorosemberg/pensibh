@@ -1,4 +1,5 @@
 // @ts-check
+import { GTM_HASH } from '../scripts/gtm.mjs';
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
@@ -65,7 +66,7 @@ export default defineConfig({
         "form-action 'none'",
         'upgrade-insecure-requests',
       ],
-      scriptDirective: { resources: ["'self'", ...TRACKING.script] },
+      scriptDirective: { resources: ["'self'", ...TRACKING.script], hashes: [GTM_HASH] },
       // A biblioteca de animação escreve em atributos style; nada além disso é liberado.
       styleDirective: { resources: ["'self'", { resource: "'unsafe-inline'", kind: 'attribute' }] },
     },
