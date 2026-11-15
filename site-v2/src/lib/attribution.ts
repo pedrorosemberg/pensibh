@@ -12,15 +12,19 @@ export function readJourney(): Journey | null {
 }
 function write(v: Journey) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch { /* storage blocked */ } }
 export function clearJourney() { try { localStorage.removeItem(KEY); } catch { /* storage blocked */ } }
-export function captureTouch(): Journey | null {
+export function captureTouch(allowAdClickIds = false): Journey | null {
   if (typeof window === 'undefined') return null;
   const u = new URL(location.href);
-  const hasCampaign = PARAMS.some(p=>u.searchParams.has(p)) || CLICK.some(p=>u.searchParams.has(p));
+  const hasCampaign = PARAMS.some(p=>u.searchParams.has(p)) || (allowAdClickIds && CLICK.some(p=>u.searchParams.has(p)));
   const ref = document.referrer ? new URL(document.referrer) : null;
   const external = ref && ref.hostname !== location.hostname && !ref.hostname.endsWith('.'+location.hostname);
   const existing = readJourney();
+  if (!allowAdClickIds && existing) {
+    const redact = (t: Touch) => { delete t.clickId; delete t.clickIdType; };
+    redact(existing.first); redact(existing.last); existing.touches.forEach(redact); write(existing);
+  }
   if (!hasCampaign && !external && existing) return existing;
-  const click = CLICK.find(p=>u.searchParams.has(p));
+  const click = allowAdClickIds ? CLICK.find(p=>u.searchParams.has(p)) : undefined;
   const source = safe(u.searchParams.get('utm_source')) || (click === 'fbclid' ? 'facebook' : click ? 'google' : external ? safe(ref!.hostname) : 'direct');
   const medium = safe(u.searchParams.get('utm_medium')) || (click ? 'cpc' : external ? (/(google|bing|duckduckgo)\./.test(ref!.hostname) ? 'organic' : 'referral') : 'none');
   const t: Touch = {at:now(),source,medium,campaign:safe(u.searchParams.get('utm_campaign')),content:safe(u.searchParams.get('utm_content')),term:safe(u.searchParams.get('utm_term')),campaignId:safe(u.searchParams.get('utm_id')),landing:u.pathname.slice(0,160),...(click ? {clickIdType:click,clickId:safe(u.searchParams.get(click),500)} : {})};
