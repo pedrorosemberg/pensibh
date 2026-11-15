@@ -16,7 +16,8 @@ export function captureTouch(allowAdClickIds = false): Journey | null {
   if (typeof window === 'undefined') return null;
   const u = new URL(location.href);
   const hasCampaign = PARAMS.some(p=>u.searchParams.has(p)) || (allowAdClickIds && CLICK.some(p=>u.searchParams.has(p)));
-  const ref = document.referrer ? new URL(document.referrer) : null;
+  let ref: URL | null = null;
+  try { if (document.referrer) ref = new URL(document.referrer); } catch { /* malformed referrer */ }
   const external = ref && ref.hostname !== location.hostname && !ref.hostname.endsWith('.'+location.hostname);
   const existing = readJourney();
   if (!allowAdClickIds && existing) {
