@@ -1,46 +1,31 @@
 // @ts-check
-import { GTM_HASH } from '../scripts/gtm.mjs';
+import { GOOGLE_CSP, GTM_HASH } from '../scripts/gtm.mjs';
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
-// Domínios das ferramentas de medição. Elas só carregam depois do aceite no banner de cookies.
+// Domínios das ferramentas de medição liberados na CSP. Google (GTM, Analytics e Ads) vem de
+// scripts/gtm.mjs; Meta, Clarity e Hotjar só carregam com o aceite de cookies de análise.
+/** @param {string[][]} lists */
+const uniq = (...lists) => [...new Set(lists.flat())];
 const TRACKING = {
-  script: [
-    'https://www.googletagmanager.com',
-    'https://www.googleadservices.com',
-    'https://googleads.g.doubleclick.net',
+  script: uniq(GOOGLE_CSP.script, [
     'https://connect.facebook.net',
     'https://www.clarity.ms',
     'https://scripts.clarity.ms',
     'https://static.hotjar.com',
     'https://script.hotjar.com',
-  ],
-  connect: [
-    'https://*.google-analytics.com',
-    'https://*.analytics.google.com',
-    'https://www.googletagmanager.com',
-    'https://www.google.com',
-    'https://googleads.g.doubleclick.net',
+  ]),
+  connect: uniq(GOOGLE_CSP.connect, [
     'https://www.facebook.com',
     'https://*.clarity.ms',
     'https://c.bing.com',
     'https://*.hotjar.com',
     'https://*.hotjar.io',
     'wss://*.hotjar.com',
-  ],
-  img: [
-    'https://www.googletagmanager.com',
-    'https://*.google-analytics.com',
-    'https://www.google.com',
-    'https://www.google.com.br',
-    'https://googleads.g.doubleclick.net',
-    'https://www.facebook.com',
-    'https://*.clarity.ms',
-    'https://c.bing.com',
-    'https://*.hotjar.com',
-  ],
-  frame: ['https://td.doubleclick.net', 'https://www.googletagmanager.com', 'https://vars.hotjar.com'],
+  ]),
+  img: uniq(GOOGLE_CSP.img, ['https://www.facebook.com', 'https://*.clarity.ms', 'https://c.bing.com', 'https://*.hotjar.com']),
+  frame: uniq(GOOGLE_CSP.frame, ['https://vars.hotjar.com']),
 };
 
 // Site da PENSI+, publicado na raiz do domínio principal.
@@ -60,7 +45,7 @@ export default defineConfig({
         `img-src 'self' data: ${TRACKING.img.join(' ')}`,
         "font-src 'self' https://script.hotjar.com",
         `connect-src 'self' ${TRACKING.connect.join(' ')}`,
-        `frame-src https://www.google.com ${TRACKING.frame.join(' ')}`,
+        `frame-src ${TRACKING.frame.join(' ')}`,
         "object-src 'none'",
         "base-uri 'self'",
         "form-action 'none'",

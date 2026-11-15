@@ -6,7 +6,7 @@ interface Props {
   privacyHref: string;
 }
 
-/** Banner de cookies (LGPD): recusar é tão fácil quanto aceitar, e nada carrega antes da escolha. */
+/** Banner de cookies (LGPD): recusar é tão fácil quanto aceitar. Sem aceite, só cliques de contato, sem cookies. */
 export default function ConsentBanner({ privacyHref }: Props) {
   const [open, setOpen] = useState(false);
   const [custom, setCustom] = useState(false);
@@ -52,7 +52,8 @@ export default function ConsentBanner({ privacyHref }: Props) {
           </h2>
           <p className="mt-2 text-[15px] text-tinta-600">
             Usamos cookies para medir o uso do site e o resultado dos nossos anúncios. Eles só são ativados com a sua
-            autorização, e você pode mudar a escolha quando quiser.{' '}
+            autorização, e você pode mudar a escolha quando quiser. Sem autorização, o site registra só cliques de
+            contato, sem cookies.{' '}
             <a href={privacyHref} className="font-semibold text-pensi underline underline-offset-4">
               Política de privacidade
             </a>
@@ -77,8 +78,10 @@ export default function ConsentBanner({ privacyHref }: Props) {
                     className="mt-1 size-5 accent-pensi"
                   />
                   <span>
-                    <span className="block font-semibold">Análise</span>
-                    <span className="block text-sm text-tinta-600">Google Analytics, Microsoft Clarity e Hotjar.</span>
+                    <span className="block font-semibold">Análise e observabilidade</span>
+                    <span className="block text-sm text-tinta-600">
+                      Google Analytics, Microsoft Clarity, Hotjar e Meta Pixel (Facebook e Instagram).
+                    </span>
                   </span>
                 </label>
               )}
@@ -92,7 +95,7 @@ export default function ConsentBanner({ privacyHref }: Props) {
                   />
                   <span>
                     <span className="block font-semibold">Marketing</span>
-                    <span className="block text-sm text-tinta-600">Google Ads e Meta Pixel (Facebook e Instagram).</span>
+                    <span className="block text-sm text-tinta-600">Google Ads.</span>
                   </span>
                 </label>
               )}

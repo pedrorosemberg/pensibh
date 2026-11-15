@@ -1,6 +1,10 @@
-// Rastreamento com consentimento (LGPD) e Google Consent Mode v2.
-// O contêiner GTM começa com consentimento negado. As integrações diretas
-// usam os IDs PUBLIC_* da Vercel e continuam condicionadas à escolha do visitante.
+// Rastreamento com consentimento (LGPD) e Google Consent Mode v2 no modo avançado.
+// - O GTM (scripts/gtm.mjs) carrega sempre. Sem autorização, o Google recebe sinais sem cookies com o
+//   estado "denied", e o clique no WhatsApp entra no dataLayer (evento whatsapp_contact) com a recusa.
+// - Com autorização, tudo é enviado normalmente.
+// - Meta Pixel, Microsoft Clarity e Hotjar são cookies de análise e observabilidade: só carregam com o
+//   aceite da categoria "Análise".
+// As integrações diretas do Google usam os IDs PUBLIC_* da Vercel (hoje vazios: o GTM faz esse papel).
 
 type Consent = { analytics: boolean; marketing: boolean };
 type Stored = Consent & { v: 1; ts: string };
@@ -29,6 +33,7 @@ export const CONSENT_EVENT = 'pensi:open-consent';
 
 type W = Window & {
   dataLayer?: unknown[];
+  __pensiConsent?: Consent;
   gtag?: (...args: unknown[]) => void;
   fbq?: ((...args: unknown[]) => void) & { queue?: unknown[]; loaded?: boolean; version?: string; callMethod?: unknown; push?: unknown };
   _fbq?: unknown;
@@ -57,7 +62,7 @@ export function saveConsent(c: Consent) {
   } catch {
     /* navegação privada: vale só para esta visita */
   }
-  apply(c);
+  apply(c, true);
 }
 
 function addScript(src: string) {
@@ -70,6 +75,7 @@ function addScript(src: string) {
 
 function ensureGtag() {
   if (w.gtag) return;
+  // Reserva: o bootstrap do GTM já define gtag e o consentimento padrão.
   w.dataLayer = w.dataLayer || [];
   w.gtag = function gtag() {
     // eslint-disable-next-line prefer-rest-params
@@ -85,28 +91,40 @@ function ensureGtag() {
   w.gtag('js', new Date());
 }
 
+const state = (v: boolean) => (v ? 'granted' : 'denied');
 let applied: Consent = { analytics: false, marketing: false };
+let googleConfigured = false;
 
-function apply(c: Consent) {
-  const useGa = c.analytics && ok(IDS.ga4);
-  const useAds = c.marketing && ok(IDS.ads);
-
-  if (useGa || useAds) ensureGtag();
-  if (w.gtag) {
-    w.gtag('consent', 'update', {
-      analytics_storage: c.analytics ? 'granted' : 'denied',
-      ad_storage: c.marketing ? 'granted' : 'denied',
-      ad_user_data: c.marketing ? 'granted' : 'denied',
-      ad_personalization: c.marketing ? 'granted' : 'denied',
+function apply(c: Consent, decided: boolean) {
+  ensureGtag();
+  w.__pensiConsent = c;
+  w.gtag!('consent', 'update', {
+    analytics_storage: state(c.analytics),
+    ad_storage: state(c.marketing),
+    ad_user_data: state(c.marketing),
+    ad_personalization: state(c.marketing),
+  });
+  w.gtag!('set', 'ads_data_redaction', !c.marketing);
+  if (decided) {
+    w.dataLayer!.push({
+      event: 'consent_update',
+      consent_analytics: state(c.analytics),
+      consent_marketing: state(c.marketing),
+      consent_decided: 'yes',
     });
   }
-  if (useGa || useAds) {
-    const first = useGa ? IDS.ga4 : IDS.ads;
-    addScript(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(first)}`);
-    if (useGa && !applied.analytics) w.gtag!('config', IDS.ga4, { anonymize_ip: true });
-    if (useAds && !applied.marketing) w.gtag!('config', IDS.ads);
+
+  // Integrações diretas do Google (só se houver IDs): carregam sempre, no modo avançado.
+  const useGa = ok(IDS.ga4);
+  const useAds = ok(IDS.ads);
+  if ((useGa || useAds) && !googleConfigured) {
+    addScript(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(useGa ? IDS.ga4 : IDS.ads)}`);
+    if (useGa) w.gtag!('config', IDS.ga4, { send_page_view: c.analytics });
+    if (useAds) w.gtag!('config', IDS.ads);
+    googleConfigured = true;
   }
 
+  // Cookies de análise e observabilidade: Clarity, Hotjar e Meta Pixel.
   if (c.analytics && ok(IDS.clarity) && !w.clarity) {
     w.clarity = function clarity() {
       // eslint-disable-next-line prefer-rest-params
@@ -125,7 +143,7 @@ function apply(c: Consent) {
     addScript(`https://static.hotjar.com/c/hotjar-${IDS.hotjar}.js?sv=6`);
   }
 
-  if (c.marketing && ok(IDS.meta) && !w.fbq) {
+  if (c.analytics && ok(IDS.meta) && !w.fbq) {
     const fbq = function fbq() {
       // eslint-disable-next-line prefer-rest-params
       const args = arguments;
@@ -147,19 +165,25 @@ function apply(c: Consent) {
   applied = c;
 }
 
-/** Clique em qualquer link do WhatsApp conta como "contato" em todas as ferramentas aceitas. */
+/**
+ * Clique em qualquer link do WhatsApp = contato. O evento do dataLayer (whatsapp_contact) sai do
+ * bootstrap do GTM, com ou sem autorização. Aqui vão só as integrações diretas.
+ */
 function trackContact(link: HTMLAnchorElement) {
   const label = (link.textContent || link.getAttribute('aria-label') || 'whatsapp').trim().slice(0, 80);
   const section = link.closest('section')?.id || link.closest('header,footer')?.tagName.toLowerCase() || 'pagina';
-  if (w.gtag && applied.analytics && ok(IDS.ga4)) {
-    w.gtag('event', 'generate_lead', { method: 'whatsapp', link_text: label, section });
+  const consent = { consent_analytics: state(applied.analytics), consent_marketing: state(applied.marketing) };
+  // Google no modo avançado: com recusa, o envio sai sem cookies e com o estado "denied".
+  if (w.gtag && ok(IDS.ga4)) {
+    w.gtag('event', 'generate_lead', { method: 'whatsapp', link_text: label, section, ...consent });
   }
-  if (w.gtag && applied.marketing && ok(IDS.ads) && ok(IDS.adsContactLabel)) {
+  if (w.gtag && ok(IDS.ads) && ok(IDS.adsContactLabel)) {
     w.gtag('event', 'conversion', { send_to: `${IDS.ads}/${IDS.adsContactLabel}` });
   }
-  if (w.fbq && applied.marketing) w.fbq('track', 'Contact', { content_name: section });
-  if (w.clarity && applied.analytics) w.clarity('event', 'whatsapp_contato');
-  if (w.hj && applied.analytics) w.hj('event', 'whatsapp_contato');
+  if (!applied.analytics) return;
+  if (w.fbq) w.fbq('track', 'Contact', { content_name: section });
+  if (w.clarity) w.clarity('event', 'whatsapp_contato');
+  if (w.hj) w.hj('event', 'whatsapp_contato');
 }
 
 export function initTracking() {
@@ -172,5 +196,5 @@ export function initTracking() {
     { capture: true },
   );
   const c = readConsent();
-  if (c) apply(c);
+  apply(c ?? { analytics: false, marketing: false }, false);
 }

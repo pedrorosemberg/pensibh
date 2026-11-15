@@ -4,6 +4,16 @@ import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { createHash } from 'node:crypto';
+import { GTM_BOOTSTRAP, GTM_HASH } from './gtm.mjs';
+
+// O script inline do GTM é liberado na CSP por hash: se o script mudar, o hash precisa mudar junto.
+const gtmHash = `sha256-${createHash('sha256').update(GTM_BOOTSTRAP, 'utf8').digest('base64')}`;
+if (gtmHash !== GTM_HASH) {
+  console.error(`GTM_HASH desatualizado em scripts/gtm.mjs. Use: '${gtmHash}'`);
+  process.exit(1);
+}
+
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
 const site = join(root, 'site-v2');

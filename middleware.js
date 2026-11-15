@@ -10,7 +10,7 @@
  *   válido por 8 horas. Trocar PASSWORD ou PLANO_KEY invalida todas as sessões.
  * - Falha fechada: sem as variáveis configuradas, ninguém entra.
  */
-import { addGtmToHead, GTM_HASH } from './scripts/gtm.mjs';
+import { addGtmToHead, GOOGLE_CSP, GTM_HASH } from './scripts/gtm.mjs';
 import plano from './u/planejamento.enc.json';
 
 export const config = { matcher: ['/u', '/u/:path*'] };
@@ -36,7 +36,9 @@ const HEADERS_BASE = {
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',
   'Content-Security-Policy':
-    `default-src 'self'; script-src 'self' '${GTM_HASH}' https://www.googletagmanager.com/gtm.js; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'`,
+    `default-src 'self'; script-src 'self' '${GTM_HASH}' ${GOOGLE_CSP.script.join(' ')}; style-src 'self' 'unsafe-inline'; ` +
+    `img-src 'self' data: ${GOOGLE_CSP.img.join(' ')}; connect-src 'self' ${GOOGLE_CSP.connect.join(' ')}; ` +
+    `frame-src ${GOOGLE_CSP.frame.join(' ')}; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'`,
 };
 
 async function naoEncontrado(req) {
