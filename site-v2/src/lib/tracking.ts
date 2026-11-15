@@ -1,3 +1,4 @@
+import { captureTouch, clearJourney, recordJourneyEvent, attachAttendanceCode } from './attribution';
 // Rastreamento com consentimento (LGPD) e Google Consent Mode v2.
 // O contêiner GTM começa com consentimento negado. As integrações diretas
 // usam os IDs PUBLIC_* da Vercel e continuam condicionadas à escolha do visitante.
@@ -8,8 +9,8 @@ type Stored = Consent & { v: 1; ts: string };
 const env = import.meta.env;
 export const IDS = {
   ga4: (env.PUBLIC_GA4_ID as string | undefined) ?? '',
-  ads: (env.PUBLIC_GADS_ID as string | undefined) ?? '',
-  adsContactLabel: (env.PUBLIC_GADS_CONTACT_LABEL as string | undefined) ?? '',
+  ads: (env.PUBLIC_GADS_ID as string | undefined) ?? 'AW-428944447',
+  adsContactLabel: (env.PUBLIC_GADS_CONTACT_LABEL as string | undefined) ?? 'ech4CJzShKYZEL_YxMwB',
   meta: (env.PUBLIC_META_PIXEL_ID as string | undefined) ?? '',
   clarity: (env.PUBLIC_CLARITY_ID as string | undefined) ?? '',
   hotjar: (env.PUBLIC_HOTJAR_ID as string | undefined) ?? '5093971',
@@ -57,6 +58,8 @@ export function saveConsent(c: Consent) {
   } catch {
     /* navegação privada: vale só para esta visita */
   }
+  if (!c.analytics && !c.marketing) clearJourney();
+  else captureTouch(c.marketing);
   apply(c);
 }
 
@@ -152,12 +155,15 @@ function trackContact(link: HTMLAnchorElement) {
   const label = (link.textContent || link.getAttribute('aria-label') || 'whatsapp').trim().slice(0, 80);
   const section = link.closest('section')?.id || link.closest('header,footer')?.tagName.toLowerCase() || 'pagina';
   if (w.gtag && applied.analytics && ok(IDS.ga4)) {
-    w.gtag('event', 'generate_lead', { method: 'whatsapp', link_text: label, section });
+    w.gtag('event', 'click_whatsapp', { method: 'whatsapp', link_text: label, section });
   }
-  if (w.gtag && applied.marketing && ok(IDS.ads) && ok(IDS.adsContactLabel)) {
-    w.gtag('event', 'conversion', { send_to: `${IDS.ads}/${IDS.adsContactLabel}` });
+  // Google Ads: WhatsApp click is a secondary conversion, never enrollment.
+  // Do not configure an equivalent GTM conversion tag or it will be double-counted.
+  if (w.gtag && applied.marketing && IDS.ads === 'AW-428944447' && IDS.adsContactLabel === 'ech4CJzShKYZEL_YxMwB') {
+    w.gtag('event', 'conversion', { send_to: 'AW-428944447/ech4CJzShKYZEL_YxMwB' });
   }
-  if (w.fbq && applied.marketing) w.fbq('track', 'Contact', { content_name: section });
+  if (w.fbq && applied.marketing) w.fbq('trackCustom', 'ClickWhatsApp', { content_name: section });
+  if (applied.analytics || applied.marketing) recordJourneyEvent('click_whatsapp', section);
   if (w.clarity && applied.analytics) w.clarity('event', 'whatsapp_contato');
   if (w.hj && applied.analytics) w.hj('event', 'whatsapp_contato');
 }
@@ -167,10 +173,23 @@ export function initTracking() {
     'click',
     (e) => {
       const a = (e.target as Element | null)?.closest?.('a[href^="https://wa.me/"]') as HTMLAnchorElement | null;
-      if (a) trackContact(a);
+      if (a) {
+        if (applied.analytics || applied.marketing) a.href = attachAttendanceCode(a.href);
+        trackContact(a);
+      }
     },
     { capture: true },
   );
   const c = readConsent();
-  if (c) apply(c);
+  if (c) {
+    if (c.analytics || c.marketing) captureTouch(c.marketing);
+    apply(c);
+  }
+  document.addEventListener('click', (e) => {
+    if (!(applied.analytics || applied.marketing)) return;
+    const el = (e.target as Element | null)?.closest?.('a[href],button') as HTMLElement | null;
+    if (!el || el.closest('a[href^="https://wa.me/"]')) return;
+    const section = el.closest('section')?.id || 'pagina';
+    recordJourneyEvent('navigation_click', section);
+  }, { capture: true });
 }
