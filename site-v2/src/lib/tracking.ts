@@ -1,6 +1,6 @@
 // Rastreamento com consentimento (LGPD) e Google Consent Mode v2.
-// Nenhuma tag é carregada antes do aceite. IDs vêm de variáveis PUBLIC_* da Vercel;
-// ID vazio = ferramenta desligada.
+// O contêiner GTM começa com consentimento negado. As integrações diretas
+// usam os IDs PUBLIC_* da Vercel e continuam condicionadas à escolha do visitante.
 
 type Consent = { analytics: boolean; marketing: boolean };
 type Stored = Consent & { v: 1; ts: string };
@@ -19,8 +19,9 @@ export const IDS = {
 const SAFE_ID = /^[A-Za-z0-9-]+$/;
 const ok = (id: string) => id.length > 0 && SAFE_ID.test(id);
 
-export const HAS_ANALYTICS = ok(IDS.ga4) || ok(IDS.clarity) || ok(IDS.hotjar);
-export const HAS_MARKETING = ok(IDS.ads) || ok(IDS.meta);
+// O contêiner pode usar as duas categorias mesmo sem IDs locais.
+export const HAS_ANALYTICS = true;
+export const HAS_MARKETING = true;
 export const HAS_TRACKERS = HAS_ANALYTICS || HAS_MARKETING;
 
 const KEY = 'pensi-consent';
@@ -90,25 +91,20 @@ function apply(c: Consent) {
   const useGa = c.analytics && ok(IDS.ga4);
   const useAds = c.marketing && ok(IDS.ads);
 
-  if (useGa || useAds) {
-    ensureGtag();
-    w.gtag!('consent', 'update', {
+  if (useGa || useAds) ensureGtag();
+  if (w.gtag) {
+    w.gtag('consent', 'update', {
       analytics_storage: c.analytics ? 'granted' : 'denied',
       ad_storage: c.marketing ? 'granted' : 'denied',
       ad_user_data: c.marketing ? 'granted' : 'denied',
       ad_personalization: c.marketing ? 'granted' : 'denied',
     });
+  }
+  if (useGa || useAds) {
     const first = useGa ? IDS.ga4 : IDS.ads;
     addScript(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(first)}`);
     if (useGa && !applied.analytics) w.gtag!('config', IDS.ga4, { anonymize_ip: true });
     if (useAds && !applied.marketing) w.gtag!('config', IDS.ads);
-  } else if (w.gtag) {
-    w.gtag('consent', 'update', {
-      analytics_storage: 'denied',
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-    });
   }
 
   if (c.analytics && ok(IDS.clarity) && !w.clarity) {

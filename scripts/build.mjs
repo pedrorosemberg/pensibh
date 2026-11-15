@@ -1,4 +1,5 @@
 // Build de produção para a Vercel: monta dist/ com a v1 (raiz) e a v2 (/v2).
+import { addGtmToHead } from './gtm.mjs';
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
@@ -17,6 +18,8 @@ mkdirSync(join(dist, 'assets'), { recursive: true });
 for (const file of ['index.html', 'styles.css', 'script.js', 'robots.txt', 'sitemap.xml', 'llms.txt']) {
   if (existsSync(join(root, file))) cpSync(join(root, file), join(dist, file));
 }
+const legacyHtml = join(dist, 'index.html');
+writeFileSync(legacyHtml, addGtmToHead(readFileSync(legacyHtml, 'utf8')));
 cpSync(join(root, 'images'), join(dist, 'images'), { recursive: true });
 // Depoimentos em vídeo: servidos tanto pela v1 (/videos) quanto pela v2.
 cpSync(join(root, 'videos'), join(dist, 'videos'), { recursive: true });

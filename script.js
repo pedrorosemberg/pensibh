@@ -15,8 +15,9 @@ const SAFE_ID = /^[A-Za-z0-9-]+$/;
 const IDS = Object.fromEntries(
     Object.entries(RAW_IDS).map(([k, v]) => [k, v.startsWith('__') || !SAFE_ID.test(v) ? '' : v]),
 );
-const HAS_ANALYTICS = Boolean(IDS.ga4 || IDS.clarity || IDS.hotjar);
-const HAS_MARKETING = Boolean(IDS.ads || IDS.meta);
+// O contêiner GTM pode usar as duas categorias mesmo sem IDs locais.
+const HAS_ANALYTICS = true;
+const HAS_MARKETING = true;
 const CONSENT_KEY = 'pensi-consent';
 
 function readConsent() {
@@ -65,12 +66,16 @@ function applyConsent(c) {
             });
             window.gtag('js', new Date());
         }
+    }
+    if (window.gtag) {
         window.gtag('consent', 'update', {
             analytics_storage: c.analytics ? 'granted' : 'denied',
             ad_storage: c.marketing ? 'granted' : 'denied',
             ad_user_data: c.marketing ? 'granted' : 'denied',
             ad_personalization: c.marketing ? 'granted' : 'denied',
         });
+    }
+    if (useGa || useAds) {
         addScript(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(useGa ? IDS.ga4 : IDS.ads)}`);
         if (useGa && !applied.analytics) window.gtag('config', IDS.ga4, { anonymize_ip: true });
         if (useAds && !applied.marketing) window.gtag('config', IDS.ads);

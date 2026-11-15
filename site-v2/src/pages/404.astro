@@ -1,7 +1,7 @@
 ---
-// Página 404 da aplicação. Sem scripts: é servida também na raiz do domínio
-// (copiada para dist/404.html), onde a CSP do site não permite scripts embutidos.
+// A Vercel também usa esta página 404 na raiz do domínio.
 import '../styles/global.css';
+import GoogleTagManager from '../components/GoogleTagManager.astro';
 import { Image } from 'astro:assets';
 import { SITE, whatsapp } from '../data/site';
 import WhatsAppIcon from '../components/WhatsAppIcon.tsx';
@@ -13,6 +13,7 @@ const wa = whatsapp('Olá, Bruno! Tentei acessar uma página do site e não enco
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    <GoogleTagManager />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="robots" content="noindex" />
