@@ -9,8 +9,8 @@ type Stored = Consent & { v: 1; ts: string };
 const env = import.meta.env;
 export const IDS = {
   ga4: (env.PUBLIC_GA4_ID as string | undefined) ?? '',
-  ads: (env.PUBLIC_GADS_ID as string | undefined) ?? '',
-  adsContactLabel: (env.PUBLIC_GADS_CONTACT_LABEL as string | undefined) ?? '',
+  ads: (env.PUBLIC_GADS_ID as string | undefined) ?? 'AW-428944447',
+  adsContactLabel: (env.PUBLIC_GADS_CONTACT_LABEL as string | undefined) ?? 'ech4CJzShKYZEL_YxMwB',
   meta: (env.PUBLIC_META_PIXEL_ID as string | undefined) ?? '',
   clarity: (env.PUBLIC_CLARITY_ID as string | undefined) ?? '',
   hotjar: (env.PUBLIC_HOTJAR_ID as string | undefined) ?? '5093971',
@@ -156,6 +156,11 @@ function trackContact(link: HTMLAnchorElement) {
   const section = link.closest('section')?.id || link.closest('header,footer')?.tagName.toLowerCase() || 'pagina';
   if (w.gtag && applied.analytics && ok(IDS.ga4)) {
     w.gtag('event', 'click_whatsapp', { method: 'whatsapp', link_text: label, section });
+  }
+  // Google Ads: WhatsApp click is a secondary conversion, never enrollment.
+  // Do not configure an equivalent GTM conversion tag or it will be double-counted.
+  if (w.gtag && applied.marketing && IDS.ads === 'AW-428944447' && IDS.adsContactLabel === 'ech4CJzShKYZEL_YxMwB') {
+    w.gtag('event', 'conversion', { send_to: 'AW-428944447/ech4CJzShKYZEL_YxMwB' });
   }
   if (w.fbq && applied.marketing) w.fbq('trackCustom', 'ClickWhatsApp', { content_name: section });
   if (applied.analytics || applied.marketing) recordJourneyEvent('click_whatsapp', section);
