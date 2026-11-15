@@ -24,6 +24,7 @@ export default function PlanExplorer() {
     else return;
     e.preventDefault();
     setActive(next);
+    recordJourneyEvent('view_course', PLANS[next].id);
     tabRefs.current[next]?.focus();
   };
 
