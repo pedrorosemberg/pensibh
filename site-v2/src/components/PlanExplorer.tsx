@@ -4,6 +4,7 @@ import { CalendarDays, Clock } from 'lucide-react';
 import { PLANS, SLOTS, brl, whatsapp } from '../data/site';
 import { cn } from '../lib/utils';
 import WhatsAppIcon from './WhatsAppIcon';
+import { recordJourneyEvent } from '../lib/attribution';
 
 /** Seletor de turma em abas (padrão "pricing tabs" do 21st.dev), com navegação por teclado. */
 export default function PlanExplorer() {
@@ -47,7 +48,7 @@ export default function PlanExplorer() {
               aria-selected={selected}
               aria-controls={`${baseId}-panel`}
               tabIndex={selected ? 0 : -1}
-              onClick={() => setActive(i)}
+              onClick={() => { setActive(i); recordJourneyEvent('view_course', p.id); }}
               onKeyDown={(e) => onKeyDown(e, i)}
               className={cn(
                 'relative min-h-12 rounded-xl px-2 py-2.5 text-[14px] font-semibold leading-tight transition-colors sm:px-4 sm:text-[15px]',
@@ -131,6 +132,7 @@ export default function PlanExplorer() {
                     href={whatsapp(
                       `Olá, Bruno! Tenho interesse no curso ${plan.name} no horário das ${slot.label}. Ainda há vagas?`,
                     )}
+                    onClick={() => recordJourneyEvent("select_plan", `${plan.id}:${slot.id}`)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
