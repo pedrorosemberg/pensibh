@@ -147,12 +147,49 @@ function apply(c: Consent) {
   applied = c;
 }
 
+/** Aceita apenas os identificadores usados nos anúncios de Black Friday. */
+function readBlackFridayAttribution(): Record<string, string> {
+  const params = new URLSearchParams(window.location.search);
+  const campaign = params.get('utm_campaign');
+  const adGroup = params.get('utm_term');
+  const course = params.get('utm_content');
+  if (
+    params.get('utm_source') !== 'google' ||
+    !(
+      (campaign === 'bf26_demand_gen' && params.get('utm_medium') === 'paid_demand_gen') ||
+      (campaign === 'bf26_video' && params.get('utm_medium') === 'paid_video')
+    ) ||
+    adGroup !== 'black_friday' ||
+    (course !== 'cefet' && course !== 'enem' && course !== 'cesec')
+  ) return {};
+
+  const attribution: Record<string, string> = {
+    ads_campaign: campaign,
+    ads_ad_group: adGroup,
+    ads_course: course,
+  };
+  for (const [queryKey, eventKey] of [
+    ['utm_id', 'ads_campaign_id'],
+    ['adgroup_id', 'ads_ad_group_id'],
+    ['ad_id', 'ads_ad_id'],
+  ]) {
+    const value = params.get(queryKey);
+    if (value && /^\d{1,20}$/.test(value)) attribution[eventKey] = value;
+  }
+  return attribution;
+}
+
 /** Clique em qualquer link do WhatsApp conta como "contato" em todas as ferramentas aceitas. */
 function trackContact(link: HTMLAnchorElement) {
   const label = (link.textContent || link.getAttribute('aria-label') || 'whatsapp').trim().slice(0, 80);
   const section = link.closest('section')?.id || link.closest('header,footer')?.tagName.toLowerCase() || 'pagina';
   if (w.gtag && applied.analytics && ok(IDS.ga4)) {
-    w.gtag('event', 'generate_lead', { method: 'whatsapp', link_text: label, section });
+    w.gtag('event', 'generate_lead', {
+      method: 'whatsapp',
+      link_text: label,
+      section,
+      ...readBlackFridayAttribution(),
+    });
   }
   if (w.gtag && applied.marketing && ok(IDS.ads) && ok(IDS.adsContactLabel)) {
     w.gtag('event', 'conversion', { send_to: `${IDS.ads}/${IDS.adsContactLabel}` });
