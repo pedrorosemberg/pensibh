@@ -4,16 +4,14 @@
 // - Com autorização, tudo é enviado normalmente.
 // - Meta Pixel, Microsoft Clarity e Hotjar são cookies de análise e observabilidade: só carregam com o
 //   aceite da categoria "Análise".
-// As integrações diretas do Google usam os IDs PUBLIC_* da Vercel (hoje vazios: o GTM faz esse papel).
+// O GA4 (G-RRH6VX6G3D) e o Google Ads (AW-428944447) vêm só do GTM. O clique no WhatsApp é enviado pelo
+// script de entrada (scripts/gtm.mjs) como click_whatsapp + conversão; não crie tags iguais no GTM.
 
 type Consent = { analytics: boolean; marketing: boolean };
 type Stored = Consent & { v: 1; ts: string };
 
 const env = import.meta.env;
 export const IDS = {
-  ga4: (env.PUBLIC_GA4_ID as string | undefined) ?? '',
-  ads: (env.PUBLIC_GADS_ID as string | undefined) ?? '',
-  adsContactLabel: (env.PUBLIC_GADS_CONTACT_LABEL as string | undefined) ?? '',
   meta: (env.PUBLIC_META_PIXEL_ID as string | undefined) ?? '',
   clarity: (env.PUBLIC_CLARITY_ID as string | undefined) ?? '',
   hotjar: (env.PUBLIC_HOTJAR_ID as string | undefined) ?? '5093971',
@@ -93,7 +91,6 @@ function ensureGtag() {
 
 const state = (v: boolean) => (v ? 'granted' : 'denied');
 let applied: Consent = { analytics: false, marketing: false };
-let googleConfigured = false;
 
 function apply(c: Consent, decided: boolean) {
   ensureGtag();
@@ -112,16 +109,6 @@ function apply(c: Consent, decided: boolean) {
       consent_marketing: state(c.marketing),
       consent_decided: 'yes',
     });
-  }
-
-  // Integrações diretas do Google (só se houver IDs): carregam sempre, no modo avançado.
-  const useGa = ok(IDS.ga4);
-  const useAds = ok(IDS.ads);
-  if ((useGa || useAds) && !googleConfigured) {
-    addScript(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(useGa ? IDS.ga4 : IDS.ads)}`);
-    if (useGa) w.gtag!('config', IDS.ga4, { send_page_view: c.analytics });
-    if (useAds) w.gtag!('config', IDS.ads);
-    googleConfigured = true;
   }
 
   // Cookies de análise e observabilidade: Clarity, Hotjar e Meta Pixel.
@@ -166,22 +153,13 @@ function apply(c: Consent, decided: boolean) {
 }
 
 /**
- * Clique em qualquer link do WhatsApp = contato. O evento do dataLayer (whatsapp_contact) sai do
- * bootstrap do GTM, com ou sem autorização. Aqui vão só as integrações diretas.
+ * Clique em qualquer link do WhatsApp. O dataLayer, o GA4 e o Google Ads recebem o clique pelo script de
+ * entrada do GTM, com ou sem autorização. Aqui vão só as ferramentas de análise, que exigem aceite.
  */
 function trackContact(link: HTMLAnchorElement) {
-  const label = (link.textContent || link.getAttribute('aria-label') || 'whatsapp').trim().slice(0, 80);
-  const section = link.closest('section')?.id || link.closest('header,footer')?.tagName.toLowerCase() || 'pagina';
-  const consent = { consent_analytics: state(applied.analytics), consent_marketing: state(applied.marketing) };
-  // Google no modo avançado: com recusa, o envio sai sem cookies e com o estado "denied".
-  if (w.gtag && ok(IDS.ga4)) {
-    w.gtag('event', 'generate_lead', { method: 'whatsapp', link_text: label, section, ...consent });
-  }
-  if (w.gtag && ok(IDS.ads) && ok(IDS.adsContactLabel)) {
-    w.gtag('event', 'conversion', { send_to: `${IDS.ads}/${IDS.adsContactLabel}` });
-  }
   if (!applied.analytics) return;
-  if (w.fbq) w.fbq('track', 'Contact', { content_name: section });
+  const section = link.closest('section')?.id || link.closest('header,footer')?.tagName.toLowerCase() || 'pagina';
+  if (w.fbq) w.fbq('trackCustom', 'ClickWhatsApp', { content_name: section });
   if (w.clarity) w.clarity('event', 'whatsapp_contato');
   if (w.hj) w.hj('event', 'whatsapp_contato');
 }
