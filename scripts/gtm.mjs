@@ -19,6 +19,7 @@ export const GTM_BOOTSTRAP = `
     var s = JSON.parse(localStorage.getItem('pensi-consent') || 'null');
     if (s && s.v === 1) { d = true; a = s.analytics === true; m = s.marketing === true; }
   } catch (e) {}
+  if (d) document.documentElement.setAttribute('data-pensi-consent-decided', '');
   var g = function (x) { return x ? 'granted' : 'denied'; };
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
@@ -82,7 +83,7 @@ export const GTM_BOOTSTRAP = `
 export const GTM_HEAD = `<script>${GTM_BOOTSTRAP}</script>
 <script async src="https://www.googletagmanager.com/gtm.js?id=${GTM_ID}"></script>`;
 
-export const GTM_HASH = 'sha256-WNgzZWmlYQHehc1ExXXmvrNDHoiDCbYRlE+6VkoXovA=';
+export const GTM_HASH = 'sha256-9bGI0lCRZGYu+dcYW37TIc+Rn7/eyl8hPmqluqVphPk=';
 
 // Domínios do Google Tag Manager, Analytics e Ads liberados na CSP (site e /u/planejamento).
 // Curingas como https://*.analytics.google.com NÃO cobrem o domínio raiz, por isso os dois aparecem.
