@@ -149,7 +149,10 @@ function apply(c: Consent, decided: boolean) {
     w.fbq('track', 'PageView');
   }
 
+  const wasEnabled = applied.analytics;
   applied = c;
+  if (!c.analytics) contentObserver?.disconnect();
+  else if (!wasEnabled) trackContentViews();
 }
 
 /**
@@ -167,6 +170,7 @@ function trackContact(link: HTMLAnchorElement) {
 type AnalyticsEvent = 'view_course' | 'view_pricing' | 'select_plan' | 'click_phone' | 'navigation_click';
 
 export function trackAnalytics(event: AnalyticsEvent, parameters: Record<string, string>) {
+  if (!applied.analytics) return;
   w.gtag?.('event', event, { ...parameters, send_to: 'G-RRH6VX6G3D' });
 }
 
@@ -182,18 +186,25 @@ function trackSiteInteraction(event: MouseEvent) {
   }
 }
 
+let contentObserver: IntersectionObserver | undefined;
+const trackedContent = new WeakSet<Element>();
+
 function trackContentViews() {
   if (!('IntersectionObserver' in window)) return;
-  const observer = new IntersectionObserver((entries) => {
+  contentObserver = new IntersectionObserver((entries) => {
+    if (!applied.analytics) return;
     for (const entry of entries) {
       if (!entry.isIntersecting || entry.intersectionRatio < 0.5) continue;
       const course = entry.target.getAttribute('data-course-view');
       if (course) trackAnalytics('view_course', { course });
       else trackAnalytics('view_pricing', { content_section: 'agenda' });
-      observer.unobserve(entry.target);
+      trackedContent.add(entry.target);
+      contentObserver?.unobserve(entry.target);
     }
   }, { threshold: 0.5 });
-  document.querySelectorAll('[data-course-view], [data-pricing-view]').forEach((element) => observer.observe(element));
+  document.querySelectorAll('[data-course-view], [data-pricing-view]').forEach((element) => {
+    if (!trackedContent.has(element)) contentObserver?.observe(element);
+  });
 }
 
 export function initTracking() {
@@ -208,5 +219,4 @@ export function initTracking() {
   );
   const c = readConsent();
   apply(c ?? { analytics: false, marketing: false }, false);
-  trackContentViews();
 }
