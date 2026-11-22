@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import robotoLatin from '@fontsource-variable/roboto/files/roboto-latin-wght-normal.woff2?url';
 import GoogleTagManager from '../components/GoogleTagManager.astro';
 import { SITE, FAQ, PLANS, COURSES, BRUNO } from '../data/site';
 import ogImage from '../assets/og-v2.png';
@@ -132,6 +133,7 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    <link rel="preload" href={robotoLatin} as="font" type="font/woff2" crossorigin="anonymous" />
     <GoogleTagManager />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />

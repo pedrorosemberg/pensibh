@@ -1,5 +1,11 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/roboto/wght.css';
+@font-face {
+  font-family: 'Roboto Variable';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: optional;
+  src: url('@fontsource-variable/roboto/files/roboto-latin-wght-normal.woff2') format('woff2');
+}
 
 /* Identidade PENSI+: cores tiradas da logo oficial e tipografia Roboto do site. */
 @theme {
