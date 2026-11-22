@@ -1,0 +1,100 @@
+---
+interface Props { privacyHref: string }
+const { privacyHref } = Astro.props;
+const secondary = 'min-h-12 rounded-full px-5 font-semibold text-tinta ring-1 ring-tinta/20 hover:bg-papel';
+---
+
+<section
+  id="pensi-consent-banner"
+  aria-labelledby="pensi-consent-title"
+  class="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-3xl rounded-3xl bg-white p-5 text-tinta shadow-2xl ring-1 ring-tinta/10 sm:bottom-5 sm:p-6"
+>
+  <h2 id="pensi-consent-title" class="text-lg font-bold">Sua privacidade</h2>
+  <p class="mt-2 text-[15px] text-tinta-600">
+    Usamos cookies com sua autorização para medir o uso do site e dos anúncios. Sem autorização, o site registra só cliques de contato, sem cookies.
+    <a href={privacyHref} class="font-semibold text-pensi underline underline-offset-4">Política de privacidade</a>
+  </p>
+
+  <fieldset data-consent-preferences hidden class="mt-4 space-y-3">
+    <legend class="sr-only">Escolha os tipos de cookies</legend>
+    <label class="flex items-start gap-3 rounded-2xl bg-papel p-3">
+      <input type="checkbox" checked disabled class="mt-1 size-5 accent-pensi" />
+      <span><strong class="block">Essenciais</strong><span class="text-sm text-tinta-600">Guardam sua escolha. Sempre ativos.</span></span>
+    </label>
+    <label class="flex cursor-pointer items-start gap-3 rounded-2xl bg-papel p-3">
+      <input type="checkbox" name="analytics" class="mt-1 size-5 accent-pensi" />
+      <span><strong class="block">Análise e observabilidade</strong><span class="text-sm text-tinta-600">Google Analytics, Microsoft Clarity, Hotjar e Meta Pixel.</span></span>
+    </label>
+    <label class="flex cursor-pointer items-start gap-3 rounded-2xl bg-papel p-3">
+      <input type="checkbox" name="marketing" class="mt-1 size-5 accent-pensi" />
+      <span><strong class="block">Marketing</strong><span class="text-sm text-tinta-600">Google Ads.</span></span>
+    </label>
+  </fieldset>
+
+  <div class="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+    <button type="button" data-consent-action="custom" class={secondary}>Personalizar</button>
+    <button type="button" data-consent-action="save" hidden class={secondary}>Salvar escolhas</button>
+    <button type="button" data-consent-action="reject" class={secondary}>Recusar</button>
+    <button type="button" data-consent-action="accept" class="min-h-12 rounded-full bg-pensi px-6 font-semibold text-white hover:bg-pensi-700">Aceitar todos</button>
+  </div>
+</section>
+
+<style>
+  #pensi-consent-banner[hidden],
+  :global(html[data-pensi-consent-decided]) #pensi-consent-banner:not([data-open]) {
+    display: none;
+  }
+</style>
+
+<script>
+  import { CONSENT_EVENT, initTracking, readConsent, saveConsent } from '../lib/tracking';
+
+  const banner = document.querySelector<HTMLElement>('#pensi-consent-banner')!;
+  const prefs = banner.querySelector<HTMLFieldSetElement>('[data-consent-preferences]')!;
+  const analytics = prefs.querySelector<HTMLInputElement>('[name="analytics"]')!;
+  const marketing = prefs.querySelector<HTMLInputElement>('[name="marketing"]')!;
+  const custom = banner.querySelector<HTMLButtonElement>('[data-consent-action="custom"]')!;
+  const save = banner.querySelector<HTMLButtonElement>('[data-consent-action="save"]')!;
+  let opener: HTMLElement | null = null;
+
+  function showPreferences() {
+    const consent = readConsent();
+    analytics.checked = consent?.analytics ?? false;
+    marketing.checked = consent?.marketing ?? false;
+    prefs.hidden = false;
+    custom.hidden = true;
+    save.hidden = false;
+    analytics.focus();
+  }
+
+  function openPreferences() {
+    opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    banner.hidden = false;
+    banner.dataset.open = '';
+    showPreferences();
+  }
+
+  window.addEventListener(CONSENT_EVENT, openPreferences);
+  document.querySelectorAll('[data-open-consent]').forEach((button) => {
+    button.addEventListener('click', openPreferences);
+  });
+
+  banner.addEventListener('click', (event) => {
+    const action = (event.target as HTMLElement).closest('button')?.dataset.consentAction;
+    if (!action) return;
+    if (action === 'custom') {
+      showPreferences();
+      return;
+    }
+    saveConsent({
+      analytics: action === 'accept' || (action === 'save' && analytics.checked),
+      marketing: action === 'accept' || (action === 'save' && marketing.checked),
+    });
+    banner.hidden = true;
+    delete banner.dataset.open;
+    opener?.focus();
+    opener = null;
+  });
+
+  initTracking();
+</script>

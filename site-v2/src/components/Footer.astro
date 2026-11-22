@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import ConsentButton from './ConsentButton.tsx';
 import WhatsAppIcon from './WhatsAppIcon.tsx';
 import { NAV, SITE, whatsapp } from '../data/site';
 import logo from '../assets/logo-pensi.png';
@@ -40,7 +39,7 @@ const year = new Date().getFullYear();
       <ul class="mt-3 space-y-0.5">
         <li><a href={`${base}privacidade/`} class="inline-flex min-h-11 items-center hover:text-oliva">Política de privacidade</a></li>
         <li><a href={`${base}termos/`} class="inline-flex min-h-11 items-center hover:text-oliva">Termos de uso e contratação</a></li>
-        <li><ConsentButton client:idle className="inline-flex min-h-11 items-center text-left hover:text-oliva" /></li>
+        <li><button type="button" data-open-consent class="inline-flex min-h-11 items-center text-left hover:text-oliva">Preferências de cookies</button></li>
       </ul>
     </div>
   </div>

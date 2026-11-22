@@ -1,7 +1,7 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import Header from '../components/Header.tsx';
+import Header from '../components/Header.astro';
 import PlanExplorer from '../components/PlanExplorer.tsx';
 import WhatsAppIcon from '../components/WhatsAppIcon.tsx';
 import Footer from '../components/Footer.astro';
@@ -51,7 +51,7 @@ const year = new Date().getFullYear();
 ---
 
 <Base>
-  <Header client:load logoSrc={logoSmall.src} whatsappHref={waGeral} />
+  <Header logoSrc={logoSmall.src} whatsappHref={waGeral} />
 
   <main id="conteudo">
     {/* HERO */}

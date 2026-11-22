@@ -1,0 +1,70 @@
+---
+import { Menu, X } from 'lucide-react';
+import { NAV } from '../data/site';
+import WhatsAppIcon from './WhatsAppIcon.tsx';
+
+interface Props {
+  logoSrc: string;
+  whatsappHref: string;
+  hrefPrefix?: string;
+}
+
+const { logoSrc, whatsappHref, hrefPrefix = '' } = Astro.props;
+---
+
+<header class="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-2xl bg-white/95 px-4 py-2.5 shadow-sm ring-1 ring-tinta/10 sm:px-5">
+    <a href={`${hrefPrefix}#topo`} class="flex shrink-0 items-center gap-2" aria-label="PENSI+, voltar ao início">
+      <img src={logoSrc} alt="" width="86" height="48" class="h-10 w-auto" />
+    </a>
+    <nav aria-label="Seções da página" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {NAV.map((item) => (
+          <li><a href={`${hrefPrefix}${item.href}`} class="rounded-full px-3.5 py-2 text-[15px] font-medium text-tinta-600 hover:bg-pensi-50 hover:text-pensi">{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="hidden items-center gap-2 rounded-full bg-pensi px-5 py-2.5 text-[15px] font-semibold text-white shadow-sm hover:bg-pensi-700 sm:inline-flex">
+        <WhatsAppIcon className="size-4" /> Agende uma aula
+      </a>
+      <button id="menu-movel-botao" type="button" class="inline-flex size-11 items-center justify-center rounded-full text-tinta hover:bg-pensi-50 lg:hidden" aria-expanded="false" aria-controls="menu-movel" aria-label="Abrir menu">
+        <Menu aria-hidden="true" className="size-6" />
+        <X aria-hidden="true" className="hidden size-6" />
+      </button>
+    </div>
+  </div>
+  <nav id="menu-movel" hidden aria-label="Menu principal" class="mx-auto mt-2 max-h-[calc(100dvh-6rem)] max-w-6xl overflow-auto rounded-2xl bg-white p-3 shadow-xl ring-1 ring-tinta/10 lg:hidden">
+    <ul class="flex flex-col">
+      {NAV.map((item) => (
+        <li><a href={`${hrefPrefix}${item.href}`} class="block rounded-xl px-4 py-3.5 text-lg font-medium text-tinta hover:bg-pensi-50 hover:text-pensi">{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('#menu-movel-botao')!;
+  const panel = document.querySelector<HTMLElement>('#menu-movel')!;
+
+  function setOpen(open: boolean) {
+    panel.hidden = !open;
+    button.setAttribute('aria-expanded', String(open));
+    button.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    button.firstElementChild?.classList.toggle('hidden', open);
+    button.lastElementChild?.classList.toggle('hidden', !open);
+  }
+
+  button.addEventListener('click', () => {
+    setOpen(panel.hidden);
+    if (!panel.hidden) panel.querySelector('a')?.focus();
+  });
+  panel.addEventListener('click', (event) => {
+    if ((event.target as Element).closest('a')) setOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || panel.hidden) return;
+    setOpen(false);
+    button.focus();
+  });
+</script>
