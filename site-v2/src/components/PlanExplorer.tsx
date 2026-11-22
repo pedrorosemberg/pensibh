@@ -2,6 +2,7 @@ import { useId, useRef, useState, type KeyboardEvent } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { CalendarDays, Clock } from 'lucide-react';
 import { PLANS, SLOTS, brl, whatsapp } from '../data/site';
+import { trackAnalytics } from '../lib/tracking';
 import { cn } from '../lib/utils';
 import WhatsAppIcon from './WhatsAppIcon';
 
@@ -13,6 +14,12 @@ export default function PlanExplorer() {
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const plan = PLANS[active];
 
+  const selectPlan = (index: number) => {
+    if (index === active) return;
+    setActive(index);
+    trackAnalytics('select_plan', { course: PLANS[index].id });
+  };
+
   const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
     const last = PLANS.length - 1;
     let next = i;
@@ -22,7 +29,7 @@ export default function PlanExplorer() {
     else if (e.key === 'End') next = last;
     else return;
     e.preventDefault();
-    setActive(next);
+    selectPlan(next);
     tabRefs.current[next]?.focus();
   };
 
@@ -47,7 +54,7 @@ export default function PlanExplorer() {
               aria-selected={selected}
               aria-controls={`${baseId}-panel`}
               tabIndex={selected ? 0 : -1}
-              onClick={() => setActive(i)}
+              onClick={() => selectPlan(i)}
               onKeyDown={(e) => onKeyDown(e, i)}
               className={cn(
                 'relative min-h-12 rounded-xl px-2 py-2.5 text-[14px] font-semibold leading-tight transition-colors sm:px-4 sm:text-[15px]',

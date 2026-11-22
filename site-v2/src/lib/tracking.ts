@@ -149,7 +149,10 @@ function apply(c: Consent, decided: boolean) {
     w.fbq('track', 'PageView');
   }
 
+  const wasEnabled = applied.analytics;
   applied = c;
+  if (!c.analytics) contentObserver?.disconnect();
+  else if (!wasEnabled) trackContentViews();
 }
 
 /**
@@ -164,12 +167,53 @@ function trackContact(link: HTMLAnchorElement) {
   if (w.hj) w.hj('event', 'whatsapp_contato');
 }
 
+type AnalyticsEvent = 'view_course' | 'view_pricing' | 'select_plan' | 'click_phone' | 'navigation_click';
+
+export function trackAnalytics(event: AnalyticsEvent, parameters: Record<string, string>) {
+  if (!applied.analytics) return;
+  w.gtag?.('event', event, { ...parameters, send_to: 'G-RRH6VX6G3D' });
+}
+
+function trackSiteInteraction(event: MouseEvent) {
+  const link = (event.target as Element | null)?.closest?.('a[href]');
+  if (!link) return;
+  const href = link.getAttribute('href') ?? '';
+  const section = link.closest('section')?.id ?? link.closest('header,footer')?.tagName.toLowerCase() ?? 'pagina';
+  if (href.startsWith('tel:')) {
+    trackAnalytics('click_phone', { contact_method: 'phone', contact_section: section });
+  } else if (href.startsWith('#') && href.length > 1) {
+    trackAnalytics('navigation_click', { destination_section: href.slice(1), navigation_section: section });
+  }
+}
+
+let contentObserver: IntersectionObserver | undefined;
+const trackedContent = new WeakSet<Element>();
+
+function trackContentViews() {
+  if (!('IntersectionObserver' in window)) return;
+  contentObserver = new IntersectionObserver((entries) => {
+    if (!applied.analytics) return;
+    for (const entry of entries) {
+      if (!entry.isIntersecting || entry.intersectionRatio < 0.5) continue;
+      const course = entry.target.getAttribute('data-course-view');
+      if (course) trackAnalytics('view_course', { course });
+      else trackAnalytics('view_pricing', { content_section: 'agenda' });
+      trackedContent.add(entry.target);
+      contentObserver?.unobserve(entry.target);
+    }
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-course-view], [data-pricing-view]').forEach((element) => {
+    if (!trackedContent.has(element)) contentObserver?.observe(element);
+  });
+}
+
 export function initTracking() {
   document.addEventListener(
     'click',
     (e) => {
       const a = (e.target as Element | null)?.closest?.('a[href^="https://wa.me/"]') as HTMLAnchorElement | null;
       if (a) trackContact(a);
+      else trackSiteInteraction(e);
     },
     { capture: true },
   );
