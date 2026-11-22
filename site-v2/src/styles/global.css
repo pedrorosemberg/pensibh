@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/roboto';
+@import '@fontsource-variable/roboto/wght.css';
 
 /* Identidade PENSI+: cores tiradas da logo oficial e tipografia Roboto do site. */
 @theme {
@@ -51,17 +51,6 @@
   clip-path: polygon(0 4%, 100% 0, 100% 96%, 0 100%);
 }
 
-/* Revelação ao rolar: o conteúdo é visível sem JS; o script só esconde o que está abaixo da dobra. */
-[data-reveal].reveal-wait {
-  opacity: 0;
-  transform: translateY(24px);
-}
-[data-reveal] {
-  transition:
-    opacity 700ms var(--ease-out-soft),
-    transform 700ms var(--ease-out-soft);
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -72,19 +61,6 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-  [data-reveal].reveal-wait {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.marquee {
-  animation: marquee 38s linear infinite;
-}
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
   }
 }
 

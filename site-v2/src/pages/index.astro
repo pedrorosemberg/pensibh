@@ -3,7 +3,6 @@ import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.tsx';
 import PlanExplorer from '../components/PlanExplorer.tsx';
-import CountUp from '../components/CountUp.tsx';
 import WhatsAppIcon from '../components/WhatsAppIcon.tsx';
 import Footer from '../components/Footer.astro';
 import {
@@ -63,14 +62,14 @@ const year = new Date().getFullYear();
       </div>
 
       <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:gap-12 sm:px-5 lg:grid-cols-[1.05fr_0.95fr]">
-        <div class="hero-in">
+        <div>
           <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-[13px] font-medium ring-1 ring-white/25 sm:px-4 sm:text-sm">
             <span class="size-2 rounded-full bg-oliva" aria-hidden="true"></span>
             Matrículas abertas para 2027 · 8 vagas por turma
           </p>
 
           <h1 class="mt-5 text-balance text-[2.35rem] font-black leading-[1.04] tracking-tight sm:mt-6 sm:text-5xl lg:text-6xl">
-            Chegou sua vez de passar! <span class="text-oliva"> Comece uma nova fase na sua vida!</span>
+            Chegou sua vez de passar! <span class="text-oliva-200"> Comece uma nova fase na sua vida!</span>
           </h1>
           <p class="inline-flex items-center gap-2 rounded-full text-[13px] font-medium sm:px-4 sm:text-sm"> 
           Pré-vestibular PENSI+
@@ -103,13 +102,13 @@ const year = new Date().getFullYear();
           </ul>
         </div>
 
-        <div class="hero-in-late relative mx-auto w-full max-w-md lg:max-w-none">
+        <div class="relative mx-auto w-full max-w-md lg:max-w-none">
           <div class="slant overflow-hidden rounded-3xl bg-pensi-900 shadow-2xl shadow-pensi-900/40">
             <Image
               src={heroImg}
               alt="Professor Bruno explicando um exercício de geometria no quadro para uma aluna"
-              widths={[480, 720, 960]}
-              sizes="(min-width: 1024px) 520px, 90vw"
+              widths={[400, 520, 720, 960]}
+              sizes="(min-width: 1024px) 520px, (min-width: 480px) 448px, calc(100vw - 2rem)"
               loading="eager"
               fetchpriority="high"
               class="aspect-[4/3.4] w-full object-cover object-[70%_center] sm:aspect-[4/4.4]"
@@ -128,20 +127,18 @@ const year = new Date().getFullYear();
     </section>
 
     {/* FAIXA DE MATÉRIAS */}
-    <div class="overflow-hidden border-y border-tinta/10 bg-white py-4" aria-label="Matérias ofertadas">
-      <ul class="marquee flex w-max gap-8 pr-8 text-base font-semibold text-tinta-600 sm:gap-10 sm:pr-10 sm:text-lg">
-        {[...subjects, ...subjects].map((s, i) => (
-          <li class="flex items-center gap-10" aria-hidden={i >= subjects.length ? 'true' : undefined}>
-            {s}<span class="text-oliva" aria-hidden="true">+</span>
-          </li>
-        ))}
+    <section aria-labelledby="materias-titulo" class="border-y border-tinta/10 bg-white px-4 py-4">
+      <h2 id="materias-titulo" class="sr-only">Matérias ofertadas</h2>
+      <ul class="mx-auto flex max-w-6xl flex-wrap justify-center gap-x-5 gap-y-2 text-base font-semibold text-tinta-600">
+        {subjects.map((subject) => <li>{subject}</li>)}
       </ul>
-    </div>
-    
-    <section id="agendaf" class="mx-auto max-w-6xl px-4 py-14 sm:px-5 sm:py-20" aria-labelledby="agenda-titulo">
-    <div class="mx-auto max-w-2xl text-center" data-reveal>
-      <div class="mt-12 sm:hidden" data-reveal>
-        <h3 class="text-lg font-bold">Funcionamento - 15 de fev a 15 de nov (com férias em julho)</h3>
+    </section>
+
+    <section id="agendaf" class="mx-auto max-w-6xl px-4 py-14 sm:px-5 sm:py-20" aria-labelledby="funcionamento-titulo">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 id="funcionamento-titulo" class="text-lg font-bold">Funcionamento</h2>
+      <div class="mt-12 sm:hidden">
+        <p class="text-tinta-600">15 de fevereiro a 15 de novembro (com férias em julho)</p>
         <ul class="mt-4 space-y-3">
           {
             SLOTS.map((s) => (
@@ -153,7 +150,7 @@ const year = new Date().getFullYear();
           }
         </ul>
       </div>
-          <div class="mt-16 hidden overflow-x-auto rounded-3xl bg-white ring-1 ring-tinta/10 sm:block" data-reveal>
+          <div class="mt-16 hidden overflow-x-auto rounded-3xl bg-white ring-1 ring-tinta/10 sm:block">
         <table class="w-full min-w-[640px] text-left">
           <caption class="px-6 pt-6 text-left text-lg font-bold">Funcionamento - 15 de fev a 15 de nov (com férias em julho)</caption>
           <thead>
@@ -181,7 +178,7 @@ const year = new Date().getFullYear();
 
     {/* CURSOS */}
     <section id="cursos" class="mx-auto max-w-6xl px-4 py-16 sm:px-5 sm:py-24" aria-labelledby="cursos-titulo">
-      <div class="max-w-2xl" data-reveal>
+      <div class="max-w-2xl">
         <p class="font-semibold uppercase tracking-wide text-pensi">Cursos</p>
         <h2 id="cursos-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
           Uma preparação para cada objetivo
@@ -192,12 +189,10 @@ const year = new Date().getFullYear();
       </div>
       <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {
-          COURSES.map((c, i) => {
+          COURSES.map((c) => {
             const Icon = courseIcons[c.id];
             return (
               <li
-                data-reveal
-                data-reveal-delay={i * 80}
                 data-course-view={c.id}
                 class="group relative overflow-hidden rounded-3xl bg-white p-6 ring-1 sm:p-7 ring-tinta/10 transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-30px_rgba(190,31,61,0.5)]"
               >
@@ -220,7 +215,7 @@ const year = new Date().getFullYear();
                   rel="noopener noreferrer"
                   class="mt-6 inline-flex min-h-11 items-center gap-2 font-semibold text-pensi hover:underline"
                 >
-                  Tirar dúvidas sobre este curso <span aria-hidden="true">→</span>
+                  Tirar dúvidas sobre {c.title} <span aria-hidden="true">→</span>
                 </a>
               </li>
             );
@@ -232,7 +227,7 @@ const year = new Date().getFullYear();
     {/* O PROFESSOR */}
     <section id="bruno" class="bg-tinta py-16 text-white sm:py-24" aria-labelledby="bruno-titulo">
       <div class="mx-auto grid max-w-6xl items-center gap-14 px-4 sm:px-5 lg:grid-cols-2">
-        <div class="relative" data-reveal>
+        <div class="relative">
           <div class="slant-soft overflow-hidden rounded-3xl">
             <Image
               src={salaImg}
@@ -250,7 +245,7 @@ const year = new Date().getFullYear();
             </div>
           </div>
         </div>
-        <div data-reveal>
+        <div>
           <p class="font-semibold uppercase tracking-wide text-oliva">O fundador</p>
           <h2 id="bruno-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
             Três décadas ajudando os alunos a conquistarem seus objetivos
@@ -281,7 +276,7 @@ const year = new Date().getFullYear();
 
     {/* DIFERENCIAIS */}
     <section id="diferenciais" class="mx-auto max-w-6xl px-4 pb-8 pt-24 sm:px-5 sm:pb-12 sm:pt-32" aria-labelledby="dif-titulo">
-      <div class="mx-auto max-w-2xl text-center" data-reveal>
+      <div class="mx-auto max-w-2xl text-center">
         <p class="font-semibold uppercase tracking-wide text-pensi">Nossos diferenciais</p>
         <h2 id="dif-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
           Descubra por que os alunos amam o curso e se sentem em casa no Pensi+
@@ -289,10 +284,10 @@ const year = new Date().getFullYear();
       </div>
       <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {
-          DIFERENCIAIS.map((d, i) => {
+          DIFERENCIAIS.map((d) => {
             const Icon = icons[d.icon];
             return (
-              <li data-reveal data-reveal-delay={i * 60} class="rounded-3xl bg-white p-7 ring-1 ring-tinta/10">
+              <li class="rounded-3xl bg-white p-7 ring-1 ring-tinta/10">
                 <Icon aria-hidden="true" class="size-8 text-pensi" />
                 <h3 class="mt-5 text-xl font-bold">{d.title}</h3>
                 <p class="mt-2 text-tinta-600">{d.text}</p>
@@ -302,37 +297,37 @@ const year = new Date().getFullYear();
         }
       </ul>
       
-      <section id="nossa-marca" class="mx-auto max-w-6xl pb-8 pt-14 aria-labelledby="dif-titulo">
-      <div class="mx-auto max-w-2xl text-center" data-reveal>
+      <section id="nossa-marca" class="mx-auto max-w-6xl pb-8 pt-14 aria-labelledby="marca-titulo">
+      <div class="mx-auto max-w-2xl text-center">
         <p class="font-semibold uppercase tracking-wide text-pensi">Nossa Marca</p>
-        <h2 id="dif-titulo" class="mt-2 text-balance text-1xl tracking-tight sm:text-1xl">
+        <h3 id="marca-titulo" class="mt-2 text-balance text-1xl tracking-tight sm:text-1xl">
           A delicada reconstrução da auto-estima do estudante e a retomada do gosto pelos estudos são a marca do PENSI+.
-        </h2>
+        </h3>
       </div>
       </section>
       
-      <section id="nosso-objetivo" class="mx-auto pb-8 aria-labelledby="dif-titulo">
-      <div class="mx-auto max-w-2xl text-center" data-reveal>
+      <section id="nosso-objetivo" class="mx-auto pb-8 aria-labelledby="objetivo-titulo">
+      <div class="mx-auto max-w-2xl text-center">
         <p class="font-semibold uppercase tracking-wide text-pensi">Nosso Objetivo</p>
-        <h2 id="dif-titulo" class="mt-2 text-balance text-1xl tracking-tight sm:text-1xl">
+        <h3 id="objetivo-titulo" class="mt-2 text-balance text-1xl tracking-tight sm:text-1xl">
           Transformar o aluno em um candidato bem preparado, calmo e confiante é o que buscamos aqui no PENSI+.
-        </h2>
+        </h3>
       </div>
       </section>
 
-      <section id="perfil-aluno" class="mx-auto max-w-6xl pb-8 aria-labelledby="dif-titulo">
-      <div class="mx-auto max-w-2xl text-center" data-reveal>
+      <section id="perfil-aluno" class="mx-auto max-w-6xl pb-8 aria-labelledby="perfil-titulo">
+      <div class="mx-auto max-w-2xl text-center">
         <p class="font-semibold uppercase tracking-wide text-pensi">Para qual perfil de aluno o PENSI+ é indicado?</p>
-        <h2 id="dif-titulo" class="mt-2 text-balance text-1xl tracking-tight sm:text-1xl">
+        <h3 id="perfil-titulo" class="mt-2 text-balance text-1xl tracking-tight sm:text-1xl">
           O PENSI+ é indicado para o aluno que apresenta lacunas no conhecimento ou dificuldade em algumas disciplinas específicas e precisa do apoio do professor. 
           É indicado para o aluno que precisa aprender rápido, mas sem pressa, sem ter que correr para "acompanhar a turma".
           Às vezes é necessário parar tudo para rever conceitos básicos, a famosa "base", algo que é impossível de se fazer em uma sala cheia de um cursinho tradicional.
-        </h2>
+        </h3>
       </div>
       </section>
 
       {/* COMO FUNCIONA */}
-      <div class="mt-14 rounded-[2rem] bg-pensi-50 p-6 sm:mt-20 sm:p-12" data-reveal>
+      <div class="mt-14 rounded-[2rem] bg-pensi-50 p-6 sm:mt-20 sm:p-12">
         <h2 class="text-2xl font-black tracking-tight sm:text-3xl">Como começar</h2>
         <ol class="mt-8 grid gap-8 md:grid-cols-3">
           {
@@ -350,7 +345,7 @@ const year = new Date().getFullYear();
 
     {/* HORÁRIOS E VALORES */}
     <section id="agenda" class="mx-auto max-w-6xl px-4 py-14 sm:px-5 sm:py-20" aria-labelledby="agenda-titulo">
-      <div class="mx-auto max-w-2xl text-center" data-reveal data-pricing-view>
+      <div class="mx-auto max-w-2xl text-center" data-pricing-view>
         <p class="font-semibold uppercase tracking-wide text-pensi">Escolha o curso e o horário da sua turma</p>
         <h2 id="agenda-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
           Veja nossas ofertas para o BLACK FRIDAY
@@ -360,7 +355,7 @@ const year = new Date().getFullYear();
           escolhe quais quer estudar.
         </p>
       </div>
-      <div class="mt-10" data-reveal>
+      <div class="mt-10">
         <PlanExplorer client:visible />
       </div>
     </section>
@@ -368,7 +363,7 @@ const year = new Date().getFullYear();
     {/* DEPOIMENTOS */}
     <section id="depoimentos" class="bg-white py-16 sm:py-24" aria-labelledby="dep-titulo">
       <div class="mx-auto max-w-6xl px-4 sm:px-5">
-        <div class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end" data-reveal>
+        <div class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div class="max-w-2xl">
             <p class="font-semibold uppercase tracking-wide text-pensi">Depoimentos</p>
             <h2 id="dep-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
@@ -409,11 +404,11 @@ const year = new Date().getFullYear();
                       poster={v.poster}
                       width={v.width}
                       height={v.height}
-                      aria-label={`Depoimento em vídeo: ${v.caption}`}
+                      aria-labelledby={`depoimento-${v.width}-${v.src.split("/").pop()}`}
                     >
                       <source src={v.src} type="video/mp4" />
                     </video>
-                    <figcaption class="mt-3 text-tinta-600">
+                    <figcaption id={`depoimento-${v.width}-${v.src.split("/").pop()}`} class="mt-3 text-tinta-600">
                       <strong class="text-tinta">Depoimento</strong>
                       <span class="block text-sm">{v.caption}</span>
                     </figcaption>
@@ -493,12 +488,12 @@ const year = new Date().getFullYear();
         <h3 class="mt-10 text-xl font-bold sm:mt-14">O que dizem no Google</h3>
         <ul class="-mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:mx-0 sm:block sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 sm:columns-2 lg:columns-3" tabindex="0" aria-label="Depoimentos: deslize para ver mais">
           {
-            TESTIMONIALS.map((t, i) => (
-              <li data-reveal data-reveal-delay={(i % 3) * 80} class="w-[86%] shrink-0 snap-center rounded-3xl bg-papel p-6 ring-1 ring-tinta/10 sm:mb-5 sm:w-auto sm:break-inside-avoid sm:p-7">
+            TESTIMONIALS.map((t) => (
+              <li class="w-[86%] shrink-0 snap-center rounded-3xl bg-papel p-6 ring-1 ring-tinta/10 sm:mb-5 sm:w-auto sm:break-inside-avoid sm:p-7">
                 <figure>
                   <div class="flex items-center justify-between">
                     <Quote aria-hidden="true" class="size-7 text-pensi" />
-                    <span class="flex gap-0.5 text-[#e8a400]" aria-label="5 estrelas">
+                    <span class="flex gap-0.5 text-[#e8a400]" role="img" aria-label="5 estrelas">
                       {[1, 2, 3, 4, 5].map(() => <Star aria-hidden="true" class="size-4" fill="currentColor" />)}
                     </span>
                   </div>
@@ -519,7 +514,7 @@ const year = new Date().getFullYear();
         </ul>
 
         <p class="mt-2 text-center text-sm text-tinta-600 sm:hidden" aria-hidden="true">Deslize para ver mais depoimentos →</p>
-        <p class="mt-6 text-center" data-reveal>
+        <p class="mt-6 text-center">
           <a
             href={REVIEWS_LINK}
             target="_blank"
@@ -536,13 +531,13 @@ const year = new Date().getFullYear();
 
     {/* PERGUNTAS FREQUENTES */}
     <section id="perguntas" class="mx-auto max-w-3xl px-4 py-16 sm:px-5 sm:py-24" aria-labelledby="faq-titulo">
-      <h2 id="faq-titulo" class="text-center text-3xl font-black tracking-tight sm:text-4xl" data-reveal>
+      <h2 id="faq-titulo" class="text-center text-3xl font-black tracking-tight sm:text-4xl">
         Perguntas frequentes
       </h2>
       <div class="mt-10 space-y-3">
         {
           FAQ.map((f) => (
-            <details data-reveal class="group rounded-2xl bg-white ring-1 ring-tinta/10 open:ring-pensi/40">
+            <details class="group rounded-2xl bg-white ring-1 ring-tinta/10 open:ring-pensi/40">
               <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-lg font-semibold [&::-webkit-details-marker]:hidden">
                 {f.q}
                 <span class="text-2xl text-pensi transition group-open:rotate-45" aria-hidden="true">+</span>
@@ -557,7 +552,7 @@ const year = new Date().getFullYear();
     {/* CONTATO E ENDEREÇO */}
     <section id="contato" class="relative bg-pensi py-16 text-white sm:py-24" aria-labelledby="contato-titulo">
       <div class="mx-auto grid max-w-6xl gap-12 px-4 sm:px-5 lg:grid-cols-2">
-        <div data-reveal>
+        <div>
           <p class="font-semibold uppercase tracking-wide text-oliva">Contato e endereço</p>
           <h2 id="contato-titulo" class="mt-2 text-balance text-3xl font-black tracking-tight sm:text-4xl">
             Vamos montar o seu plano de estudos?
@@ -596,7 +591,7 @@ const year = new Date().getFullYear();
           </div>
         </div>
 
-        <div data-reveal class="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-pensi-900 ring-1 ring-white/15 lg:aspect-auto lg:min-h-[420px]">
+        <div class="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-pensi-900 ring-1 ring-white/15 lg:aspect-auto lg:min-h-[420px]">
           <iframe
             src={MAPS_EMBED}
             title="Mapa da PENSI+ na Rua Francisco Deslandes, 971, Sion, Belo Horizonte"
@@ -618,18 +613,6 @@ const year = new Date().getFullYear();
 <style>
   .slant-bottom {
     clip-path: polygon(0 100%, 100% 0, 100% 100%);
-  }
-  .hero-in {
-    animation: rise 900ms var(--ease-out-soft) both;
-  }
-  .hero-in-late {
-    animation: rise 900ms 180ms var(--ease-out-soft) both;
-  }
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translateY(28px);
-    }
   }
 </style>
 

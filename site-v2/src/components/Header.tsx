@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { NAV } from '../data/site';
-import { cn } from '../lib/utils';
 import WhatsAppIcon from './WhatsAppIcon';
 
 interface Props {
@@ -15,17 +13,8 @@ interface Props {
 /** Cabeçalho fixo no padrão "floating navbar" do 21st.dev, com menu móvel acessível. */
 export default function Header({ logoSrc, whatsappHref, hrefPrefix = '' }: Props) {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const reduce = useReducedMotion();
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const panelRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -38,22 +27,15 @@ export default function Header({ logoSrc, whatsappHref, hrefPrefix = '' }: Props
       }
     };
     document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
     };
   }, [open]);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6">
       <div
-        className={cn(
-          'mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-2xl px-4 py-2.5 transition-all duration-500 sm:px-5',
-          scrolled
-            ? 'bg-white/90 shadow-[0_8px_30px_-12px_rgba(29,20,22,0.25)] ring-1 ring-tinta/10 backdrop-blur-md'
-            : 'bg-white/70 ring-1 ring-white/40 backdrop-blur-sm',
-        )}
+        className="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-2xl bg-white/95 px-4 py-2.5 shadow-sm ring-1 ring-tinta/10 sm:px-5"
       >
         <a href={`${hrefPrefix}#topo`} className="flex shrink-0 items-center gap-2" aria-label="PENSI+, voltar ao início">
           <img src={logoSrc} alt="" width={86} height={48} className="h-10 w-auto" />
@@ -98,20 +80,13 @@ export default function Header({ logoSrc, whatsappHref, hrefPrefix = '' }: Props
         </div>
       </div>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            id="menu-movel"
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Menu"
-            initial={reduce ? false : { opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mt-2 max-w-6xl rounded-2xl bg-white p-3 shadow-xl ring-1 ring-tinta/10 lg:hidden"
-          >
+      <nav
+        id="menu-movel"
+        ref={panelRef}
+        hidden={!open}
+        aria-label="Menu principal"
+        className="mx-auto mt-2 max-h-[calc(100dvh-6rem)] max-w-6xl overflow-auto rounded-2xl bg-white p-3 shadow-xl ring-1 ring-tinta/10 lg:hidden"
+      >
             <ul className="flex flex-col">
               {NAV.map((item) => (
                 <li key={item.href}>
@@ -126,9 +101,7 @@ export default function Header({ logoSrc, whatsappHref, hrefPrefix = '' }: Props
               ))}
             </ul>
 
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </nav>
     </header>
   );
 }
