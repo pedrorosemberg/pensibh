@@ -173,31 +173,5 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
     >
     <slot />
     <ConsentBanner client:idle privacyHref={`${SITE.url}privacidade/`} />
-    <script>
-      // Esconde só o que está abaixo da dobra e revela ao entrar na tela.
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
-      if (!reduce && 'IntersectionObserver' in window) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const e of entries) {
-              if (e.isIntersecting) {
-                const el = e.target as HTMLElement;
-                const delay = Number(el.dataset.revealDelay ?? 0);
-                window.setTimeout(() => el.classList.remove('reveal-wait'), delay);
-                io.unobserve(el);
-              }
-            }
-          },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
-        );
-        for (const el of items) {
-          if (el.getBoundingClientRect().top > window.innerHeight) {
-            el.classList.add('reveal-wait');
-            io.observe(el);
-          }
-        }
-      }
-    </script>
   </body>
 </html>

@@ -1,5 +1,4 @@
 import { useId, useRef, useState, type KeyboardEvent } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { CalendarDays, Clock } from 'lucide-react';
 import { PLANS, SLOTS, brl, whatsapp } from '../data/site';
 import { trackAnalytics } from '../lib/tracking';
@@ -9,7 +8,6 @@ import WhatsAppIcon from './WhatsAppIcon';
 /** Seletor de turma em abas (padrão "pricing tabs" do 21st.dev), com navegação por teclado. */
 export default function PlanExplorer() {
   const [active, setActive] = useState(0);
-  const reduce = useReducedMotion();
   const baseId = useId();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const plan = PLANS[active];
@@ -62,10 +60,8 @@ export default function PlanExplorer() {
               )}
             >
               {selected && (
-                <motion.span
-                  layoutId={reduce ? undefined : 'plan-pill'}
+                <span
                   className="absolute inset-0 rounded-xl bg-pensi"
-                  transition={{ type: 'spring', bounce: 0.18, duration: 0.5 }}
                   aria-hidden="true"
                 />
               )}
@@ -87,15 +83,8 @@ export default function PlanExplorer() {
             Segunda a sexta · {plan.note}
           </span>
         </p>
-
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.ul
-            key={plan.id}
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3"
+        <ul
+          className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3"
           >
             {SLOTS.map((slot, i) => {
               const price = plan.prices[slot.id];
@@ -155,8 +144,7 @@ export default function PlanExplorer() {
                 </li>
               );
             })}
-          </motion.ul>
-        </AnimatePresence>
+          </ul>
         <p className="mt-6 text-center text-sm text-tinta-600">Somente 8 vagas por turma. Sem aula em feriados nacionais.</p>
       </div>
     </div>

@@ -12,6 +12,8 @@ export const GTM_ID = 'GTM-WZ75JWVK';
 
 export const GTM_BOOTSTRAP = `
 (function () {
+  if (window.__pensiGtmInitialized) return;
+  window.__pensiGtmInitialized = true;
   var a = false, m = false, d = false;
   try {
     var s = JSON.parse(localStorage.getItem('pensi-consent') || 'null');
@@ -54,7 +56,11 @@ export const GTM_BOOTSTRAP = `
     if (!el) return;
     var sec = el.closest('section');
     var st = window.__pensiConsent || { analytics: a, marketing: m };
+    // Um ID por clique, compartilhado pelas saídas deste mesmo evento.
+    var clickId = Array.from(window.crypto.getRandomValues(new Uint8Array(16)),
+      function (byte) { return byte.toString(16).padStart(2, '0'); }).join('');
     var p = {
+      contact_event_id: clickId,
       contact_method: 'whatsapp',
       contact_text: (el.textContent || el.getAttribute('aria-label') || 'whatsapp').trim().slice(0, 80),
       contact_section: sec && sec.id ? sec.id : (el.closest('header') ? 'header' : el.closest('footer') ? 'footer' : 'pagina'),
@@ -68,7 +74,7 @@ export const GTM_BOOTSTRAP = `
     var ga = { send_to: 'G-RRH6VX6G3D', method: 'whatsapp' };
     for (var k3 in p) ga[k3] = p[k3];
     window.gtag('event', 'click_whatsapp', ga);
-    window.gtag('event', 'conversion', { send_to: 'AW-428944447/ech4CJzShKYZEL_YxMwB' });
+    window.gtag('event', 'conversion', { send_to: 'AW-428944447/ech4CJzShKYZEL_YxMwB', transaction_id: clickId });
   }, true);
 })();
 `;
@@ -76,7 +82,7 @@ export const GTM_BOOTSTRAP = `
 export const GTM_HEAD = `<script>${GTM_BOOTSTRAP}</script>
 <script async src="https://www.googletagmanager.com/gtm.js?id=${GTM_ID}"></script>`;
 
-export const GTM_HASH = 'sha256-a9yDh+i3sJ/ul2QWURJFy9psD1XzOTeEOG+EwSfX3OU=';
+export const GTM_HASH = 'sha256-WNgzZWmlYQHehc1ExXXmvrNDHoiDCbYRlE+6VkoXovA=';
 
 // Domínios do Google Tag Manager, Analytics e Ads liberados na CSP (site e /u/planejamento).
 // Curingas como https://*.analytics.google.com NÃO cobrem o domínio raiz, por isso os dois aparecem.

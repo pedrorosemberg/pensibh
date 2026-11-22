@@ -39,7 +39,7 @@ Os cinco eventos de interação são enviados ao GA4 após o aceite da categoria
 | `click_phone` | Clique em link `tel:` | GA4, `contact_method` e `contact_section` |
 | `navigation_click` | Clique em âncora interna da página | GA4, `destination_section` e `navigation_section` |
 
-O bootstrap em `scripts/gtm.mjs` controla o Consent Mode v2 e envia o clique ao GA4 e ao Ads. O `dataLayer` também recebe `whatsapp_contact`. Mantenha um único disparo da ação Ads por clique. Evite uma segunda tag de conversão disparada por `whatsapp_contact` e uma segunda ação primária importada do GA4 para o mesmo clique. Clique em WhatsApp mede intenção de contato. Matrícula e conversa iniciada requerem evidência própria.
+O bootstrap em `scripts/gtm.mjs` controla o Consent Mode v2 e envia o clique ao GA4 e ao Ads. O `dataLayer` também recebe `whatsapp_contact`. Mantenha um único disparo da ação Ads por clique. O bootstrap gera um identificador aleatório de 128 bits por clique e o passa como `transaction_id` ao Ads e como `contact_event_id` ao GA4 e ao dataLayer. O identificador não contém dados pessoais e não é persistido. No GA4 ele serve para auditoria, sem deduplicação automática. O Ads usa a combinação de ação e ID na deduplicação, além da configuração de contagem Uma. Dois transportes do mesmo evento devem mostrar o mesmo ID. Evite uma segunda tag de conversão disparada por `whatsapp_contact` e uma segunda ação primária importada do GA4 para o mesmo clique. Clique em WhatsApp mede intenção de contato. Matrícula e conversa iniciada requerem evidência própria.
 
 ## Validação e publicação
 
