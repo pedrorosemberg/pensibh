@@ -28,10 +28,11 @@ export function whatsapp(message: string): string {
   return `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
 
-export const MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE.mapsQuery)}`;
+export const MAPS_LINK =
+  'https://www.google.com/maps/place/Pensi%2B+-+Preparat%C3%B3rio+Ensino+Individual/@-19.9516902,-43.929961,17z/data=!3m1!4b1!4m6!3m5!1s0xa6991c841a3fb9:0x43b2592d0364d66d!8m2!3d-19.9516902!4d-43.9273861!16s%2Fg%2F11vpyyl97q?entry=ttu&g_ep=EgoyMDI2MTExOC4xIKXMDSoASAFQAw%3D%3D';
 /** Perfil do Google com as avaliações (o perfil manteve o nome "Bruno Professor BH"). */
 export const REVIEWS_LINK =
-  'https://www.google.com/maps/place/Bruno+Professor+BH/@-19.94524,-43.9296612,17z/data=!4m8!3m7!1s0xa699ec4be52c4b:0x6aeac09e08a2bdfe!8m2!3d-19.94524!4d-43.9270809!9m1!1b1';
+  'https://www.google.com/maps/place/Bruno+Professor+BH/@-19.94524,-43.9296558,17z/data=!3m1!4b1!4m6!3m5!1s0xa699ec4be52c4b:0x6aeac09e08a2bdfe!8m2!3d-19.94524!4d-43.9270809!16s%2Fg%2F11nyls0bdl?entry=ttu&g_ep=EgoyMDI2MTExOC4xIKXMDSoASAFQAw%3D%3D';
 export const MAPS_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(SITE.mapsQuery)}&output=embed`;
 
 export const NAV = [
