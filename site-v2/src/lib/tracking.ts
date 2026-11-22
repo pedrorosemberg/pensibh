@@ -175,14 +175,18 @@ export function trackAnalytics(event: AnalyticsEvent, parameters: Record<string,
 }
 
 function trackSiteInteraction(event: MouseEvent) {
-  const link = (event.target as Element | null)?.closest?.('a[href]');
+  const link = (event.target as Element | null)?.closest?.<HTMLAnchorElement>('a[href]');
   if (!link) return;
   const href = link.getAttribute('href') ?? '';
   const section = link.closest('section')?.id ?? link.closest('header,footer')?.tagName.toLowerCase() ?? 'pagina';
   if (href.startsWith('tel:')) {
     trackAnalytics('click_phone', { contact_method: 'phone', contact_section: section });
-  } else if (href.startsWith('#') && href.length > 1) {
-    trackAnalytics('navigation_click', { destination_section: href.slice(1), navigation_section: section });
+    return;
+  }
+  if (!href.includes('#')) return;
+  const destination = new URL(link.href);
+  if (destination.origin === window.location.origin && destination.hash.length > 1) {
+    trackAnalytics('navigation_click', { destination_section: destination.hash.slice(1), navigation_section: section });
   }
 }
 
