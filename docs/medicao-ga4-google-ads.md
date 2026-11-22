@@ -27,7 +27,7 @@ Parâmetros opcionais: `utm_id={campaignid}&adgroup_id={adgroupid}&ad_id={creati
 
 ## Eventos
 
-Os cinco eventos de interação abaixo estão em validação no PR #5. A configuração de produção usa a medição de WhatsApp descrita nas duas primeiras linhas.
+Os cinco eventos de interação são enviados ao GA4 após o aceite da categoria Análise. O WhatsApp usa o fluxo de contato existente do Consent Mode v2.
 
 | Evento | Disparo | Destino |
 | --- | --- | --- |
