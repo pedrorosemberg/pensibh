@@ -407,6 +407,7 @@ const year = new Date().getFullYear();
                       aria-labelledby={`depoimento-${v.width}-${v.src.split("/").pop()}`}
                     >
                       <source src={v.src} type="video/mp4" />
+                      <track kind="captions" src={v.captions} srclang="pt-BR" label="Português (Brasil) — transcrição automática" />
                     </video>
                     <figcaption id={`depoimento-${v.width}-${v.src.split("/").pop()}`} class="mt-3 text-tinta-600">
                       <strong class="text-tinta">Depoimento</strong>
